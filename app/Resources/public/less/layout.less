@@ -1,0 +1,23 @@
+
+#app-panel {
+    margin-right: 300px;
+
+    @media (max-device-width: @grid-float-breakpoint) {
+        margin-right: 0;
+    }
+}
+
+#menu-panel {
+    width: 300px;
+    position: absolute;
+    top: @navbar-height;
+    bottom: 0;
+    right: 0;
+
+    padding: @padding-large-vertical @padding-large-horizontal;
+
+    @media (max-device-width: @grid-float-breakpoint) {
+        width: 100%;
+        display: none;
+    }
+}

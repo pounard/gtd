@@ -1,0 +1,17 @@
+{
+  "name": "gtd",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "gulp": "latest",
+    "gulp-concat": "latest",
+    "gulp-clean-css": "latest",
+    "gulp-imagemin": "latest",
+    "gulp-jshint": "latest",
+    "gulp-less": "latest",
+    "gulp-rename": "latest",
+    "gulp-svgmin": "latest",
+    "gulp-svgstore": "latest",
+    "gulp-uglify": "latest"
+  }
+}

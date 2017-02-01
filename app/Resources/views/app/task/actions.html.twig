@@ -1,0 +1,76 @@
+{# Actions, buttons and other candy commonly used in various templates #}
+
+{%- macro star_button(task, displayTitle) -%}
+    {% if task.isStarred %}
+        <form method="post" action="{{ path('app_task_unstar', {id: task.id, _from: app.request.requestUri}) }}">
+            <button class="btn btn-warning">
+                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                {% if displayTitle %}
+                    {{ "Unstar" }}
+                {% else %}
+                    <span class="sr-only">{{ "Unstar" }}</span>
+                {% endif %}
+            </button>
+        </form>
+    {% else %}
+        <form method="post" action="{{ path('app_task_star', {id: task.id, _from: app.request.requestUri}) }}">
+            <button class="btn btn-default">
+                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                {% if displayTitle %}
+                    {{ "Star" }}
+                {% else %}
+                    <span class="sr-only">{{ "Star" }}</span>
+                {% endif %}
+            </button>
+        </form>
+    {% endif %}
+{%- endmacro -%}
+
+{%- macro hide_button(task, displayTitle) -%}
+    {% if task.isHidden %}
+        <form method="post" action="{{ path('app_task_unhide', {id: task.id, _from: app.request.requestUri}) }}">
+            <button class="btn btn-success">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                {% if displayTitle %}
+                    {{ "Unhide" }}
+                {% else %}
+                    <span class="sr-only">{{ "Unhide" }}</span>
+                {% endif %}
+            </button>
+        </form>
+    {% else %}
+        <a class="btn btn-danger" href="{{ path('app_task_hide', {id: task.id, _from: app.request.requestUri}) }}">
+            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            {% if displayTitle %}
+                {{ "Hide" }}
+            {% else %}
+                <span class="sr-only">{{ "Hide" }}</span>
+            {% endif %}
+        </a>
+    {% endif %}
+{%- endmacro -%}
+
+{%- macro add_button(displayTitle) -%}
+    <a href="{{ path('app_task_add', {_from: app.request.requestUri}) }}" class="btn btn-primary">
+        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        {% if displayTitle %}
+            {{ "New task"|trans }}
+        {% else %}
+            <span class="sr-only">{{ "New task"|trans }}</span>
+        {% endif %}
+    </a>
+{%- endmacro -%}
+
+{%- macro note_count(task, withLink) -%}
+    {% if withLink %}
+        <a href="{{ path('app_task_view', {id: task.id, _from: app.request.requestUri}) }}#notes">
+    {% endif %}
+    <span class="text-muted">
+        {% transchoice task.noteCount %}
+            {0} no notes|[1,Inf[ %count% notes
+        {% endtranschoice %}
+    </span>
+    {% if withLink %}
+        </a>
+    {% endif %}
+{%- endmacro -%}

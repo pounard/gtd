@@ -1,0 +1,43 @@
+goat_account:
+    resource: "@GoatAccountBundle/Resources/config/routing.yml"
+    prefix:   /u
+
+app_tasks:
+    path: app
+    defaults:
+        _controller: AppBundle:App:tasks
+
+app_task_add:
+    path: app/task/add
+    defaults:
+        _controller: AppBundle:Task:add
+
+app_task_view:
+    path: app/task/{id}
+    defaults:
+        _controller: AppBundle:Task:view
+
+app_task_star:
+    path: app/task/{id}/star
+    defaults:
+        _controller: AppBundle:Task:star
+
+app_task_unstar:
+    path: app/task/{id}/unstar
+    defaults:
+        _controller: AppBundle:Task:unstar
+
+app_task_hide:
+    path: app/task/{id}/hide
+    defaults:
+        _controller: AppBundle:Task:hideForm
+
+app_task_unhide:
+    path: app/task/{id}/unhide
+    defaults:
+        _controller: AppBundle:Task:unhide
+
+app_note_add:
+    path: app/task/{taskId}/add-note
+    defaults:
+        _controller: AppBundle:Note:add

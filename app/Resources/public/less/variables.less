@@ -1,0 +1,10 @@
+//
+// Variables
+// --------------------------------------------------
+
+// First let Bootstrap import its own variables which we will override
+@import "@{bootstrap-dir}/less/variables.less";
+
+// Force grid to switch to float on SM so that the menu is not always
+// displayed on table screens.
+@grid-float-breakpoint: @screen-sm-max;

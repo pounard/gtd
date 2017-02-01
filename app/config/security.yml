@@ -1,0 +1,55 @@
+# To get started with security, check out the documentation:
+# http://symfony.com/doc/current/book/security.html
+security:
+
+    encoders:
+        Goat\AccountBundle\Security\User\GoatUser: bcrypt
+
+    # http://symfony.com/doc/current/book/security.html#hierarchical-roles
+    role_hierarchy:
+        ROLE_ADMIN:       ROLE_USER
+        ROLE_SUPER_ADMIN: [ROLE_USER, ROLE_ADMIN, ROLE_ALLOWED_TO_SWITCH]
+
+    # http://symfony.com/doc/current/book/security.html#where-do-users-come-from-user-providers
+    providers:
+        goat:
+            id: goat_account.account_provider
+
+    # the main part of the security, where you can set up firewalls
+    # for specific sections of your app
+    firewalls:
+
+        # disables authentication for assets and the profiler,
+        # adapt it according to your needs
+        dev:
+            pattern:                  ^/(_(profiler|wdt)|css|images|js)/
+            security:                 false
+
+        # disables security on login page
+        goat_login:
+            pattern:                  ^(/u/login|/u/login/request-password)$
+            security:                 false
+
+        goat_home:
+            pattern:                  ^/$
+            security:                 false
+
+        # enforce security on everything that needs security
+        goat:
+            pattern:                  ^/
+            form_login:
+                check_path:           goat_account.login_check
+                login_path:           goat_account.login
+                default_target_path:  app_tasks
+            logout:
+                path:                 goat_account.logout
+                target:               goat_account.login
+            # allow both anonymous and authenticated users, knowing that all
+            # access checks needs to be done at the controller level, harsh
+            # but working... we cannot provide more than one firewall else
+            # sessions will be separated
+            anonymous:                ~
+
+    access_control:
+        - { path: "^/u/login/one", roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/app, roles: IS_AUTHENTICATED_FULLY }

@@ -1,0 +1,130 @@
+{% extends 'base.html.twig' %}
+
+{% import 'app/task/actions.html.twig' as actions %}
+
+{% block backto %}
+    <a class="navbar-brand" href="{{ path('app_tasks', app.request.query.all) }}" title="{{ "Refresh list"|trans }}">
+        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
+        <span class="sr-only">{{ "Refresh"|trans }}</span>
+    </a>
+{% endblock %}
+
+{% block menu %}
+    <div class="buttons">
+        {{ actions.add_button(true) }}
+    </div>
+    <hr/>
+    <form method="get">
+        <ul class="list-group">
+            <li class="list-group-item">
+                <label>{{ "Display:"|trans }}</label>
+                <br/>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="viewHidden" name="hidden" value="1"
+                            {% if app.request.get('hidden') %}checked="checked"{% endif %}
+                        />
+                        {{ "Hidden tasks"|trans }}
+                    </label>
+                </div>
+                <div class="checkbox">
+                    <label>
+                        <input type="checkbox" id="viewDone" name="done" value="1"
+                            {% if app.request.get('done') %}checked="checked"{% endif %}"
+                        />
+                        {{ "Done tasks"|trans }}
+                    </label>
+                </div>
+            </li>
+            <li class="list-group-item">
+                <label>{{ "Sort by:"|trans }}</label>
+                <br/>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="sort" value="deadline" id="sortDeadline"
+                            {% if 'deadline' == app.request.get('sort') %}checked="checked"{% endif %}"
+                        />
+                        {{ "Deadline"|trans }}
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="sort" value="updated" id="sortUpdated"
+                            {% if 'updated' == app.request.get('sort') %}checked="checked"{% endif %}"
+                        />
+                        {{ "Update date"|trans }}
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="sort" value="created" id="sortCreated"
+                            {% if 'created' == app.request.get('sort') %}checked="checked"{% endif %}"
+                        />
+                        {{ "Creation date"|trans }}
+                    </label>
+                </div>
+                <div class="radio">
+                    <label>
+                        <input type="radio" name="sort" value="priority" id="sortPriority"
+                            {% if 'priority' == app.request.get('sort') %}checked="checked"{% endif %}"
+                        />
+                        {{ "Priority"|trans }}
+                    </label>
+                </div>
+            </li>
+        </ul>
+        <div class="buttons">
+            <button class="btn btn-primary">
+                {{ "Filter"|trans }}
+            </button>
+            <a href="{{ path('app_tasks') }}" class="btn btn-warning">
+                {{ "Reset"|trans }}
+            </a>
+        </div>
+    </form>
+{% endblock %}
+
+{% block content %}
+    <table id="task-list" class="table table-responsive" style="width:100%;">
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td class="td-single-button">
+                        {{ actions.star_button(task, false) }}
+                    </td>
+                    <td>
+                        <strong><a href="{{ path('app_task_view', {id: task.id}) }}">{{ task.title }}</a></strong>
+                        <span class="hidden-sm hidden-md hidden-lg">- // tags</span>
+                        <div class="table-separator hidden-md hidden-lg">
+                            <span class="text-muted text-small">{{ task.deadlinesAt|localizeddate('medium', 'short') }}</span>
+                            <span class="hidden-sm">- {{ actions.note_count(task, true) }}</span>
+                        </div>
+                    </td>
+                    </td>
+                    <td class="hidden-xs">
+                        {{ actions.note_count(task, true) }}
+                    </td>
+                    <td class="hidden-xs hidden-sm">
+                        {# @todo make helper for priority #}
+                        {{ task.priority }}
+                    </td>
+                    <td class="hidden-xs hidden-sm">
+                        {{ task.deadlinesAt|localizeddate('medium', 'short') }}
+                    </td>
+                    <td class="hidden-xs">
+                        // tags
+                    </td>
+                    <td class="td-single-button">
+                        {{ actions.hide_button(task, false) }}
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="">
+                        {{ "You have no task yet, <a href=\"@create\">create one !</a>"|trans({'@create': path('app_task_add')})|raw }}
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% set route_login = path('goat_account.login') %}
+{% set route_logout = path('goat_account.logout') %}
+{% set route_pass = path('goat_account.change_password') %}
+{% set route_self = path('goat_account.home') %}
+
+{% if is_granted('IS_AUTHENTICATED_FULLY') %}
+    {% set title = "Welcome"|trans %}
+    {% set title_link = '#' %}
+    {% set links = {
+        (route_self): "My account"|trans,
+        (route_pass): "Change password"|trans,
+        (route_logout): "Sign-out"|trans
+    } %}
+{% elseif is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+    {% set title = "Welcome back"|trans %}
+    {% set title_link = '#' %}
+    {% set links = {
+        (route_login): "Sign-in"|trans,
+        (route_logout): "Sign-out"|trans
+    } %}
+{% else %}
+    {% set title = "Sign-in"|trans %}
+    {% set title_link = path('goat_account.login') %}
+    {% set links = {} %}
+{% endif %}
+
+{% block menu %}
+    {% if links %}
+        <ul class="list-group">
+            {% for link, text in links %}
+                <li class="list-group-item"><a href="{{ link }}">{{ text }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <a href="{{ title_link }}">{{ title }}</a>
+    {% endif %}
+{% endblock %}
