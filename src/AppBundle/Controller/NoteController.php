@@ -2,6 +2,8 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Note;
+use Goat\Core\Query\Query;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
@@ -60,9 +62,9 @@ class NoteController extends AbstractAppController
     /**
      * Add note
      */
-    public function addNoteAction(Request $request, $taskId)
+    public function addAction(Request $request, $taskId)
     {
-        $form = $this->noteAddForm($request, $taskId);
+        $form = $this->noteAddForm($request, $taskId)->getForm();
         $account = $this->getUserAccountOrDie();
 
         $form->handleRequest($request);
@@ -88,6 +90,28 @@ class NoteController extends AbstractAppController
         return $this->render('app/note/add.html.twig', [
             'taskId' => $taskId,
             'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * View all notes for the given task action
+     */
+    public function viewAllAction($taskId)
+    {
+        $this->taskIsMineOrDie($taskId);
+
+        $notes = $this
+            ->getNoteMapper()
+            ->createSelect()
+            ->condition('n.id_task', $taskId)
+            ->orderBy('n.ts_added', Query::ORDER_ASC)
+            ->orderBy('n.id', Query::ORDER_ASC)
+            ->execute([], Note::class)
+        ;
+
+        return $this->render('app/note/all.html.twig', [
+            'taskId' => $taskId,
+            'notes' => $notes,
         ]);
     }
 }

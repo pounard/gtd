@@ -3,9 +3,9 @@
 {% form_theme form with ['bootstrap_3_horizontal_layout.html.twig'] %}
 
 {% block backto %}
-    <a class="navbar-brand" href="{{ path('app_tasks') }}" title="{{ "Back to home"|trans }}">
+    <a class="navbar-brand" href="{{ path('app_task_view', {id: task.id}) }}" title="{{ "Back to task"|trans }}">
         <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-        <span class="sr-only">{{ "Back to home"|trans }}</span>
+        <span class="sr-only">{{ "Back to task"|trans }}</span>
     </a>
 {% endblock %}
 
@@ -16,10 +16,12 @@
     <div class="container">
         <div class="row">
             <div class="col-md-12">
-                <h1>{{ "Remember me later" }}</h1>
+                <h1>{{ "Delete %task%?"|trans({'%task%': task.title}) }}</h1>
+                <p class="lead alert alert-danger">
+                    {{ "This action can not be undone, all related notes and files will be deleted too."|trans }}
+                </p>
                 {{ form_start(form) }}
                 {{ form_errors(form) }}
-                {{ form_row(form.time) }}
                 <div class="text-center">
                     {{ form_row(form.submit) }}
                 </div>

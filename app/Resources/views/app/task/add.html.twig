@@ -13,5 +13,30 @@
 {% endblock %}
 
 {% block content %}
-    {{ form(form) }}
+    <div id="task-add" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ "New task"|trans }}</h1>
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                {{ form_row(form.title) }}
+                {{ form_row(form.description) }}
+
+                <hr/>
+
+                <div class="date">
+                    {{ form_row(form.ts_deadline_date) }}
+                </div>
+                <div class="time">
+                    {{ form_row(form.ts_deadline_time) }}
+                </div>
+
+                <hr/>
+
+                {{ form(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

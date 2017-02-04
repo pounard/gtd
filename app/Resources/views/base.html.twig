@@ -32,13 +32,25 @@ var basePath = "{{ base_path }}";
                     <span class="sr-only">{{ "Go to home"|trans }}</span>
                 </a>
             {% endblock %}
-            <a class="navbar-brand" href="#">{% block page_title %}Getting things done{% endblock %}</a>
+            <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>
         </div>
     </div>
 </nav>
 <div id="app-body">
     <div id="app-panel" class="clearfix">
-        {% block content %}<h1>Getting things done</h1>{% endblock %}
+        {% block messages %}
+            {% for label, flashes in app.session.flashbag.all %}
+                <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+                    <button type="button" class="close" data-dismiss="alert" aria-label="{{ "Close"|trans }}"><span aria-hidden="true">&times;</span></button>
+                    {% for flash in flashes %}
+                        {{ flash }}<br/>
+                    {% endfor %}
+                </div>
+            {% endfor %}
+        {% endblock %}
+        {% block content %}
+            <h1>Getting things done</h1>
+        {% endblock %}
     </div>
     <div id="menu-panel" class="inverse">
         {% block menu %}{% endblock %}

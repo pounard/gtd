@@ -1,0 +1,13 @@
+{% for note in notes %}
+    <div class="media">
+        <div class="media-left">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </div>
+        <div class="media-body">
+            <span class="text-muted"><small>{{ note.addedAt|localizeddate('full', 'short') }}</small></span>
+            <br/>
+            {{ note.description|markdown }}
+        </div>
+    </div>
+    <hr/>
+{% endfor %}

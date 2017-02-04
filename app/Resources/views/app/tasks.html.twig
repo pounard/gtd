@@ -93,6 +93,7 @@
                         {{ actions.star_button(task, false) }}
                     </td>
                     <td>
+                        {{ task.importancyFactor }}
                         <strong><a href="{{ path('app_task_view', {id: task.id}) }}">{{ task.title }}</a></strong>
                         <span class="hidden-sm hidden-md hidden-lg">- // tags</span>
                         <div class="table-separator hidden-md hidden-lg">

@@ -373,11 +373,11 @@ h6 .small,
 }
 h1,
 .h1 {
-  font-size: 36px;
+  font-size: 24px;
 }
 h2,
 .h2 {
-  font-size: 30px;
+  font-size: 24px;
 }
 h3,
 .h3 {
@@ -6238,6 +6238,15 @@ fieldset[disabled] .inverse .btn-link:focus {
 .table > tbody > tr > td {
   vertical-align: middle;
 }
+hr,
+h1,
+h2,
+h3,
+h4,
+h5 {
+  margin-top: 6px;
+  margin-bottom: 6px;
+}
 #app-panel {
   margin-right: 300px;
 }
@@ -6265,4 +6274,17 @@ fieldset[disabled] .inverse .btn-link:focus {
 }
 #task-list .table-separator {
   margin-top: 5px;
+}
+#task-add textarea {
+  height: 50vh;
+}
+#task-add .date .form-inline select,
+#task-add .time .form-inline select,
+#task-add .date .form-inline input,
+#task-add .time .form-inline input {
+  width: 30%;
+}
+#task-add .date .form-inline .form-control,
+#task-add .time .form-inline .form-control {
+  display: inline-block;
 }

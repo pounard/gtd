@@ -13,9 +13,9 @@
 
 {% block menu %}
     <div class="buttons">
-        <a href="{{ path('app_task_add', {_from: app.request.requestUri}) }}" class="btn btn-primary">
-            <span class="glyphicon glyphicon-comment" aria-hidden="true"></span>
-            {{ "Add note"|trans }}
+        <a href="{{ path('app_task_delete', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
+            <span class="glyphicon glyphicon-delete" aria-hidden="true"></span>
+            {{ "Delete"|trans }}
         </a>
         <hr/>
         {#
@@ -33,25 +33,26 @@
 {% endblock %}
 
 {% block content %}
-    <div class="container">
+    <div id="task-view" class="container">
         <div class="row">
             <div class="col-md-12">
+                <div class="pull-right">
+                    {{ actions.note_count(task) }} &nbsp;
+                </div>
                 <h2>{{ task.title }}</h2>
-                <hr/>
-                <p>
+                <div class="well">
                     {% if task.description %}
                         {{ task.description|markdown }}
                     {% else %}
                         <span class="text-muted">{{ "There is no description"|trans }}</span>
                     {% endif %}
-                </p>
+                </div>
             </div>
         </div>
         <div class="row">
-            <hr/>
             <div class="col-md-12" id="notes">
-                {{ actions.note_count(task) }}
-
+                <hr/>
+                {{ render(controller('AppBundle:Note:viewAll', {'taskId': task.id})) }}
                 {{ render(controller('AppBundle:Note:partialAdd', {'taskId': task.id})) }}
             </div>
         </div>

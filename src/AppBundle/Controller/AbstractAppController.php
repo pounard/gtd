@@ -71,7 +71,7 @@ abstract class AbstractAppController extends Controller
     final protected function getTaskOrDie(string $id, bool $isOwner = false) : Task
     {
         try {
-            return $this->getTaskMapper()->findFirst($this->getTaskForUserCriteria($id));
+            return $this->getTaskMapper()->findFirst($this->getTaskForUserCriteria($id), true);
         } catch (EntityNotFoundError $e) {
             throw $this->createNotFoundException();
         }

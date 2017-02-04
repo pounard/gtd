@@ -143,6 +143,32 @@ class Task
     }
 
     /**
+     * Attempt to compute something like "importancy factor"
+     *
+     * @return int
+     *   An int between 0 and 10 bounds included, 0 being no importance
+     */
+    public function getImportancyFactor() : int
+    {
+        $reference = new \DateTime();
+
+        if ($this->ts_deadline < $reference) {
+            return 10; // You're fucked.
+        }
+
+        $interval = $reference->diff($this->ts_deadline);
+        if ($interval->y || $interval->m || ($interval->d && 7 < $interval->d)) {
+            return 0;
+        }
+
+        if ($interval->d) {
+            return 7 - $interval->d;
+        }
+
+        return 6 + ceil(3 / (24 - $interval->h));
+    }
+
+    /**
      * Get add date
      *
      * @return \DateTimeInterface

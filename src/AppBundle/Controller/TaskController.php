@@ -6,10 +6,11 @@ use AppBundle\Entity\Task;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 
@@ -95,6 +96,7 @@ class TaskController extends AbstractAppController
                 'label'     => "For how long?",
                 'required'  => true,
                 'multiple'  => false,
+                'data'      => '2h',
                 'choices'   => [
                     "10 minutes" => '10m',
                     "1 hour" => '1h',
@@ -105,7 +107,7 @@ class TaskController extends AbstractAppController
             ])
             ->add('submit', SubmitType::class, [
                 'label'     => "Hide it!",
-                'attr'      => ['class' => 'btn-danger'],
+                'attr'      => ['class' => 'btn-success btn-lg'],
             ])
             ->getForm()
         ;
@@ -159,6 +161,38 @@ class TaskController extends AbstractAppController
     }
 
     /**
+     * Delete form action
+     */
+    public function deleteFormAction(Request $request, $id)
+    {
+        $task = $this->getTaskOrDie($id, true);
+
+        $form = $this
+            ->createFormBuilder()
+            ->add('submit', SubmitType::class, [
+                'label'     => "Delete",
+                'attr'      => ['class' => 'btn-danger btn-lg'],
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->getTaskMapper()->createDelete(['id' => $id])->execute();
+            $this->addFlash('success', $this->get('translator')->trans("Task has been deleted!"));
+
+            return $this->redirectToRoute('app_tasks');
+        }
+
+        return $this->render('app/task/delete.html.twig', [
+            'task' => $task,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * Add task action
      */
     public function addAction(Request $request)
@@ -177,8 +211,16 @@ class TaskController extends AbstractAppController
                 'required'  => false,
                 'attr'      => ['placeholder' => 'Help yourself and write all what you need...'],
             ])
-            ->add('ts_deadline', DateTimeType::class, [
+            ->add('ts_deadline_date', DateType::class, [
+                'label'     => "Date",
                 'data'      => new \DateTime(),
+                'html5'     => true,
+                'required'  => false,
+            ])
+            ->add('ts_deadline_time', TimeType::class, [
+                'label'     => "Time",
+                'data'      => new \DateTime(),
+                'html5'     => true,
                 'required'  => false,
             ])
             ->add('priority', ChoiceType::class, [
@@ -196,10 +238,6 @@ class TaskController extends AbstractAppController
                     "I don't care"  => -3,
                 ],
             ])
-            ->add('is_done', CheckboxType::class, [
-                'label'     => "Done",
-                'required'  => false,
-            ])
             ->add('is_starred', CheckboxType::class, [
                 'label'     => "Starred",
                 'required'  => false,
@@ -215,6 +253,15 @@ class TaskController extends AbstractAppController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $values = $form->getData();
+
+            // Not proud of this one, but it is working.
+            /** @var \DateTime $date */
+            $date = $values['ts_deadline_date'];
+            /** @var \DateTime $time */
+            $time = $values['ts_deadline_time'];
+            $date->modify($time->format("+H \\h\\o\\u\\r i\\m\\i\\n\\u\\t\\e"));
+            unset($values['ts_deadline_date'], $values['ts_deadline_time']);
+            $values['ts_deadline'] = $date;
 
             // Add some defaults
             $values['id_account'] = $account->getId();

@@ -3,41 +3,46 @@ goat_account:
     prefix:   /u
 
 app_tasks:
-    path: app
+    path: /all
     defaults:
         _controller: AppBundle:App:tasks
 
 app_task_add:
-    path: app/task/add
+    path: task/add
     defaults:
         _controller: AppBundle:Task:add
 
 app_task_view:
-    path: app/task/{id}
+    path: task/{id}
     defaults:
         _controller: AppBundle:Task:view
 
 app_task_star:
-    path: app/task/{id}/star
+    path: task/{id}/star
     defaults:
         _controller: AppBundle:Task:star
 
+app_task_delete:
+    path: task/{id}/delete
+    defaults:
+        _controller: AppBundle:Task:deleteForm
+
 app_task_unstar:
-    path: app/task/{id}/unstar
+    path: task/{id}/unstar
     defaults:
         _controller: AppBundle:Task:unstar
 
 app_task_hide:
-    path: app/task/{id}/hide
+    path: task/{id}/hide
     defaults:
         _controller: AppBundle:Task:hideForm
 
 app_task_unhide:
-    path: app/task/{id}/unhide
+    path: task/{id}/unhide
     defaults:
         _controller: AppBundle:Task:unhide
 
 app_note_add:
-    path: app/task/{taskId}/add-note
+    path: task/{taskId}/add-note
     defaults:
         _controller: AppBundle:Note:add
