@@ -5,6 +5,7 @@ namespace AppBundle\Controller;
 use Symfony\Component\HttpFoundation\ParameterBag;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Router;
 
 /**
@@ -33,7 +34,7 @@ trait RefererControllerTrait
      *
      * @return Router
      */
-    protected function getRouter(Request $request)
+    protected function getRouter(Request $request) : Router
     {
         return $this->get('router');
     }
@@ -45,7 +46,7 @@ trait RefererControllerTrait
      *
      * @return string
      */
-    protected function getActionUrl(Request $request)
+    protected function getFormActionUrl(Request $request) : string
     {
         list($route, $arguments) = $this->getRequestRouteAndParams($request);
 
@@ -57,7 +58,14 @@ trait RefererControllerTrait
         return $this->generateUrl($route, $arguments);
     }
 
-    private function getRequestRouteAndParams(Request $request)
+    /**
+     * Get given request route and route parameters
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    private function getRequestRouteAndParams(Request $request) : array
     {
         $route = $request->attributes->get('_route');
 
@@ -77,7 +85,14 @@ trait RefererControllerTrait
         }
     }
 
-    private function getRefererParams(Request $request)
+    /**
+     * Get referer parameters from request
+     *
+     * @param Request $request
+     *
+     * @return array
+     */
+    private function getRefererParams(Request $request) : array
     {
         $referer = $request->headers->get('referer');
         if (empty($referer)) {
@@ -97,21 +112,23 @@ trait RefererControllerTrait
         return $this->getRouter($request)->match($lastPath);
     }
 
-    protected function redirectToDestination(Request $request, $status = 302)
-    {
-        if (!$request->query->has('_from')) {
-            throw new \RuntimeException("Request query does not have any 'destination' parameter");
-        }
-
-        return new RedirectResponse(
-            $request->getBaseUrl() . '/' . trim($request->query->get('_from'), '/')
-        );
-    }
-
-    protected function redirectToReferer(Request $request, $defaultRoute = null, array $defaultParameters = [], $status = 302, $useDestination = true)
+    /**
+     * Attempt to find either a _from parameter or a valid referer on the given
+     * request then generate a redirect response toward this target; fallbacks
+     * on default route given if nothing was found.
+     *
+     * @param Request $request
+     * @param string $defaultRoute
+     * @param array $defaultParameters
+     * @param int $status
+     * @param bool $useDestination
+     *
+     * @return Response
+     */
+    protected function redirectToReferer(Request $request, string $defaultRoute = null, array $defaultParameters = [], int $status = 302, bool $useDestination = true) : Response
     {
         if ($useDestination && $request->query->has('_from')) {
-            return $this->redirectToDestination($request);
+            return new RedirectResponse($request->getBaseUrl() . '/' . trim($request->query->get('_from'), '/'));
         }
 
         try {

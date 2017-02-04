@@ -54,7 +54,7 @@ class NoteController extends AbstractAppController
 
         $form->handleRequest($request);
 
-        return $this->render('app/partialForm.html.twig', [
+        return $this->render('app/partialAjaxForm.html.twig', [
             'form' => $form->createView(),
         ]);
     }
@@ -84,7 +84,11 @@ class NoteController extends AbstractAppController
                 ->execute()
             ;
 
-            return $this->redirectToReferer($request, 'app_task_view', ['id' => $taskId]);
+            if ($request->isXmlHttpRequest() && in_array('application/json', $request->getAcceptableContentTypes())) {
+                return $this->renderJsonPage('app/task/view.html.twig', ['task' => $this->getTaskOrDie($taskId)]);
+            } else {
+                return $this->redirectToReferer($request, 'app_task_view', ['id' => $taskId]);
+            }
         }
 
         return $this->render('app/note/add.html.twig', [
