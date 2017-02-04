@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "6ddb441980b88bc0e8ee1846bd0b8a91",
-    "content-hash": "e6a6b1553d8a7c246d7d9fc514096a8b",
+    "hash": "edc27e80da88436210f536f52d02f64f",
+    "content-hash": "c154fbab25fe0c0d69f63f52ebf80565",
     "packages": [
         {
             "name": "doctrine/annotations",
@@ -1054,6 +1054,56 @@
                 "issues": "https://github.com/pounard/goat-bundle/issues"
             },
             "time": "2017-01-20 15:57:38"
+        },
+        {
+            "name": "makinacorpus/goat-bundle-account",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pounard/goat-bundle-account.git",
+                "reference": "6a12c0aaa44efbdf15f2978aec637382384afcaf"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pounard/goat-bundle-account/zipball/6a12c0aaa44efbdf15f2978aec637382384afcaf",
+                "reference": "6a12c0aaa44efbdf15f2978aec637382384afcaf",
+                "shasum": ""
+            },
+            "require": {
+                "makinacorpus/goat": "*",
+                "makinacorpus/goat-bundle": "*",
+                "php": ">=7.0",
+                "symfony/symfony": "^3.2"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "5.*",
+                "squizlabs/php_codesniffer": "^2.7"
+            },
+            "type": "library",
+            "autoload": {
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ],
+                "psr-4": {
+                    "Goat\\AccountBundle\\": "."
+                }
+            },
+            "license": [
+                "GPL-2"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre RINEAU",
+                    "email": "pierre.rineau@processus.org"
+                }
+            ],
+            "description": "Goat user account management bundle",
+            "homepage": "http://github.com/makinacorpus/goat-account-bundle",
+            "support": {
+                "source": "https://github.com/pounard/goat-bundle-account/tree/master",
+                "issues": "https://github.com/pounard/goat-bundle-account/issues"
+            },
+            "time": "2017-01-31 17:28:59"
         },
         {
             "name": "makinacorpus/php-acl",
@@ -2998,6 +3048,7 @@
         "makinacorpus/php-acl": 20,
         "makinacorpus/goat": 20,
         "makinacorpus/goat-bundle": 20,
+        "makinacorpus/goat-bundle-account": 20,
         "makinacorpus/redis-bundle": 20
     },
     "prefer-stable": true,
