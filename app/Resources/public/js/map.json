@@ -1,5 +1,6 @@
 {
     "app\/Resources\/public\/js\/jquery-2.2.4.min.js" : true,
     "app\/Resources\/public\/js\/bootstrap-3.3.6.min.js" : true,
+    "app\/Resources\/public\/js\/web-app.js" : true,
     "app\/Resources\/public\/js\/app.js" : true
 }
