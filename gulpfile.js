@@ -27,12 +27,21 @@ gulp.task('js', function () {
   ;
 });
 
-gulp.task('less', function () {
+gulp.task('less-debug', function () {
+  var pipe = gulp.src('./app/Resources/public/less/style.less');
+  pipe = pipe.pipe(less());
+  return pipe
+    .pipe(gulp.dest('./web/dist/css/'))
+    .on('error', errorHandler)
+  ;
+});
+
+gulp.task('less-min', function () {
   var pipe = gulp.src('./app/Resources/public/less/style.less');
   pipe = pipe
     .pipe(less())
-    // .pipe(cssmin())
-    // .pipe(rename({suffix: '.min'}))
+    .pipe(cssmin())
+    .pipe(rename({suffix: '.min'}))
   ;
   return pipe
     .pipe(gulp.dest('./web/dist/css/'))
@@ -40,6 +49,7 @@ gulp.task('less', function () {
   ;
 });
 
+gulp.task('less', ['less-debug', 'less-min']);
 gulp.task('default', ['js', 'less']);
 
 // Handle the error

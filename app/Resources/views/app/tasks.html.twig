@@ -30,7 +30,7 @@
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" id="viewDone" name="done" value="1"
-                            {% if app.request.get('done') %}checked="checked"{% endif %}"
+                            {% if app.request.get('done') %}checked="checked"{% endif %}
                         />
                         {{ "Done tasks"|trans }}
                     </label>
@@ -42,7 +42,7 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="sort" value="deadline" id="sortDeadline"
-                            {% if 'deadline' == app.request.get('sort') %}checked="checked"{% endif %}"
+                            {% if 'deadline' == app.request.get('sort') %}checked="checked"{% endif %}
                         />
                         {{ "Deadline"|trans }}
                     </label>
@@ -50,7 +50,7 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="sort" value="updated" id="sortUpdated"
-                            {% if 'updated' == app.request.get('sort') %}checked="checked"{% endif %}"
+                            {% if 'updated' == app.request.get('sort') %}checked="checked"{% endif %}
                         />
                         {{ "Update date"|trans }}
                     </label>
@@ -58,7 +58,7 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="sort" value="created" id="sortCreated"
-                            {% if 'created' == app.request.get('sort') %}checked="checked"{% endif %}"
+                            {% if 'created' == app.request.get('sort') %}checked="checked"{% endif %}
                         />
                         {{ "Creation date"|trans }}
                     </label>
@@ -66,7 +66,7 @@
                 <div class="radio">
                     <label>
                         <input type="radio" name="sort" value="priority" id="sortPriority"
-                            {% if 'priority' == app.request.get('sort') %}checked="checked"{% endif %}"
+                            {% if 'priority' == app.request.get('sort') %}checked="checked"{% endif %}
                         />
                         {{ "Priority"|trans }}
                     </label>
