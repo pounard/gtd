@@ -88,13 +88,25 @@
     <table id="task-list" class="table table-responsive" style="width:100%;">
         <tbody>
             {% for task in tasks %}
-                <tr>
+                {% set factor = task.importancyFactor %}
+                {% set taskUrl = path('app_task_view', {id: task.id}) %}
+                <tr class="importancy-{{ factor }}">
                     <td class="td-single-button">
                         {{ actions.star_button(task, false) }}
                     </td>
                     <td>
-                        {{ task.importancyFactor }}
-                        <strong><a href="{{ path('app_task_view', {id: task.id}) }}">{{ task.title }}</a></strong>
+                        {% if task.isDone %}
+                            <a class="btn btn-success" href="{{ taskUrl }}">
+                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                            </a>
+                            &nbsp;
+                        {% elseif factor > 7 %}
+                            <a class="btn btn-danger" href="{{ taskUrl }}">
+                                <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                            </a>
+                            &nbsp;
+                        {% endif %}
+                        <strong><a href="{{ taskUrl }}">{{ task.title }}</a></strong>
                         <span class="hidden-sm hidden-md hidden-lg">- // tags</span>
                         <div class="table-separator hidden-md hidden-lg">
                             <span class="text-muted text-small">{{ task.deadlinesAt|localizeddate('medium', 'short') }}</span>
