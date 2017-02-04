@@ -71,6 +71,26 @@ class TaskController extends AbstractAppController
     }
 
     /**
+     * Star action
+     */
+    public function doneAction(Request $request, $id)
+    {
+        $this->updateTaskOrDieIfDisallowed($request, $id, ['is_done' => true, 'ts_done' => new \DateTime()]);
+
+        return $this->redirectToReferer($request);
+    }
+
+    /**
+     * Unstar action
+     */
+    public function undoneAction(Request $request, $id)
+    {
+        $this->updateTaskOrDieIfDisallowed($request, $id, ['is_done' => false]);
+
+        return $this->redirectToReferer($request);
+    }
+
+    /**
      * Unhide action
      */
     public function unhideAction(Request $request, $id)
@@ -187,6 +207,94 @@ class TaskController extends AbstractAppController
         }
 
         return $this->render('app/task/delete.html.twig', [
+            'task' => $task,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
+     * Edit task action
+     */
+    public function editFormAction(Request $request, $id)
+    {
+        $task = $this->getTaskOrDie($id, true);
+
+        $form = $this
+            ->createFormBuilder()
+            ->add('title', TextType::class, [
+                'label'     => "Title",
+                'required'  => true,
+                'attr'      => ['placeholder' => 'Go to grocery store and buy eggs'],
+                'data'      => $task->getTitle(),
+            ])
+            ->add('description', TextareaType::class, [
+                'label'     => "Description",
+                'required'  => false,
+                'attr'      => ['placeholder' => 'Help yourself and write all what you need...'],
+                'data'      => $task->getDescription(),
+            ])
+            ->add('ts_deadline_date', DateType::class, [
+                'label'     => "Date",
+                'data'      => new \DateTime(),
+                'html5'     => true,
+                'required'  => false,
+                'data'      => $task->deadlinesAt(),
+            ])
+            ->add('ts_deadline_time', TimeType::class, [
+                'label'     => "Time",
+                'data'      => new \DateTime(),
+                'html5'     => true,
+                'required'  => false,
+                'data'      => $task->deadlinesAt(),
+            ])
+            ->add('priority', ChoiceType::class, [
+                'label'     => "Priority",
+                'multiple'  => false,
+                'required'  => true,
+                'data'      => $task->getPriority(),
+                'choices'   => [
+                    "Immediate"     => 3,
+                    "Very high"     => 2,
+                    "high"          => 1,
+                    "Normal"        => 0,
+                    "Low"           => -1,
+                    "Very low"      => -2,
+                    "I don't care"  => -3,
+                ],
+            ])
+            ->add('submit', SubmitType::class, [
+                'label'     => "Save",
+                'attr'      => ['class' => 'btn-primary'],
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $values = $form->getData();
+
+            // Not proud of this one, but it is working.
+            /** @var \DateTime $date */
+            $date = $values['ts_deadline_date'];
+            /** @var \DateTime $time */
+            $time = $values['ts_deadline_time'];
+            $date->modify($time->format("+H \\h\\o\\u\\r i\\m\\i\\n\\u\\t\\e"));
+            unset($values['ts_deadline_date'], $values['ts_deadline_time']);
+            $values['ts_deadline'] = $date;
+
+            $this
+                ->getDatabase()
+                ->update('task')
+                ->condition('id', $id)
+                ->sets($values)
+                ->execute()
+            ;
+
+            return $this->redirectToReferer($request);
+        }
+
+        return $this->render('app/task/edit.html.twig', [
             'task' => $task,
             'form' => $form->createView(),
         ]);

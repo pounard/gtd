@@ -17,15 +17,30 @@ app_task_view:
     defaults:
         _controller: AppBundle:Task:view
 
-app_task_star:
-    path: task/{id}/star
+app_task_edit:
+    path: task/{id}/edit
     defaults:
-        _controller: AppBundle:Task:star
+        _controller: AppBundle:Task:editForm
 
 app_task_delete:
     path: task/{id}/delete
     defaults:
         _controller: AppBundle:Task:deleteForm
+
+app_task_done:
+    path: task/{id}/done
+    defaults:
+        _controller: AppBundle:Task:done
+
+app_task_undone:
+    path: task/{id}/undone
+    defaults:
+        _controller: AppBundle:Task:undone
+
+app_task_star:
+    path: task/{id}/star
+    defaults:
+        _controller: AppBundle:Task:star
 
 app_task_unstar:
     path: task/{id}/unstar

@@ -50,6 +50,11 @@ class Task
     /**
      * @var \DateTimeInterface
      */
+    private $ts_done;
+
+    /**
+     * @var \DateTimeInterface
+     */
     private $ts_deadline;
 
     /**
@@ -186,6 +191,16 @@ class Task
     public function updatedAt()
     {
         return $this->ts_updated;
+    }
+
+    /**
+     * Get done date
+     *
+     * @return null|\DateTimeInterface
+     */
+    public function doneAt()
+    {
+        return $this->ts_done;
     }
 
     /**

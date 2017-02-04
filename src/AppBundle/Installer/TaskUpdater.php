@@ -31,6 +31,7 @@ CREATE TABLE task (
     ts_added TIMESTAMP NOT NULL DEFAULT NOW(),
     ts_updated TIMESTAMP NOT NULL DEFAULT NOW(),
     ts_deadline TIMESTAMP DEFAULT NULL,
+    ts_done TIMESTAMP DEFAULT NULL,
     ts_unhide TIMESTAMP DEFAULT NULL,
     FOREIGN KEY (id_account) REFERENCES account (id) ON DELETE SET NULL
 );

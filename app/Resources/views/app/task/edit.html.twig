@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig'] %}
+
+{% block backto %}
+    <a class="navbar-brand" href="{{ path('app_task_view', {id: task.id}) }}" title="{{ "Back to task"|trans }}">
+        <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+        <span class="sr-only">{{ "Back to task"|trans }}</span>
+    </a>
+{% endblock %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <div id="task-add" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ "Edit task"|trans }}</h1>
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+
+                {{ form_row(form.title) }}
+                {{ form_row(form.description) }}
+
+                <hr/>
+
+                <div class="date">
+                    {{ form_row(form.ts_deadline_date) }}
+                </div>
+                <div class="time">
+                    {{ form_row(form.ts_deadline_time) }}
+                </div>
+
+                <hr/>
+
+                {{ form(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
