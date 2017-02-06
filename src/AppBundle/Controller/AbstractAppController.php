@@ -9,6 +9,7 @@ use Goat\AccountBundle\Controller\AccountMapperAwareController;
 use Goat\Mapper\Error\EntityNotFoundError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use AppBundle\Entity\Note;
 
 abstract class AbstractAppController extends Controller
 {
@@ -73,6 +74,24 @@ abstract class AbstractAppController extends Controller
     {
         try {
             return $this->getTaskMapper()->findFirst($this->getTaskForUserCriteria($id), true);
+        } catch (EntityNotFoundError $e) {
+            throw $this->createNotFoundException();
+        }
+    }
+
+    /**
+     * Get note
+     *
+     * @param string $id
+     * @param string $taskId
+     *   Ensure the note belong to this task
+     *
+     * @return Note
+     */
+    final protected function getNoteOrDie(string $id, string $taskId) : Note
+    {
+        try {
+            return $this->getNoteMapper()->findFirst(['id' => $id, 'id_task' => $taskId]);
         } catch (EntityNotFoundError $e) {
             throw $this->createNotFoundException();
         }

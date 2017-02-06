@@ -41,11 +41,12 @@ class AppExtension extends \Twig_Extension
      * Generate back to URL
      *
      * @param string $defaultRoute
+     * @param array $defaultQuery
      * @param bool $withQuery
      *
      * @return string
      */
-    public function backToUrl(string $defaultRoute, bool $withQuery = true) : string
+    public function backToUrl(string $defaultRoute, array $defaultQuery = [], bool $withQuery = true) : string
     {
         $request  = $this->requestStack->getMasterRequest();
         $query    = [];
@@ -58,11 +59,10 @@ class AppExtension extends \Twig_Extension
             unset($query['_from']);
         }
 
-
         if ($from) {
             try {
                 $attributes = $this->router->match($from);
-                $query = array_merge($query, array_diff_key($attributes, ['_controller' => '', '_route' => '']));
+                $query = array_merge($query, array_diff_key($attributes, ['_controller' => '', '_route' => '']), $defaultQuery);
 
                 return $this->router->generate($attributes['_route'], $query);
 
@@ -71,7 +71,7 @@ class AppExtension extends \Twig_Extension
             }
         }
 
-        return $this->router->generate($defaultRoute, $query);
+        return $this->router->generate($defaultRoute, array_merge($query, $defaultQuery));
     }
 
     /**

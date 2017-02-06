@@ -4,7 +4,7 @@
 
 {% block back_to %}
     {% import 'app/task/actions.html.twig' as actions %}
-    {{ actions.back_to('app_tasks', "Refresh"|trans, 'refresh') }}
+    {{ actions.back_to('app_tasks', {}, "Refresh"|trans, 'refresh') }}
 {% endblock %}
 
 {% block menu %}

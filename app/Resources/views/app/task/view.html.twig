@@ -32,7 +32,6 @@
                 {{ "Delete"|trans }}
             </a>
         </div>
-        <hr/>
         {#
         <a href="{{ path('app_task_add', {_from: app.request.requestUri}) }}" class="btn btn-primary">
             <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
@@ -58,10 +57,21 @@
                 <h2>{{ task.title }}</h2>
                 <hr/>
                 <p>
-                    <strong>{{ "Deadlines at:"|trans }} {{ task.deadlinesAt|localizeddate('full', 'short') }}</strong>
+                    {% set factor = task.importancyFactor %}
                     {% if task.isDone %}
-                        <br/>{{ "Done at:"|trans }} {{ task.doneAt|localizeddate('medium', 'short') }}
+                        </span><span class="text-success glyphicon glyphicon-ok" aria-hidden="true"></span>
+                        &nbsp;
+                        <span class="text-muted">{{ "Done at:"|trans }}</span>
+                        {{ task.doneAt|localizeddate('medium', 'short') }}
+                        <br/>
+                    {% elseif factor > 7 %}
+                        <span class="text-danger">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        </span>
+                        &nbsp;
                     {% endif %}
+                    <span class="text-muted">{{ "Deadlines at:"|trans }}</span>
+                    {{ task.deadlinesAt|localizeddate('full', 'short') }}
                 </p>
                 <div class="well">
                     {% if task.description %}

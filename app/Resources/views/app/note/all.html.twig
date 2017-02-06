@@ -4,7 +4,9 @@
             <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
         </div>
         <div class="media-body">
-            <span class="text-muted"><small>{{ note.addedAt|localizeddate('full', 'short') }}</small></span>
+            <a href="{{ path('app_note_view', {taskId: taskId, noteId: note.id}) }}">
+                <span class="text-muted"><small>{{ note.addedAt|localizeddate('full', 'short') }}</small></span>
+            </a>
             <br/>
             {{ note.description|markdown }}
         </div>

@@ -98,6 +98,20 @@ class NoteController extends AbstractAppController
     }
 
     /**
+     * View a single note
+     */
+    public function viewAction($taskId, $noteId)
+    {
+        $task = $this->getTaskOrDie($taskId, true);
+        $note = $this->getNoteOrDie($noteId, $taskId);
+
+        return $this->render('app/note/view.html.twig', [
+            'task' => $task,
+            'note' => $note,
+        ]);
+    }
+
+    /**
      * View all notes for the given task action
      */
     public function viewAllAction($taskId)

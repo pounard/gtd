@@ -1,6 +1,6 @@
 {# Actions, buttons and other candy commonly used in various templates #}
 
-{%- macro back_to(default_route, default_text, default_icon) -%}
+{%- macro back_to(default_route, default_query, default_text, default_icon) -%}
     {% set text = app_back_to_text("Back to home"|trans) %}
     {% if not default_icon %}
         {% set default_icon = 'menu-left' %}
@@ -11,7 +11,10 @@
     {% if not default_route %}
         {% set default_route = 'app_tasks' %}
     {% endif %}
-    <a class="navbar-brand" href="{{ app_back_to_url(default_route) }}" title="{{ text }}">
+    {% if not default_query %}
+        {% set default_query = {} %}
+    {% endif %}
+    <a class="navbar-brand" href="{{ app_back_to_url(default_route, default_query) }}" title="{{ text }}">
         <span class="glyphicon glyphicon-{{ app_back_to_icon(default_icon) }}" aria-hidden="true"></span>
         <span class="sr-only">{{ text }}</span>
     </a>

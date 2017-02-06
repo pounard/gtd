@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% import 'app/task/actions.html.twig' as actions %}
+
+{% block back_to %}
+    {% import 'app/task/actions.html.twig' as actions %}
+    {{ actions.back_to('app_task_view', {id: task.id}, "Back to task"|trans, 'menu-left') }}
+{% endblock %}
+
+{% block menu %}
+    {#
+    <div class="buttons">
+        <div class="btn-group">
+            <a href="{{ path('app_task_edit', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-warning">
+                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+                {{ "Hide"|trans }}
+            </a>
+            <a href="{{ path('app_task_delete', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
+                <span class="glyphicon glyphicon-delete" aria-hidden="true"></span>
+                {{ "Delete"|trans }}
+            </a>
+        </div>
+    </div>
+     #}
+{% endblock %}
+
+{% block content %}
+    {% import 'app/task/actions.html.twig' as actions %}
+    <div id="note-view" class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pull-right">
+                    {{ actions.note_count(task) }} &nbsp;
+                </div>
+                <h2>{{ task.title }}</h2>
+                <hr/>
+                <div class="well">
+                    {% if note.description %}
+                        {{ note.description|markdown }}
+                    {% else %}
+                        <span class="text-muted">{{ "There is no description"|trans }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

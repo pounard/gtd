@@ -5494,7 +5494,10 @@ h5 {
   }
 }
 #task-list .td-single-button {
-  width: 64px;
+  width: 43px;
+}
+#task-list .td-single-button .btn {
+  padding: 6px 6px;
 }
 #task-list .table-separator {
   margin-top: 5px;

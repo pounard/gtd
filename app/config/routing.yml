@@ -61,3 +61,8 @@ app_note_add:
     path: task/{taskId}/add-note
     defaults:
         _controller: AppBundle:Note:add
+
+app_note_view:
+    path: task/{taskId}/note/{noteId}
+    defaults:
+        _controller: AppBundle:Note:view
