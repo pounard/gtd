@@ -5434,6 +5434,27 @@ h5 {
   margin-top: 6px;
   margin-bottom: 6px;
 }
+.btn-link-warning {
+  color: #ec971f;
+}
+.btn-link-warning:hover,
+.btn-link-warning:focus {
+  color: #c77c11;
+}
+.btn-link-danger {
+  color: #c9302c;
+}
+.btn-link-danger:hover,
+.btn-link-danger:focus {
+  color: #a02622;
+}
+.btn-link-success {
+  color: #449d44;
+}
+.btn-link-success:hover,
+.btn-link-success:focus {
+  color: #357935;
+}
 #back-button {
   display: inline-block;
   float: left;
@@ -5458,6 +5479,18 @@ h5 {
   #menu-panel {
     width: 100%;
     display: none;
+  }
+}
+@media (max-device-width: 991px) {
+  #task-list {
+    padding: 0;
+  }
+  #task-list > .row {
+    padding: 0;
+    margin: 0;
+  }
+  #task-list > .row > div {
+    padding: 0;
   }
 }
 #task-list .td-single-button {

@@ -1,5 +1,16 @@
 
 #task-list {
+    @media (max-device-width: @grid-float-breakpoint) {
+        padding: 0;
+        > .row {
+            padding: 0;
+            margin: 0;
+            > div {
+                padding: 0;
+            }
+        }
+    }
+
     .td-single-button {
         width: 64px;
     }

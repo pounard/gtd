@@ -2,11 +2,9 @@
 
 {% import 'app/task/actions.html.twig' as actions %}
 
-{% block backto %}
-    <a class="navbar-brand" href="{{ path('app_tasks', app.request.query.all) }}" title="{{ "Refresh list"|trans }}">
-        <span class="glyphicon glyphicon-refresh" aria-hidden="true"></span>
-        <span class="sr-only">{{ "Refresh"|trans }}</span>
-    </a>
+{% block back_to %}
+    {% import 'app/task/actions.html.twig' as actions %}
+    {{ actions.back_to('app_tasks', "Refresh"|trans, 'refresh') }}
 {% endblock %}
 
 {% block menu %}
@@ -84,8 +82,8 @@
     </form>
 {% endblock %}
 
-{% block content %}
-    <table id="task-list" class="table table-responsive" style="width:100%;">
+{% block task_list %}
+    <table class="table table-responsive" style="width:100%;">
         <tbody>
             {% for task in tasks %}
                 {% set factor = task.importancyFactor %}
@@ -96,18 +94,18 @@
                     </td>
                     <td>
                         {% if task.isDone %}
-                            <a class="btn btn-success" href="{{ taskUrl }}">
+                            <a class="btn btn-xs btn-success" href="{{ taskUrl }}">
                                 <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                             </a>
                             &nbsp;
                         {% elseif factor > 7 %}
-                            <a class="btn btn-danger" href="{{ taskUrl }}">
-                                <span class="glyphicon glyphicon-warning-sign" aria-hidden="true"></span>
+                            <a class="text-danger" href="{{ taskUrl }}">
+                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
                             </a>
                             &nbsp;
                         {% endif %}
                         <strong><a href="{{ taskUrl }}">{{ task.title }}</a></strong>
-                        <span class="hidden-sm hidden-md hidden-lg">- // tags</span>
+                        <span class="hidden-sm hidden-md hidden-lg">{# - tags #}</span>
                         <div class="table-separator hidden-md hidden-lg">
                             <span class="text-muted text-small">{{ task.deadlinesAt|localizeddate('medium', 'short') }}</span>
                             <span class="hidden-sm">- {{ actions.note_count(task, true) }}</span>
@@ -125,7 +123,7 @@
                         {{ task.deadlinesAt|localizeddate('medium', 'short') }}
                     </td>
                     <td class="hidden-xs">
-                        // tags
+                        {# - tags #}
                     </td>
                     <td class="td-single-button">
                         {{ actions.hide_button(task, false) }}
@@ -140,4 +138,14 @@
             {% endfor %}
         </tbody>
     </table>
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="task-list" >
+        <div class="row">
+            <div class="col-md-12">
+                {{ block('task_list') }}
+            </div>
+        </div>
+    </div>
 {% endblock %}

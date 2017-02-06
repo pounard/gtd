@@ -8,6 +8,11 @@ services:
         class: AppBundle\Twig\Extension\ParsedownExtension
         tags: [{name: twig.extension}]
 
+    app.twig.app:
+        class: AppBundle\Twig\Extension\AppExtension
+        arguments: ['@request_stack', '@router']
+        tags: [{name: twig.extension}]
+
     app.task_mapper:
         class: AppBundle\Mapper\TaskMapper
         arguments: ['@goat.session']

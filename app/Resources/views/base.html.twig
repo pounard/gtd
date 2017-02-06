@@ -26,11 +26,9 @@
                 <span class="icon-bar"></span>
             </button>
             <div id="back-button" data-target="back-button">
-                {% block backto %}
-                    <a class="navbar-brand" href="{{ path('app_tasks') }}" title="{{ "Go to home"|trans }}">
-                        <span class="glyphicon glyphicon-th-list" aria-hidden="true"></span>
-                        <span class="sr-only">{{ "Go to home"|trans }}</span>
-                    </a>
+                {% block back_to %}
+                    {% import 'app/task/actions.html.twig' as actions %}
+                    {{ actions.back_to() }}
                 {% endblock %}
             </div>
             <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>

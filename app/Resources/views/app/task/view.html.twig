@@ -4,13 +4,6 @@
 
 {% import 'app/task/actions.html.twig' as actions %}
 
-{% block backto %}
-    <a class="navbar-brand" href="{{ path('app_tasks') }}" title="{{ "Back to home"|trans }}">
-        <span class="glyphicon glyphicon-menu-left" aria-hidden="true"></span>
-        <span class="sr-only">{{ "Back to home"|trans }}</span>
-    </a>
-{% endblock %}
-
 {% block menu %}
     <div class="buttons">
         {% if task.isDone %}
