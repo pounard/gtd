@@ -3,7 +3,6 @@
 # http://symfony.com/doc/current/best_practices/configuration.html#infrastructure-related-configuration
 parameters:
     database_host:     ext_pgsql://127.0.0.1/tasks
-    database_port:     ~
     database_user:     root
     database_password: ~
 
