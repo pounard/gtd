@@ -26,16 +26,21 @@ security:
             security:                 false
 
         # disables security on login page
-        goat_login:
+        app_login:
             pattern:                  ^(/u/login|/u/login/request-password)$
             security:                 false
 
-        goat_home:
+        app_home:
             pattern:                  ^/$
             security:                 false
 
+        goat_dav:
+            pattern:                  ^/dav
+            anonymous:                ~
+            http_basic:               ~
+
         # enforce security on everything that needs security
-        goat:
+        app:
             pattern:                  ^/
             form_login:
                 check_path:           goat_account.login_check
@@ -53,3 +58,4 @@ security:
     access_control:
         - { path: "^/u/login/one", roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/app, roles: IS_AUTHENTICATED_FULLY }
+        - { path: ^/dav, roles: IS_AUTHENTICATED_FULLY }

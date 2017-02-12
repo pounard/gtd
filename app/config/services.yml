@@ -1,32 +1,4 @@
-services:
-
-    app.task_updater:
-        class: AppBundle\Installer\TaskUpdater
-        tags: [{name: goat.updater}]
-
-    app.twig.parsedown:
-        class: AppBundle\Twig\Extension\ParsedownExtension
-        tags: [{name: twig.extension}]
-
-    app.twig.app:
-        class: AppBundle\Twig\Extension\AppExtension
-        arguments: ['@request_stack', '@router']
-        tags: [{name: twig.extension}]
-
-    app.task_mapper:
-        class: AppBundle\Mapper\TaskMapper
-        arguments: ['@goat.session']
-        tags: [{name: goat.mapper, alias: "App:Task"}]
-
-    app.note_mapper:
-        class: AppBundle\Mapper\NoteMapper
-        arguments: ['@goat.session']
-        tags: [{name: goat.mapper, alias: "App:Note"}]
-
-    # Enable twig extensions
-    twig.extension.text:
-       class: Twig_Extensions_Extension_Text
-       tags: [{name: twig.extension}]
-    twig.extension.intl:
-        class: Twig_Extensions_Extension_Intl
-        tags: [{name: twig.extension}]
+imports:
+    - { resource: services/core.yml }
+    - { resource: services/dav.yml }
+    - { resource: services/twig.yml }

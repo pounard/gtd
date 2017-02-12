@@ -1,0 +1,48 @@
+services:
+
+    app.dav.server:
+        class: Sabre\DAV\Server
+        arguments:
+          - ['@app.dav.principal_collection', '@app.dav.caldav_calendar_root']
+        calls:
+          - [addPlugin, ['@app.dav.auth_plugin']]
+          - [addPlugin, ['@app.dav.caldav_plugin']]
+          - [addPlugin, ['@app.dav.browser_plugin']]
+
+    app.dav.auth_backend:
+        public: false
+        class: AppBundle\SabreDav\AuthBackend
+        arguments: ['@security.token_storage']
+
+    app.dav.auth_plugin:
+        public: false
+        class: Sabre\DAV\Auth\Plugin
+        arguments: ['@app.dav.auth_backend', SabreDAV]
+
+    app.dav.browser_plugin:
+        public: false
+        class: Sabre\DAV\Browser\Plugin
+
+    app.dav.principal_backend:
+        public: false
+        class: AppBundle\SabreDav\PrincipalBackend
+        arguments: ['@security.token_storage', '@goat_account.account_mapper']
+
+    app.dav.principal_collection:
+        public: false
+        class: Sabre\DAVACL\PrincipalCollection
+        arguments: ['@app.dav.principal_backend']
+
+    app.dav.caldav_backend:
+        public: false
+        class: AppBundle\SabreDav\CalDavBackend
+        arguments: ['@security.token_storage', '@app.task_mapper', '@app.note_mapper']
+
+    app.dav.caldav_calendar_root:
+        public: false
+        class: Sabre\CalDAV\CalendarRoot
+        arguments: ['@app.dav.principal_backend', '@app.dav.caldav_backend']
+
+    app.dav.caldav_plugin:
+        public: false
+        class: Sabre\CalDAV\Plugin

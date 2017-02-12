@@ -71,3 +71,11 @@ app_note_delete:
     path: task/{taskId}/note/{noteId}/delete
     defaults:
         _controller: AppBundle:Note:deleteForm
+
+app_dav:
+    path: dav/{incomingUrl}
+    methods: [HEAD,  GET,  POST, OPTIONS, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, DELETE, LOCK, UNLOCK, PUT, PATCH, REPORT]
+    defaults:
+        _controller: AppBundle:Dav:main
+    requirements:
+        incomingUrl: .+

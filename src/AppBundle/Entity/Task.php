@@ -176,7 +176,7 @@ class Task
     /**
      * Get add date
      *
-     * @return \DateTimeInterface
+     * @return \DateTime
      */
     public function addedAt() : \DateTimeInterface
     {
@@ -186,7 +186,7 @@ class Task
     /**
      * Get update date
      *
-     * @return null|\DateTimeInterface
+     * @return null|\DateTime
      */
     public function updatedAt()
     {
@@ -196,7 +196,7 @@ class Task
     /**
      * Get done date
      *
-     * @return null|\DateTimeInterface
+     * @return null|\DateTime
      */
     public function doneAt()
     {
@@ -206,7 +206,7 @@ class Task
     /**
      * Get deadline date
      *
-     * @return null|\DateTimeInterface
+     * @return null|\DateTime
      */
     public function deadlinesAt()
     {
@@ -216,7 +216,7 @@ class Task
     /**
      * Get unhide date
      *
-     * @return null|\DateTimeInterface
+     * @return null|\DateTime
      */
     public function unhideAt()
     {

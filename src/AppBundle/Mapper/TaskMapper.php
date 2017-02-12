@@ -29,7 +29,7 @@ class TaskMapper extends WritableSelectMapper
              ->groupBy('t.id')
         ;
 
-        parent::__construct($connection, Task::class, ['id'], $select);
+        parent::__construct($connection, Task::class, ['t.id'], $select);
     }
 
     /**

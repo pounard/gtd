@@ -20,6 +20,6 @@ class NoteMapper extends WritableSelectMapper
      */
     public function __construct(ConnectionInterface $connection)
     {
-        parent::__construct($connection, Note::class, ['id'], $connection->select('task_comment', 'n'));
+        parent::__construct($connection, Note::class, ['n.id'], $connection->select('task_comment', 'n'));
     }
 }
