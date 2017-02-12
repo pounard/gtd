@@ -37,17 +37,21 @@
 </nav>
 <div id="app-body">
     <div id="app-panel" class="clearfix">
-        <div data-target="messages">
-            {% block messages %}
-                {% for label, flashes in app.session.flashbag.all %}
-                    <div class="alert alert-{{ label }} alert-dismissible" role="alert">
-                        <button type="button" class="close" data-dismiss="alert" aria-label="{{ "Close"|trans }}"><span aria-hidden="true">&times;</span></button>
-                        {% for flash in flashes %}
-                            {{ flash }}<br/>
+        <div class="container">
+            <div class="row">
+                <div data-target="messages" class="col-md-12">
+                    {% block messages %}
+                        {% for label, flashes in app.session.flashbag.all %}
+                            <div class="alert alert-{{ label }} alert-dismissible" role="alert">
+                                <button type="button" class="close" data-dismiss="alert" aria-label="{{ "Close"|trans }}"><span aria-hidden="true">&times;</span></button>
+                                {% for flash in flashes %}
+                                    {{ flash }}<br/>
+                                {% endfor %}
+                            </div>
                         {% endfor %}
-                    </div>
-                {% endfor %}
-            {% endblock %}
+                    {% endblock %}
+                </div>
+            </div>
         </div>
         <div data-target="content">
             {% block content %}
