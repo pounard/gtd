@@ -146,6 +146,26 @@ class NoteController extends AbstractAppController
     }
 
     /**
+     * View all notes for the given task with no additional security checks
+     */
+    public function viewAllPartialAction($taskId)
+    {
+        $notes = $this
+            ->getNoteMapper()
+            ->createSelect()
+            ->condition('n.id_task', $taskId)
+            ->orderBy('n.ts_added', Query::ORDER_ASC)
+            ->orderBy('n.id', Query::ORDER_ASC)
+            ->execute([], Note::class)
+        ;
+
+        return $this->render('app/note/all.html.twig', [
+            'taskId' => $taskId,
+            'notes' => $notes,
+        ]);
+    }
+
+    /**
      * View all notes for the given task action
      */
     public function viewAllAction($taskId)

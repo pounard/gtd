@@ -85,7 +85,7 @@
         <div class="row">
             <div class="col-md-12" id="notes">
                 <hr/>
-                {{ render(controller('AppBundle:Note:viewAll', {'taskId': task.id})) }}
+                {{ render(controller('AppBundle:Note:viewAllPartial', {'taskId': task.id})) }}
                 {{ render(controller('AppBundle:Note:partialAdd', {'taskId': task.id})) }}
             </div>
         </div>
