@@ -943,12 +943,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/pounard/goat.git",
-                "reference": "e95d972380477bd41d5346c0065bb6b5e81db337"
+                "reference": "0a38aad268a550ea5bb0fe70810286d72bdb11c2"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/pounard/goat/zipball/e95d972380477bd41d5346c0065bb6b5e81db337",
-                "reference": "e95d972380477bd41d5346c0065bb6b5e81db337",
+                "url": "https://api.github.com/repos/pounard/goat/zipball/0a38aad268a550ea5bb0fe70810286d72bdb11c2",
+                "reference": "0a38aad268a550ea5bb0fe70810286d72bdb11c2",
                 "shasum": ""
             },
             "require": {
@@ -966,19 +966,17 @@
             },
             "type": "library",
             "autoload": {
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ],
                 "psr-0": {
                     "WeakRef": "compat/"
                 },
                 "psr-4": {
-                    "Goat\\": "."
+                    "Goat\\": "src/"
                 }
             },
             "autoload-dev": {
                 "psr-4": {
-                    "Goat\\Benchmark\\": "benchmarks"
+                    "Goat\\Benchmark\\": "benchmarks",
+                    "Goat\\Tests\\": "tests"
                 }
             },
             "license": [
@@ -1004,7 +1002,7 @@
                 "source": "https://github.com/pounard/goat/tree/master",
                 "issues": "https://github.com/pounard/goat/issues"
             },
-            "time": "2017-02-04 10:59:10"
+            "time": "2017-02-12 14:05:00"
         },
         {
             "name": "makinacorpus/goat-bundle",
