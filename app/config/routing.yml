@@ -66,3 +66,8 @@ app_note_view:
     path: task/{taskId}/note/{noteId}
     defaults:
         _controller: AppBundle:Note:view
+
+app_note_delete:
+    path: task/{taskId}/note/{noteId}/delete
+    defaults:
+        _controller: AppBundle:Note:deleteForm

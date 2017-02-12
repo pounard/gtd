@@ -98,6 +98,40 @@ class NoteController extends AbstractAppController
     }
 
     /**
+     * Delete form action
+     */
+    public function deleteFormAction(Request $request, $taskId, $noteId)
+    {
+        $task = $this->getTaskOrDie($taskId, true);
+        $note = $this->getNoteOrDie($noteId, $taskId);
+
+        $form = $this
+            ->createFormBuilder()
+            ->add('submit', SubmitType::class, [
+                'label'     => "Delete",
+                'attr'      => ['class' => 'btn-danger btn-lg'],
+            ])
+            ->getForm()
+        ;
+
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $this->getNoteMapper()->createDelete(['id' => $noteId])->execute();
+            $this->addFlash('success', $this->get('translator')->trans("Note has been deleted!"));
+
+            return $this->redirectToRoute('app_task_view', ['id' => $taskId]);
+        }
+
+        return $this->render('app/note/delete.html.twig', [
+            'note' => $note,
+            'task' => $task,
+            'form' => $form->createView(),
+        ]);
+    }
+
+    /**
      * View a single note
      */
     public function viewAction($taskId, $noteId)

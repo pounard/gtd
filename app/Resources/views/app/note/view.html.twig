@@ -8,20 +8,14 @@
 {% endblock %}
 
 {% block menu %}
-    {#
     <div class="buttons">
         <div class="btn-group">
-            <a href="{{ path('app_task_edit', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-warning">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-                {{ "Hide"|trans }}
-            </a>
-            <a href="{{ path('app_task_delete', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
+            <a href="{{ path('app_note_delete', {taskId: task.id, noteId: note.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
                 <span class="glyphicon glyphicon-delete" aria-hidden="true"></span>
                 {{ "Delete"|trans }}
             </a>
         </div>
     </div>
-     #}
 {% endblock %}
 
 {% block content %}

@@ -1,0 +1,36 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme form with ['bootstrap_3_horizontal_layout.html.twig'] %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <h1>{{ "Delete this note?"|trans }}</h1>
+
+                <div class="well">
+                    {% if note.description %}
+                        {{ note.description|markdown }}
+                    {% else %}
+                        <span class="text-muted">{{ "There is no description"|trans }}</span>
+                    {% endif %}
+                </div>
+
+                <p class="lead alert alert-danger">
+                    {{ "This action can not be undone."|trans }}
+                </p>
+
+                {{ form_start(form) }}
+                {{ form_errors(form) }}
+                <div class="text-center">
+                    {{ form_row(form.submit) }}
+                </div>
+                {{ form(form) }}
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+{% endblock %}
