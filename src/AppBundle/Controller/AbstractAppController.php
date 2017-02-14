@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity\Note;
 use AppBundle\Entity\Task;
 use AppBundle\Mapper\NoteMapper;
 use AppBundle\Mapper\TaskMapper;
@@ -9,7 +10,6 @@ use Goat\AccountBundle\Controller\AccountMapperAwareController;
 use Goat\Mapper\Error\EntityNotFoundError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
-use AppBundle\Entity\Note;
 
 abstract class AbstractAppController extends Controller
 {

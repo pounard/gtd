@@ -150,18 +150,11 @@ class NoteController extends AbstractAppController
      */
     public function viewAllPartialAction($taskId)
     {
-        $notes = $this
-            ->getNoteMapper()
-            ->createSelect()
-            ->condition('n.id_task', $taskId)
-            ->orderBy('n.ts_added', Query::ORDER_ASC)
-            ->orderBy('n.id', Query::ORDER_ASC)
-            ->execute([], Note::class)
-        ;
+        $notes = $this->getNoteMapper()->paginateForTask((int)$taskId);
 
         return $this->render('app/note/all.html.twig', [
-            'taskId' => $taskId,
-            'notes' => $notes,
+            'taskId'  => $taskId,
+            'notes'   => $notes,
         ]);
     }
 
@@ -171,19 +164,11 @@ class NoteController extends AbstractAppController
     public function viewAllAction($taskId)
     {
         $this->taskIsMineOrDie($taskId);
-
-        $notes = $this
-            ->getNoteMapper()
-            ->createSelect()
-            ->condition('n.id_task', $taskId)
-            ->orderBy('n.ts_added', Query::ORDER_ASC)
-            ->orderBy('n.id', Query::ORDER_ASC)
-            ->execute([], Note::class)
-        ;
+        $notes = $this->getNoteMapper()->paginateForTask((int)$taskId);
 
         return $this->render('app/note/all.html.twig', [
-            'taskId' => $taskId,
-            'notes' => $notes,
+            'taskId'  => $taskId,
+            'notes'   => $notes,
         ]);
     }
 }
