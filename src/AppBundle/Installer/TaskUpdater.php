@@ -33,6 +33,20 @@ CREATE TABLE task (
     ts_deadline TIMESTAMP DEFAULT NULL,
     ts_done TIMESTAMP DEFAULT NULL,
     ts_unhide TIMESTAMP DEFAULT NULL,
+    duration INTERVAL NOT NULL DEFAULT 'PT1H',
+    FOREIGN KEY (id_account) REFERENCES account (id) ON DELETE SET NULL
+);
+EOT
+        );
+
+        $connection->query(<<<EOT
+CREATE TABLE task_alarm (
+    id SERIAL PRIMARY KEY,
+    id_task INTEGER NOT NULL,
+    id_account INTEGER DEFAULT NULL,
+    repeat INTEGER NOT NULL DEFAULT 0,
+    duration INTERVAL DEFAULT 'PT15M',
+    FOREIGN KEY (id_task) REFERENCES task (id) ON DELETE CASCADE,
     FOREIGN KEY (id_account) REFERENCES account (id) ON DELETE SET NULL
 );
 EOT
@@ -67,7 +81,7 @@ CREATE TABLE task_history (
 EOT
         );
 
-                $connection->query(<<<EOT
+        $connection->query(<<<EOT
 CREATE INDEX task_account_done_deadline_idx ON task (id_account, is_done, ts_deadline);
 EOT
 
@@ -88,6 +102,30 @@ CREATE TABLE task_tag_map (
     id_task INTEGER NOT NULL,
     FOREIGN KEY (id_tag) REFERENCES task (id) ON DELETE CASCADE,
     FOREIGN KEY (id_task) REFERENCES task_tag (id) ON DELETE CASCADE
+);
+EOT
+        );
+    }
+
+    /**
+     * Adds the 'task_alarm' database table.
+     */
+    public function update1(ConnectionInterface $connection, Transaction $transaction)
+    {
+        $connection->query(<<<EOT
+ALTER TABLE task ADD COLUMN "duration" INTERVAL NOT NULL DEFAULT 'PT1H';
+EOT
+        );
+
+        $connection->query(<<<EOT
+CREATE TABLE task_alarm (
+    id SERIAL PRIMARY KEY,
+    id_task INTEGER NOT NULL,
+    id_account INTEGER DEFAULT NULL,
+    repeat INTEGER NOT NULL DEFAULT 0,
+    duration INTERVAL DEFAULT 'PT15M',
+    FOREIGN KEY (id_task) REFERENCES task (id) ON DELETE CASCADE,
+    FOREIGN KEY (id_account) REFERENCES account (id) ON DELETE SET NULL
 );
 EOT
         );

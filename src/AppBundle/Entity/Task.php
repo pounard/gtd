@@ -63,6 +63,11 @@ class Task
     private $ts_unhide;
 
     /**
+     * @var \DateInterval
+     */
+    private $duration;
+
+    /**
      * @var int
      */
     private $id;
@@ -221,6 +226,26 @@ class Task
     public function unhideAt()
     {
         return $this->ts_unhide;
+    }
+
+    /**
+     * Has this task a duration
+     *
+     * @return bool
+     */
+    public function hasDuration() : bool
+    {
+        return $this->duration && (int)$this->duration->format('');
+    }
+
+    /**
+     * Get duration
+     *
+     * @return \DateInterval
+     */
+    public function getDuration()
+    {
+        return $this->duration;
     }
 
     /**
