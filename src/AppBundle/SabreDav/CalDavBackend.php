@@ -176,6 +176,54 @@ class CalDavBackend extends AbstractBackend
     }
 
     /**
+     * Escape iCal string
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    private function escapeICalString(string $string) : string
+    {
+        return $string;
+    }
+
+    /**
+     * Escape iCal date
+     *
+     * @param \DateTime $date
+     *
+     * @return string
+     */
+    private function escapeICalDate(\DateTime $date) : string
+    {
+        // From what I can read, there is no timezone offset support in the
+        // iCal standard, so the only way to support it without having the
+        // timezone identifier (good bye, DST) is to give the date as an
+        // UTC date, so we rely on PHP to convert it.
+        $utc = clone $date;
+        $utc->setTimezone(new \DateTimeZone("UTC"));
+
+        return $utc->format(self::ICAL_DATE_FORMAT) . "Z";
+    }
+
+    private function convertTaskToICalAlarm(Task $task, Alarm $alarm)
+    {
+        $trigger = clone $task->deadlinesAt();
+        $trigger = $trigger->sub($alarm->getDelay());
+
+        return <<<EOT
+BEGIN:VALARM
+ACTION:DISPLAY
+TRIGGER;VALUE=DATE-TIME:{$this->escapeICalDate($trigger)}
+REPEAT:{$alarm->getRepeatCount()}
+DURATION:PT15M
+DESCRIPTION:{$this->escapeICalString($task->getTitle())}
+DURATION:PT1H
+END:VALARM
+EOT;
+    }
+
+    /**
      * Convert task to iCal data
      *
      * @param Task $task
@@ -184,18 +232,12 @@ class CalDavBackend extends AbstractBackend
      */
     private function convertTaskToICal(Task $task) : string
     {
-        /*
-         * @todo handle alarms
-         *
-BEGIN:VALARM
-ACTION:AUDIO
-TRIGGER:19980403T120000
-ATTACH;FMTTYPE=audio/basic:http://host.com/pub/audio-
-files/ssbanner.aud
-REPEAT:4
-DURATION:PT1H
-END:VALARM
-         */
+        // @todo
+        //   - CATEGORIES : tags
+        //   - LOCATION : not supported for now
+
+        $start = clone $task->deadlinesAt();
+        $start->sub(new \DateInterval('PT3600S'));
 
         return <<<EOT
 BEGIN:VCALENDAR
@@ -203,35 +245,18 @@ VERSION:2.0
 PRODID:-//GTD//GTD//EN
 CALSCALE:GREGORIAN
 BEGIN:VEVENT
-UID:{$this->getUserMail()}
-DTSTAMP:20160217T101822Z
-CREATED:{$task->addedAt()->format(self::ICAL_DATE_FORMAT)}
-LAST-MODIFIED:{$task->updatedAt()->format(self::ICAL_DATE_FORMAT)}
-SUMMARY:{$task->getTitle()}
-DTSTART:{$task->deadlinesAt()->sub(new \DateInterval('PT3600S'))->format(self::ICAL_DATE_FORMAT)}
-DTEND:{$task->deadlinesAt()->format(self::ICAL_DATE_FORMAT)}
+UID:{$this->escapeICalString($this->getUserMail())}
+CREATED;VALUE=DATE-TIME:{$this->escapeICalDate($task->addedAt())}
+LAST-MODIFIED;VALUE=DATE-TIME:{$this->escapeICalDate($task->updatedAt())}
+SUMMARY:{$this->escapeICalString($task->getTitle())}
+DTSTART;VALUE=DATE-TIME:{$this->escapeICalDate($start)}
+DTEND;VALUE=DATE-TIME:{$this->escapeICalDate($task->deadlinesAt())}
 LOCATION:
-DESCRIPTION:
+DESCRIPTION:{$this->escapeICalString($task->getDescription())}
 CATEGORIES:
 END:VEVENT
 END:VCALENDAR
 EOT;
-        /*
-        return <<<EOT
-BEGIN:VCALENDAR
-VERSION:2.0
-PRODID:-//GTD//GTD//EN
-BEGIN:VTODO
-DTSTAMP:{$task->addedAt()->format(self::ICAL_DATE_FORMAT)}
-UID:{$this->getUserMail()}
-ORGANIZER:MAILTO:{$this->getUserMail()}
-DUE:{$task->deadlinesAt()->format(self::ICAL_DATE_FORMAT)}
-STATUS:NEEDS-ACTION
-SUMMARY:{$task->getTitle()}
-END:VTODO
-END:VCALENDAR
-EOT;
-        */
     }
 
     /**
@@ -244,18 +269,20 @@ EOT;
      */
     private function convertNoteToICal(Task $task, Note $note) : string
     {
+        $escapedMail = $this->escapeICalString($this->getUserMail());
+
         return <<<EOT
 BEGIN:VCALENDAR
 VERSION:2.0
 PRODID:-//GTD//GTD//EN
 BEGIN:VJOURNAL
-DTSTAMP:{$note->addedAt()->format(self::ICAL_DATE_FORMAT)}
-UID:{$this->getUserMail()}
-ORGANIZER:MAILTO:{$this->getUserMail()}
+DTSTAMP;VALUE=DATE-TIME:{$this->escapeICalDate($note->addedAt())}
+UID:{$escapedMail}
+ORGANIZER:MAILTO:{$escapedMail}
 STATUS:DRAFT
 CLASS:PUBLIC
-CATEGORY:{$task->getTitle()}
-DESCRIPTION:{$note->getDescription()}
+CATEGORY:{$this->escapeICalString($task->getTitle())}
+DESCRIPTION:{$this->escapeICalString($note->getDescription())}
 END:VJOURNAL
 END:VCALENDAR
 EOT;
