@@ -2,14 +2,15 @@
 
 namespace AppBundle\SabreDav;
 
+use AppBundle\Entity\Alarm;
 use AppBundle\Entity\Note;
 use AppBundle\Entity\Task;
+use AppBundle\Mapper\AlarmMapper;
 use AppBundle\Mapper\NoteMapper;
 use AppBundle\Mapper\TaskMapper;
 use Goat\AccountBundle\Entity\Account;
 use Goat\AccountBundle\Security\User\GoatUser;
 use Goat\Mapper\Error\EntityNotFoundError;
-use Sabre\CalDAV;
 use Sabre\CalDAV\Backend\AbstractBackend;
 use Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -43,17 +44,24 @@ class CalDavBackend extends AbstractBackend
     private $noteMapper;
 
     /**
+     * @var AlarmMapper
+     */
+    private $alarmMapper;
+
+    /**
      * Default constructor
      *
      * @param TokenStorageInterface $tokenStorage
      * @param TaskMapper $taskMapper
      * @param NoteMapper $noteMapper
+     * @param AlarmMapper $alarmMapper
      */
-    public function __construct(TokenStorageInterface $tokenStorage, TaskMapper $taskMapper, NoteMapper $noteMapper)
+    public function __construct(TokenStorageInterface $tokenStorage, TaskMapper $taskMapper, NoteMapper $noteMapper, AlarmMapper $alarmMapper)
     {
         $this->tokenStorage = $tokenStorage;
         $this->taskMapper = $taskMapper;
         $this->noteMapper = $noteMapper;
+        $this->alarmMapper = $alarmMapper;
     }
 
     /**

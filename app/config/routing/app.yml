@@ -1,0 +1,21 @@
+goat_account:
+    resource: "@GoatAccountBundle/Resources/config/routing.yml"
+    prefix:   /u
+
+app_help:
+    path: /help
+    defaults:
+        _controller: AppBundle:App:help
+
+app_tasks:
+    path: /all
+    defaults:
+        _controller: AppBundle:App:tasks
+
+app_dav:
+    path: dav/{incomingUrl}
+    methods: [HEAD,  GET,  POST, OPTIONS, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, DELETE, LOCK, UNLOCK, PUT, PATCH, REPORT]
+    defaults:
+        _controller: AppBundle:Dav:main
+    requirements:
+        incomingUrl: .+

@@ -1,0 +1,9 @@
+services:
+
+    app.security.task_voter:
+        class: AppBundle\Security\TaskVoter
+        tags: [{name: security.voter}]
+
+    app.optimus:
+        class: Jenssegers\Optimus\Optimus
+        arguments: ['%optimus.prime%', '%optimus.inverse%', '%optimus.random%']

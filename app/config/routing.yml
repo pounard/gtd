@@ -1,81 +1,19 @@
-goat_account:
-    resource: "@GoatAccountBundle/Resources/config/routing.yml"
-    prefix:   /u
+app:
+    resource: "routing/app.yml"
+    prefix:   /
 
-app_tasks:
-    path: /all
-    defaults:
-        _controller: AppBundle:App:tasks
+task:
+    resource: "routing/task.yml"
+    prefix:   /
 
-app_task_add:
-    path: task/add
-    defaults:
-        _controller: AppBundle:Task:add
+note:
+    resource: "routing/note.yml"
+    prefix:   /
 
-app_task_view:
-    path: task/{id}
-    defaults:
-        _controller: AppBundle:Task:view
+alarm:
+    resource: "routing/alarm.yml"
+    prefix:   /
 
-app_task_edit:
-    path: task/{id}/edit
-    defaults:
-        _controller: AppBundle:Task:editForm
-
-app_task_delete:
-    path: task/{id}/delete
-    defaults:
-        _controller: AppBundle:Task:deleteForm
-
-app_task_done:
-    path: task/{id}/done
-    defaults:
-        _controller: AppBundle:Task:done
-
-app_task_undone:
-    path: task/{id}/undone
-    defaults:
-        _controller: AppBundle:Task:undone
-
-app_task_star:
-    path: task/{id}/star
-    defaults:
-        _controller: AppBundle:Task:star
-
-app_task_unstar:
-    path: task/{id}/unstar
-    defaults:
-        _controller: AppBundle:Task:unstar
-
-app_task_hide:
-    path: task/{id}/hide
-    defaults:
-        _controller: AppBundle:Task:hideForm
-
-app_task_unhide:
-    path: task/{id}/unhide
-    defaults:
-        _controller: AppBundle:Task:unhide
-
-app_note_add:
-    path: task/{taskId}/add-note
-    defaults:
-        _controller: AppBundle:Note:add
-
-app_note_view:
-    path: task/{taskId}/note/{noteId}
-    defaults:
-        _controller: AppBundle:Note:view
-
-app_note_delete:
-    path: task/{taskId}/note/{noteId}/delete
-    defaults:
-        _controller: AppBundle:Note:deleteForm
-
-app_dav:
-    path: dav/{incomingUrl}
-    methods: [HEAD,  GET,  POST, OPTIONS, PROPFIND, PROPPATCH, MKCOL, COPY, MOVE, DELETE, LOCK, UNLOCK, PUT, PATCH, REPORT]
-    defaults:
-        _controller: AppBundle:Dav:main
-    requirements:
-        incomingUrl: .+
+gestion:
+    resource: "@GestionBundle/Resources/config/routing.yml"
+    prefix:   /

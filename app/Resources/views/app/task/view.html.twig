@@ -7,31 +7,39 @@
 {% block menu %}
     <div class="buttons">
         {% if task.isDone %}
-            <form method="post" action="{{ path('app_task_undone', {id: task.id, _from: app.request.requestUri}) }}">
+            <form method="post" action="{{ path('app_task_undone', {task: task.id, _from: app.request.requestUri}) }}">
                 <button class="btn btn-warning">
                     <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
                     {{ "Re-open"|trans }}
                 </button>
             </form>
         {% else %}
-            <form method="post" action="{{ path('app_task_done', {id: task.id, _from: app.request.requestUri}) }}">
+            <form method="post" action="{{ path('app_task_done', {task: task.id, _from: app.request.requestUri}) }}">
                 <button class="btn btn-success">
                     <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
                     {{ "Did it!"|trans }}
                 </button>
             </form>
         {% endif %}
+
         <hr/>
         <div class="btn-group">
-            <a href="{{ path('app_task_edit', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
+            <a href="{{ path('app_task_edit', {task: task.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                 {{ "Edit"|trans }}
             </a>
-            <a href="{{ path('app_task_delete', {id: task.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
-                <span class="glyphicon glyphicon-delete" aria-hidden="true"></span>
+            <a href="{{ path('app_task_delete', {task: task.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
+                <span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
                 {{ "Delete"|trans }}
             </a>
         </div>
+
+        <hr/>
+        <a href="{{ path('app_alarm_add', {task: task.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-bell" aria-hidden="true"></span>
+            {{ "Add alarm"|trans }}
+        </a>
+
         {#
         <a href="{{ path('app_task_add', {_from: app.request.requestUri}) }}" class="btn btn-primary">
             <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
@@ -52,6 +60,10 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="pull-right">
+                    {% if task.hasAlarm %}
+                        <span class="glyphicon glyphicon-bell"></span>
+                        <span class="sr-only">{{ "Alarm is set"|trans }}</span> |
+                    {% endif %}
                     {{ actions.note_count(task) }} &nbsp;
                 </div>
                 <h2>{{ task.title }}</h2>
@@ -85,8 +97,8 @@
         <div class="row">
             <div class="col-md-12" id="notes">
                 <hr/>
-                {{ render(controller('AppBundle:Note:viewAllPartial', {'taskId': task.id})) }}
-                {{ render(controller('AppBundle:Note:partialAdd', {'taskId': task.id})) }}
+                {{ render(controller('AppBundle:Note:viewAllPartial', {'task': task.id})) }}
+                {{ render(controller('AppBundle:Note:partialAdd', {'task': task.id})) }}
             </div>
         </div>
     </div>

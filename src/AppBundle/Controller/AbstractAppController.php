@@ -2,12 +2,10 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Entity\Note;
-use AppBundle\Entity\Task;
+use AppBundle\Mapper\AlarmMapper;
 use AppBundle\Mapper\NoteMapper;
 use AppBundle\Mapper\TaskMapper;
 use Goat\AccountBundle\Controller\AccountMapperAwareController;
-use Goat\Mapper\Error\EntityNotFoundError;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\JsonResponse;
 
@@ -37,64 +35,27 @@ abstract class AbstractAppController extends Controller
     }
 
     /**
+     * Get alarm mapper
+     *
+     * @return AlarmMapper
+     */
+    final protected function getAlarmMapper() : AlarmMapper
+    {
+        return $this->getMapper('App:Alarm');
+    }
+
+    /**
      * Get criteria for task that is owned by the current user
      *
      * @param int|string $id
      */
-    final private function getTaskForUserCriteria($id)
+    final private function getTaskForUserCriteria($id) : array
     {
         if (!$id || !is_numeric($id)) {
             throw $this->createNotFoundException();
         }
 
         return ['t.id' => $id, 't.id_account' => $this->getUserAccountOrDie()->getId()];
-    }
-
-    /**
-     * Die if task does not exists or I am not owner
-     *
-     * @param string $taskId
-     */
-    final protected function taskIsMineOrDie(string $id)
-    {
-        if (!$this->getTaskMapper()->exists($this->getTaskForUserCriteria($id))) {
-            throw $this->createNotFoundException();
-        }
-    }
-
-    /**
-     * Get task
-     *
-     * @param string $id
-     * @param bool $isOwner
-     *
-     * @return Task
-     */
-    final protected function getTaskOrDie(string $id, bool $isOwner = false) : Task
-    {
-        try {
-            return $this->getTaskMapper()->findFirst($this->getTaskForUserCriteria($id), true);
-        } catch (EntityNotFoundError $e) {
-            throw $this->createNotFoundException();
-        }
-    }
-
-    /**
-     * Get note
-     *
-     * @param string $id
-     * @param string $taskId
-     *   Ensure the note belong to this task
-     *
-     * @return Note
-     */
-    final protected function getNoteOrDie(string $id, string $taskId) : Note
-    {
-        try {
-            return $this->getNoteMapper()->findFirst(['id' => $id, 'id_task' => $taskId]);
-        } catch (EntityNotFoundError $e) {
-            throw $this->createNotFoundException();
-        }
     }
 
     /**

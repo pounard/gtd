@@ -1,0 +1,49 @@
+app_task_add:
+    path: task/add
+    defaults:
+        _controller: AppBundle:Task:add
+
+app_task_view:
+    path: task/{task}
+    defaults:
+        _controller: AppBundle:Task:view
+
+app_task_edit:
+    path: task/{task}/edit
+    defaults:
+        _controller: AppBundle:Task:editForm
+
+app_task_delete:
+    path: task/{task}/delete
+    defaults:
+        _controller: AppBundle:Task:deleteForm
+
+app_task_done:
+    path: task/{task}/done
+    defaults:
+        _controller: AppBundle:Task:done
+
+app_task_undone:
+    path: task/{task}/undone
+    defaults:
+        _controller: AppBundle:Task:undone
+
+app_task_star:
+    path: task/{task}/star
+    defaults:
+        _controller: AppBundle:Task:star
+
+app_task_unstar:
+    path: task/{task}/unstar
+    defaults:
+        _controller: AppBundle:Task:unstar
+
+app_task_hide:
+    path: task/{task}/hide
+    defaults:
+        _controller: AppBundle:Task:hideForm
+
+app_task_unhide:
+    path: task/{task}/unhide
+    defaults:
+        _controller: AppBundle:Task:unhide

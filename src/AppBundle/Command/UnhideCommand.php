@@ -2,7 +2,7 @@
 
 namespace AppBundle\Command;
 
-use Goat\Core\Query\Where;
+use Goat\Query\Where;
 use Symfony\Bundle\FrameworkBundle\Command\ContainerAwareCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -28,7 +28,7 @@ class UnhideCommand extends ContainerAwareCommand
      */
     protected function execute(InputInterface $input, OutputInterface $output)
     {
-        /** @var \Goat\Core\Client\ConnectionInterface $database */
+        /** @var \Goat\Runner\RunnerInterface $database */
         $database = $this->getContainer()->get('goat.session');
 
         $affectedRows = $database

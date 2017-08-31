@@ -1,0 +1,11 @@
+{% for alarm in alarms %}
+    <div class="media">
+        <div class="media-left">
+            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+        </div>
+        <div class="media-body">
+            <span class="text-muted"><small>{{ alarm.triggersAt|localizeddate('full', 'short') }}</small></span>
+        </div>
+    </div>
+    <hr/>
+{% endfor %}

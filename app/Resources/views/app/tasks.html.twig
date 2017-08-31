@@ -87,7 +87,7 @@
         <tbody>
             {% for task in tasks %}
                 {% set factor = task.importancyFactor %}
-                {% set taskUrl = path('app_task_view', {id: task.id}) %}
+                {% set taskUrl = path('app_task_view', {task: task.id}) %}
                 <tr class="importancy-{{ factor }}">
                     <td class="td-single-button">
                         {{ actions.star_button(task, false) }}

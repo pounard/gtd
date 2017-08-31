@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace AppBundle\Mapper;
 
 use AppBundle\Entity\Task;
-use Goat\Core\Client\ConnectionInterface;
-use Goat\Core\Query\ExpressionRaw;
 use Goat\Mapper\WritableSelectMapper;
+use Goat\Query\ExpressionRaw;
+use Goat\Runner\RunnerInterface;
 
 /**
  * Task mapper
@@ -17,19 +17,21 @@ class TaskMapper extends WritableSelectMapper
     /**
      * Default contructor
      *
-     * @param ConnectionInterface $connection
+     * @param RunnerInterface $runner
      */
-    public function __construct(ConnectionInterface $connection)
+    public function __construct(RunnerInterface $runner)
     {
-        $select = $connection
+        $select = $runner
             ->select('task', 't')
             ->column('t.*')
-             ->columnExpression('count(c.id)', 'note_count')
-             ->leftJoin('task_comment', 'c.id_task = t.id',  'c')
-             ->groupBy('t.id')
+            ->columnExpression('count(c.id)', 'note_count')
+            ->columnExpression('count(a.id)', 'has_alarm')
+            ->leftJoin('task_comment', 'c.id_task = t.id',  'c')
+            ->leftJoin('task_alarm', 'a.id_task = t.id',  'a')
+            ->groupBy('t.id')
         ;
 
-        parent::__construct($connection, Task::class, ['t.id'], $select);
+        parent::__construct($runner, Task::class, ['t.id'], $select);
     }
 
     /**
@@ -38,7 +40,7 @@ class TaskMapper extends WritableSelectMapper
     public function exists($criteria) : bool
     {
         return (bool)$this
-            ->connection
+            ->runner
             ->select('task', 't')
             ->column(new ExpressionRaw('1'))
             ->expression($this->createWhereWith($criteria))

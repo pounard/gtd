@@ -83,6 +83,11 @@ class Task
     private $note_count = 0;
 
     /**
+     * @var boolean
+     */
+    private $has_alarm = false;
+
+    /**
      * Is task done
      *
      * @return bool
@@ -235,7 +240,7 @@ class Task
      */
     public function hasDuration() : bool
     {
-        return $this->duration && (int)$this->duration->format('');
+        return isset($this->duration);
     }
 
     /**
@@ -273,8 +278,18 @@ class Task
      *
      * @return int
      */
-    public function getIdAccount() : int
+    public function getAccountId() : int
     {
-        return $this->id_account;
+        return $this->id_account  ?? 0;
+    }
+
+    /**
+     * Has this task any alarm
+     *
+     * @return bool
+     */
+    public function hasAlarm() : bool
+    {
+        return $this->has_alarm;
     }
 }

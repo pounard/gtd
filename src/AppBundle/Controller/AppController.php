@@ -3,9 +3,9 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
-use Goat\Core\Query\Query;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Goat\Query\Query;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 
 class AppController extends AbstractAppController
 {
@@ -14,7 +14,7 @@ class AppController extends AbstractAppController
      */
     public function tasksAction(Request $request)
     {
-        /** @var \Goat\Core\Client\ConnectionInterface $session */
+        /** @var \Goat\Runner\RunnerInterface $session */
         $session = $this->get('goat.session');
 
         $query = $session
@@ -66,6 +66,21 @@ class AppController extends AbstractAppController
 
         return $this->render('app/tasks.html.twig', [
             'tasks' => $query->execute([], Task::class),
+        ]);
+    }
+
+    /**
+     * Help screen
+     */
+    public function helpAction()
+    {
+        $account = $this->getUserAccountOrDie();
+
+        return $this->render('app/help.html.twig', [
+            'account' => $account,
+            'task_dav' => $this->generateUrl('app_dav', [
+                'incomingUrl' => 'calendars/john.smith@example.com/task-list-' . $account->getId() . '.ics',
+            ], UrlGeneratorInterface::ABSOLUTE_URL),
         ]);
     }
 }

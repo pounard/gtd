@@ -4,13 +4,13 @@
 
 {% block back_to %}
     {% import 'app/task/actions.html.twig' as actions %}
-    {{ actions.back_to('app_task_view', {id: task.id}, "Back to task"|trans, 'menu-left') }}
+    {{ actions.back_to('app_task_view', {task: task.id}, "Back to task"|trans, 'menu-left') }}
 {% endblock %}
 
 {% block menu %}
     <div class="buttons">
         <div class="btn-group">
-            <a href="{{ path('app_note_delete', {taskId: task.id, noteId: note.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
+            <a href="{{ path('app_note_delete', {task: task.id, note: note.id, _from: app.request.requestUri}) }}" class="btn btn-danger">
                 <span class="glyphicon glyphicon-delete" aria-hidden="true"></span>
                 {{ "Delete"|trans }}
             </a>

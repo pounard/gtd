@@ -3,13 +3,13 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Task;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use MakinaCorpus\ACL\Permission;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TimeType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
@@ -20,22 +20,20 @@ class TaskController extends AbstractAppController
      * Update task, die if disallowed
      *
      * @param Request $request
-     * @param int|string $id
+     * @param Task $task
      * @param array $sets
      */
-    private function updateTaskOrDieIfDisallowed(Request $request, $id, array $sets)
+    private function updateTaskWith(Request $request, Task $task, array $sets)
     {
         if (!$request->isMethod('POST')) {
             throw new MethodNotAllowedHttpException(['POST']);
         }
 
-        $this->taskIsMineOrDie($id);
-
         $this
             ->getDatabase()
             ->update('task')
             ->sets($sets)
-            ->condition('id', $id)
+            ->condition('id', $task->getId())
             ->execute()
         ;
     }
@@ -43,19 +41,20 @@ class TaskController extends AbstractAppController
     /**
      * Single task view action
      */
-    public function viewAction(Request $request, $id)
+    public function viewAction(Request $request, Task $task)
     {
-        return $this->render('app/task/view.html.twig', [
-            'task' => $this->getTaskOrDie($id, true),
-        ]);
+        $this->denyAccessUnlessGranted(Permission::VIEW, $task);
+
+        return $this->render('app/task/view.html.twig', ['task' => $task]);
     }
 
     /**
      * Star action
      */
-    public function starAction(Request $request, $id)
+    public function starAction(Request $request, Task $task)
     {
-        $this->updateTaskOrDieIfDisallowed($request, $id, ['is_starred' => true]);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
+        $this->updateTaskWith($request, $task, ['is_starred' => true]);
 
         return $this->redirectToReferer($request);
     }
@@ -63,9 +62,10 @@ class TaskController extends AbstractAppController
     /**
      * Unstar action
      */
-    public function unstarAction(Request $request, $id)
+    public function unstarAction(Request $request, Task $task)
     {
-        $this->updateTaskOrDieIfDisallowed($request, $id, ['is_starred' => false]);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
+        $this->updateTaskWith($request, $task, ['is_starred' => false]);
 
         return $this->redirectToReferer($request);
     }
@@ -73,9 +73,10 @@ class TaskController extends AbstractAppController
     /**
      * Star action
      */
-    public function doneAction(Request $request, $id)
+    public function doneAction(Request $request, Task $task)
     {
-        $this->updateTaskOrDieIfDisallowed($request, $id, ['is_done' => true, 'ts_done' => new \DateTime()]);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
+        $this->updateTaskWith($request, $task, ['is_done' => true, 'ts_done' => new \DateTime()]);
 
         return $this->redirectToReferer($request);
     }
@@ -83,9 +84,10 @@ class TaskController extends AbstractAppController
     /**
      * Unstar action
      */
-    public function undoneAction(Request $request, $id)
+    public function undoneAction(Request $request, Task $task)
     {
-        $this->updateTaskOrDieIfDisallowed($request, $id, ['is_done' => false]);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
+        $this->updateTaskWith($request, $task, ['is_done' => false]);
 
         return $this->redirectToReferer($request);
     }
@@ -93,12 +95,10 @@ class TaskController extends AbstractAppController
     /**
      * Unhide action
      */
-    public function unhideAction(Request $request, $id)
+    public function unhideAction(Request $request, Task $task)
     {
-        $this->updateTaskOrDieIfDisallowed($request, $id, [
-            'is_hidden' => false,
-            'ts_unhide' => null,
-        ]);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
+        $this->updateTaskWith($request, $task, ['is_hidden' => false, 'ts_unhide' => null]);
 
         return $this->redirectToReferer($request);
     }
@@ -106,9 +106,9 @@ class TaskController extends AbstractAppController
     /**
      * Hide form action
      */
-    public function hideFormAction(Request $request, $id)
+    public function hideFormAction(Request $request, Task $task)
     {
-        $this->taskIsMineOrDie($id);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
 
         $form = $this
             ->createFormBuilder()
@@ -183,9 +183,9 @@ class TaskController extends AbstractAppController
     /**
      * Delete form action
      */
-    public function deleteFormAction(Request $request, $id)
+    public function deleteFormAction(Request $request, Task $task)
     {
-        $task = $this->getTaskOrDie($id, true);
+        $this->denyAccessUnlessGranted(Permission::DELETE, $task);
 
         $form = $this
             ->createFormBuilder()
@@ -215,9 +215,9 @@ class TaskController extends AbstractAppController
     /**
      * Edit task action
      */
-    public function editFormAction(Request $request, $id)
+    public function editFormAction(Request $request, Task $task)
     {
-        $task = $this->getTaskOrDie($id, true);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
 
         $form = $this
             ->createFormBuilder()

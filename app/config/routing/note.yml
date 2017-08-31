@@ -1,0 +1,14 @@
+app_note_add:
+    path: task/{task}/add-note
+    defaults:
+        _controller: AppBundle:Note:add
+
+app_note_view:
+    path: task/{task}/note/{note}
+    defaults:
+        _controller: AppBundle:Note:view
+
+app_note_delete:
+    path: task/{task}/note/{note}/delete
+    defaults:
+        _controller: AppBundle:Note:deleteForm

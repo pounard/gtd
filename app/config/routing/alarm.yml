@@ -1,0 +1,14 @@
+app_alarm_add:
+    path: task/{task}/add-alarm
+    defaults:
+        _controller: AppBundle:Alarm:add
+
+app_alarm_all:
+    path: task/{task}/alarm
+    defaults:
+        _controller: AppBundle:Alarm:all
+
+app_alarm_delete:
+    path: task/{task}/alarm/{alarm}/delete
+    defaults:
+        _controller: AppBundle:Alarm:deleteForm

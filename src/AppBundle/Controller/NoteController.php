@@ -3,11 +3,11 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity\Note;
-use Goat\Core\Query\Query;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use AppBundle\Entity\Task;
+use MakinaCorpus\ACL\Permission;
+use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -18,9 +18,9 @@ class NoteController extends AbstractAppController
     /**
      * Note add form build and processing
      */
-    private function noteAddForm(Request $request, $taskId) : FormBuilderInterface
+    private function noteAddForm(Request $request, Task $task) : FormBuilderInterface
     {
-        $this->taskIsMineOrDie($taskId);
+        $this->denyAccessUnlessGranted(Permission::UPDATE, $task);
 
         $form = $this
             ->createFormBuilder()
@@ -41,20 +41,21 @@ class NoteController extends AbstractAppController
     /**
      * Add note (form only, no view)
      */
-    public function partialAddAction($taskId)
+    public function partialAddAction(Task $task)
     {
         /** @var \Symfony\Component\HttpFoundation\Request $request */
         $request = $this->get('request_stack')->getMasterRequest();
 
         $form = $this
-            ->noteAddForm($request, $taskId)
-            ->setAction($this->generateUrl('app_note_add', ['taskId' => $taskId]))
+            ->noteAddForm($request, $task)
+            ->setAction($this->generateUrl('app_note_add', ['task' => $task->getId()]))
             ->getForm()
         ;
 
         $form->handleRequest($request);
 
         return $this->render('app/partialAjaxForm.html.twig', [
+            'task' => $task,
             'form' => $form->createView(),
         ]);
     }
@@ -62,9 +63,9 @@ class NoteController extends AbstractAppController
     /**
      * Add note
      */
-    public function addAction(Request $request, $taskId)
+    public function addAction(Request $request, Task $task)
     {
-        $form = $this->noteAddForm($request, $taskId)->getForm();
+        $form = $this->noteAddForm($request, $task)->getForm();
         $account = $this->getUserAccountOrDie();
 
         $form->handleRequest($request);
@@ -74,7 +75,7 @@ class NoteController extends AbstractAppController
 
             // Add some defaults
             $values['id_account'] = $account->getId();
-            $values['id_task'] = $taskId;
+            $values['id_task'] = $task->getId();
 
             $this
                 ->getDatabase()
@@ -85,14 +86,14 @@ class NoteController extends AbstractAppController
             ;
 
             if ($request->isXmlHttpRequest() && in_array('application/json', $request->getAcceptableContentTypes())) {
-                return $this->renderJsonPage('app/task/view.html.twig', ['task' => $this->getTaskOrDie($taskId)]);
+                return $this->renderJsonPage('app/task/view.html.twig', ['task' => $task]);
             } else {
-                return $this->redirectToReferer($request, 'app_task_view', ['id' => $taskId]);
+                return $this->redirectToReferer($request, 'app_task_view', ['task' => $task->getId()]);
             }
         }
 
         return $this->render('app/note/add.html.twig', [
-            'taskId' => $taskId,
+            'task' => $task,
             'form' => $form->createView(),
         ]);
     }
@@ -100,11 +101,8 @@ class NoteController extends AbstractAppController
     /**
      * Delete form action
      */
-    public function deleteFormAction(Request $request, $taskId, $noteId)
+    public function deleteFormAction(Request $request, Task $task, Note $note)
     {
-        $task = $this->getTaskOrDie($taskId, true);
-        $note = $this->getNoteOrDie($noteId, $taskId);
-
         $form = $this
             ->createFormBuilder()
             ->add('submit', SubmitType::class, [
@@ -118,10 +116,10 @@ class NoteController extends AbstractAppController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            $this->getNoteMapper()->createDelete(['id' => $noteId])->execute();
+            $this->getNoteMapper()->createDelete(['id' => $note->getId()])->execute();
             $this->addFlash('success', $this->get('translator')->trans("Note has been deleted!"));
 
-            return $this->redirectToRoute('app_task_view', ['id' => $taskId]);
+            return $this->redirectToRoute('app_task_view', ['task' => $task->getId()]);
         }
 
         return $this->render('app/note/delete.html.twig', [
@@ -134,11 +132,8 @@ class NoteController extends AbstractAppController
     /**
      * View a single note
      */
-    public function viewAction($taskId, $noteId)
+    public function viewAction(Task $task, Note $note)
     {
-        $task = $this->getTaskOrDie($taskId, true);
-        $note = $this->getNoteOrDie($noteId, $taskId);
-
         return $this->render('app/note/view.html.twig', [
             'task' => $task,
             'note' => $note,
@@ -148,27 +143,13 @@ class NoteController extends AbstractAppController
     /**
      * View all notes for the given task with no additional security checks
      */
-    public function viewAllPartialAction($taskId)
+    public function viewAllPartialAction(Task $task)
     {
-        $notes = $this->getNoteMapper()->paginateForTask((int)$taskId);
+        $notes = $this->getNoteMapper()->paginateForTask($task->getId());
 
         return $this->render('app/note/all.html.twig', [
-            'taskId'  => $taskId,
-            'notes'   => $notes,
-        ]);
-    }
-
-    /**
-     * View all notes for the given task action
-     */
-    public function viewAllAction($taskId)
-    {
-        $this->taskIsMineOrDie($taskId);
-        $notes = $this->getNoteMapper()->paginateForTask((int)$taskId);
-
-        return $this->render('app/note/all.html.twig', [
-            'taskId'  => $taskId,
-            'notes'   => $notes,
+            'task'  => $task,
+            'notes' => $notes,
         ]);
     }
 }

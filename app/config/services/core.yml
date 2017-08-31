@@ -16,9 +16,14 @@ services:
     app.task_mapper:
         class: AppBundle\Mapper\TaskMapper
         arguments: ['@goat.session']
-        tags: [{name: goat.mapper, alias: "App:Task"}]
+        tags: [{name: goat.mapper, alias: "App:Task", class: "AppBundle\\Entity\\Task"}]
 
     app.note_mapper:
         class: AppBundle\Mapper\NoteMapper
         arguments: ['@goat.session']
-        tags: [{name: goat.mapper, alias: "App:Note"}]
+        tags: [{name: goat.mapper, alias: "App:Note", class: "AppBundle\\Entity\\Note"}]
+
+    app.alarm_mapper:
+        class: AppBundle\Mapper\AlarmMapper
+        arguments: ['@goat.session']
+        tags: [{name: goat.mapper, alias: "App:Alarm", class: "AppBundle\\Entity\\Alarm"}]
