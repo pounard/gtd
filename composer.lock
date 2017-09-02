@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "07a88f16116cdd107ff12f6c08792007",
+    "content-hash": "b65824597bc24b7f66d3156292e97e00",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -524,16 +524,16 @@
         },
         {
             "name": "dompdf/dompdf",
-            "version": "v0.8.0",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/dompdf/dompdf.git",
-                "reference": "0f418c6b58fdeafc2a0e80eb1fa5e644e185089c"
+                "reference": "6706d8a754fbcfcde18da7dac8965d3143ef6f78"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/0f418c6b58fdeafc2a0e80eb1fa5e644e185089c",
-                "reference": "0f418c6b58fdeafc2a0e80eb1fa5e644e185089c",
+                "url": "https://api.github.com/repos/dompdf/dompdf/zipball/6706d8a754fbcfcde18da7dac8965d3143ef6f78",
+                "reference": "6706d8a754fbcfcde18da7dac8965d3143ef6f78",
                 "shasum": ""
             },
             "require": {
@@ -582,7 +582,7 @@
             ],
             "description": "DOMPDF is a CSS 2.1 compliant HTML to PDF converter",
             "homepage": "https://github.com/dompdf/dompdf",
-            "time": "2017-02-16T02:40:40+00:00"
+            "time": "2017-08-31 08:17:40"
         },
         {
             "name": "erusev/parsedown",
@@ -3942,7 +3942,8 @@
         "makinacorpus/goat": 20,
         "makinacorpus/goat-bundle": 20,
         "makinacorpus/goat-bundle-account": 20,
-        "makinacorpus/redis-bundle": 20
+        "makinacorpus/redis-bundle": 20,
+        "dompdf/dompdf": 20
     },
     "prefer-stable": true,
     "prefer-lowest": false,
