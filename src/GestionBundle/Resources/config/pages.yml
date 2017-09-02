@@ -1,0 +1,73 @@
+calista:
+    pages:
+
+        gestion_dashboard_contract:
+            datasource: gestion_contract
+            input:
+                limit_default: 30
+                pager_enable: true
+                search_enable: false
+            view:
+                properties:
+                    contractId:
+                        label: Identifier
+                        type: int
+                    addrLine1:
+                        label: Street
+                        type: string
+                        string_maxlength: ~
+                    addrCity:
+                        label: City
+                        type: string
+                        string_maxlength: ~
+                    dateStart:
+                        label: Starts
+                        type: \DateTime
+                        callback: renderDate
+                    locataireNom:
+                        label: Last name
+                        type: string
+                        string_maxlength: ~
+                    locatairePrenom:
+                        label: First name
+                        type: string
+                        string_maxlength: ~
+                show_filters: false
+                show_pager: true
+                show_search: false
+                show_sort: false
+                view_type: twig_page
+
+        gestion_quittance:
+            datasource: gestion_quittance
+            input:
+                limit_default: 100
+                pager_enable: true
+                search_enable: false
+            view:
+                properties:
+                    serial:
+                        label: Number
+                        type: int
+                    period:
+                        label: Periodicity
+                        type: string
+                        string_maxlength: ~
+                    dateStart:
+                        label: Begins at
+                        callback: renderDate
+                    dateStop:
+                        label: Ends at
+                        callback: renderDate
+                    datePaiement:
+                        label: Settled at
+                        callback: renderDate
+                    typePaiement:
+                        label: Paiement type
+                        type: string
+                        string_maxlength: ~
+                show_filters: true
+                show_pager: true
+                show_search: false
+                show_sort: true
+                view_type: twig_page

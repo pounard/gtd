@@ -17,3 +17,6 @@ alarm:
 gestion:
     resource: "@GestionBundle/Resources/config/routing.yml"
     prefix:   /
+
+calista:
+    resource: '@CalistaBundle/config/routing.yml'

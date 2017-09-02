@@ -1,5 +1,5 @@
-# bin/console goat:generate-entity --source=src/GestionBundle/Resources/meta/entity/contrat.yml foo foo
-class: GestionBundle\Entity\Contrat
+# bin/console goat:generate-entity --source=src/GestionBundle/Resources/meta/entity/contract.yml foo foo
+class: GestionBundle\Entity\Contract
 static map: false
 immutable: true
 mutable: []

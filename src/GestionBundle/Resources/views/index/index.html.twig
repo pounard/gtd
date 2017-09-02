@@ -11,20 +11,7 @@
             <div class="panel panel-default">
                 <div class="panel-heading">{{ "Contracts"|trans }}</div>
                 <div class="panel-body">
-                    {% for contract in contracts %}
-                        <a href="{{ path('gestion_quittance_list', {contract: contract.contractId}) }}">
-                            {% if contract.addrComplement %}
-                                {{ contract.addrComplement }},
-                            {% endif %}
-                            {{ contract.addrLine1 }},
-                            {% if contract.addrLine2 %}
-                                {{ contract.addrLine2 }},
-                            {% endif %}
-                            {{ contract.addrPostcode }} {{ contract.addrCity }}
-                        </a>
-                    {% else %}
-                        {{ "There is no contract yet." }}
-                    {% endfor %}
+                    {{ calista_page('gestion_dashboard_contract') }}
                 </div>
             </div>
         </div>

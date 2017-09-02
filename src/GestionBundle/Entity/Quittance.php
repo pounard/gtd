@@ -37,7 +37,7 @@ final class Quittance
      *
      * @return int
      */
-    public function getIdContrat() : int
+    public function getContractId() : int
     {
         return (int)$this->id_contrat;
     }

@@ -3,24 +3,24 @@
 namespace GestionBundle\Controller;
 
 use AppBundle\Controller\RefererControllerTrait;
-use Dompdf\Dompdf;
-use Dompdf\Options;
 use GestionBundle\Controller\ArgumentResolver\DateTimeValueResolver;
-use GestionBundle\Entity\Contrat;
+use GestionBundle\Entity\Contract;
 use GestionBundle\Entity\Quittance;
 use Goat\Error\GoatError;
 use Goat\Query\Where;
+use MakinaCorpus\Calista\Controller\PageControllerTrait;
 use Symfony\Component\Form\Extension\Core\Type as Form;
 use Symfony\Component\HttpFoundation\Request;
 
 class QuittanceController extends AbstractGestionController
 {
     use RefererControllerTrait;
+    use PageControllerTrait;
 
     /**
      * Generate missing quittances for the given contract
      */
-    private function generateMissingQuittances(Contrat $contract)
+    private function generateMissingQuittances(Contract $contract)
     {
         /*
         $insert = $this
@@ -32,7 +32,7 @@ class QuittanceController extends AbstractGestionController
         do {
             $mutableDate = clone $current;
             $insert->values([
-                $contratId,
+                $contractId,
                 $index++,
                 clone $mutableDate->modify('first day of'),
                 clone $mutableDate->modify('last day of'),
@@ -50,20 +50,17 @@ class QuittanceController extends AbstractGestionController
     /**
      * Quittances paiement input form
      */
-    public function listAction(Request $request, Contrat $contract)
+    public function listAction(Request $request, Contract $contract)
     {
         $this->getUserAccountOrDie();
 
-        return $this->render('GestionBundle:quittance:list.html.twig', [
-            'contract'  => $contract,
-            'quittances' => $this->getQuittanceMapper()->paginateForContrat($contract->getId(), 100, $request->get('page', 1)),
-        ]);
+        return $this->render('GestionBundle:quittance:list.html.twig', ['contract'  => $contract]);
     }
 
     /**
      * Quittances paiement input form
      */
-    public function controlAction(Request $request, Contrat $contract)
+    public function controlAction(Request $request, Contract $contract)
     {
         $this->getUserAccountOrDie();
 
@@ -116,7 +113,7 @@ class QuittanceController extends AbstractGestionController
     /**
      * Generate quittances form
      */
-    public function generateFormAction(Request $request, Contrat $contract)
+    public function generateFormAction(Request $request, Contract $contract)
     {
         // Provide default values
         $from = new \DateTime("first day of January");
@@ -167,16 +164,16 @@ class QuittanceController extends AbstractGestionController
     /**
      * Generate quittances action
      */
-    public function generateAction(Request $request, Contrat $contract, \DateTimeInterface $from, \DateTimeInterface $to, $format = 'html')
+    public function generateAction(Request $request, Contract $contract, \DateTimeInterface $from, \DateTimeInterface $to, $format = 'html')
     {
         // Be nice with the user
         $from = min([$from, $to]);
         $to = max([$from, $to]);
 
         /** @var \GestionBundle\Entity\Logement $logement */
-        $logement = $this->getLogementMapper()->findOne($contract->getIdLogement());
-        $locataire = $this->getPersonneMapper()->findOne($contract->getIdLocataire());
-        $proprietaire = $this->getPersonneMapper()->findOne($logement->getIdMandataire());
+        $logement = $this->getLogementMapper()->findOne($contract->getLogementId());
+        $locataire = $this->getPersonneMapper()->findOne($contract->getLocataireId());
+        $proprietaire = $this->getPersonneMapper()->findOne($logement->getMandataireId());
 
         $quittances = $this
             ->getQuittanceMapper()
@@ -189,6 +186,14 @@ class QuittanceController extends AbstractGestionController
             ->execute([], Quittance::class)
         ;
 
+        $total = 0;
+        $quittances = iterator_to_array($quittances);
+
+        /** @var \GestionBundle\Entity\Quittance $quittance */
+        foreach ($quittances as $quittance) {
+            $total += $quittance->getProvisionCharges() + $quittance->getLoyer();
+        }
+
         $response = $this->render('GestionBundle:quittance:generate.html.twig', [
             'logement'      => $logement,
             'locataire'     => $locataire,
@@ -196,26 +201,11 @@ class QuittanceController extends AbstractGestionController
             'proprietaire'  => $proprietaire,
             'from'          => $from,
             'to'            => $to,
-            'total'         => 12,
+            'total'         => $total,
         ]);
 
         if ('pdf' === $format) {
-            $options = new Options();
-            //$options->set('defaultFont', 'Courier');
-            $options->set('isHtml5ParserEnabled', true);
-            $options->set('fontHeightRatio', 1);
-            $options->set('pdfBackend', 'auto');
-            $options->set('defaultPaperSize', 'A4');
-            $options->set('defaultPaperOrientation', 'portrait');
-            $options->set('defaultMediaType', 'print');
-
-            $dompdf = new Dompdf($options);
-            $dompdf->loadHtml($response->getContent());
-            $dompdf->setPaper('letter', 'portrait');
-            $dompdf->render();
-
-            $dompdf->stream();
-            exit;
+            return $this->renderAsPdf($response, sprintf("quittaces-%s-%s.pdf", $from->format('d_m_Y'), $to->format('d_m_Y')));
         }
 
         return $response;

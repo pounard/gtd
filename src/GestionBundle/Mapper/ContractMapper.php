@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GestionBundle\Mapper;
 
-use GestionBundle\Entity\Contrat;
-use GestionBundle\Entity\ContratListDisplay;
+use GestionBundle\Entity\Contract;
+use GestionBundle\Entity\ContractListDisplay;
 use Goat\Mapper\WritableSelectMapper;
 use Goat\Query\Expression;
 use Goat\Query\Query;
@@ -13,7 +13,7 @@ use Goat\Query\Where;
 use Goat\Runner\PagerResultIterator;
 use Goat\Runner\RunnerInterface;
 
-class ContratMapper extends WritableSelectMapper
+class ContractMapper extends WritableSelectMapper
 {
     /**
      * Default contructor
@@ -22,7 +22,7 @@ class ContratMapper extends WritableSelectMapper
      */
     public function __construct(RunnerInterface $runner)
     {
-        parent::__construct($runner, Contrat::class, ['c.id'], $runner->select('contrat', 'c'));
+        parent::__construct($runner, Contract::class, ['c.id'], $runner->select('contrat', 'c'));
     }
 
     /**
@@ -32,7 +32,7 @@ class ContratMapper extends WritableSelectMapper
      * @param int $limit
      * @param int $page
      *
-     * @return ContratListDisplay[]|PagerResultIterator
+     * @return ContractListDisplay[]|PagerResultIterator
      */
     public function paginateListDisplayWhere($criteria, int $limit = 0, int $page = 1) : PagerResultIterator
     {
@@ -68,7 +68,7 @@ class ContratMapper extends WritableSelectMapper
         ;
 
         $total = $select->getCountQuery()->execute()->fetchField();
-        $result = $select->execute([], ['class' => ContratListDisplay::class]);
+        $result = $select->execute([], ['class' => ContractListDisplay::class]);
 
         return new PagerResultIterator($result, $total, $limit, $page);
     }

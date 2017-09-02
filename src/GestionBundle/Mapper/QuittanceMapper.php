@@ -27,11 +27,11 @@ class QuittanceMapper extends WritableSelectMapper
      *
      * @return PagerResultIterator|Quittance[]
      */
-    public function paginateForContrat(int $contratId, int $limit = 0, int $page = 1) : PagerResultIterator
+    public function paginateForContract(int $contractId, int $limit = 0, int $page = 1) : PagerResultIterator
     {
         $select = $this
             ->createSelect()
-            ->condition('q.id_contrat', $contratId)
+            ->condition('q.id_contrat', $contractId)
             ->range($limit, ($page - 1) * $limit)
             ->orderBy('q.id', Query::ORDER_ASC)
         ;

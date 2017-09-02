@@ -33,7 +33,7 @@ final class Logement
      *
      * @return int
      */
-    public function getIdMandataire() : int
+    public function getMandataireId() : int
     {
         return (int)$this->id_mandataire;
     }
@@ -43,7 +43,7 @@ final class Logement
      *
      * @return null|int
      */
-    public function getIdProprietaire()
+    public function getProprietaireId()
     {
         if (isset($this->id_proprietaire)) {
             return (int)$this->id_proprietaire;

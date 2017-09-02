@@ -9,10 +9,10 @@ services:
         class: GestionBundle\Installer\GestionUpdater
         tags: [{name: goat.updater}]
 
-    gestion.contrat_mapper:
-        class: GestionBundle\Mapper\ContratMapper
+    gestion.contract_mapper:
+        class: GestionBundle\Mapper\ContractMapper
         arguments: ['@goat.session']
-        tags: [{name: goat.mapper, alias: "Gestion:Contrat", class: "GestionBundle\\Entity\\Contrat"}]
+        tags: [{name: goat.mapper, alias: "Gestion:Contract", class: "GestionBundle\\Entity\\Contract"}]
 
     gestion.logement_mapper:
         class: GestionBundle\Mapper\LogementMapper
@@ -28,3 +28,20 @@ services:
         class: GestionBundle\Mapper\QuittanceMapper
         arguments: ['@goat.session']
         tags: [{name: goat.mapper, alias: "Gestion:Quittance", class: "GestionBundle\\Entity\\Quittance"}]
+
+    gestion.datasource.contract:
+        public: true
+        class: GestionBundle\Datasource\ContractDatasource
+        arguments: ['@goat.session']
+        tags: [{name: calista.datasource, id: gestion_contract}]
+
+    gestion.datasource.quittance:
+        public: true
+        class: GestionBundle\Datasource\QuittanceDatasource
+        arguments: ['@goat.session']
+        tags: [{name: calista.datasource, id: gestion_quittance}]
+
+    gestion.action_provider.contract:
+        public: false
+        class: GestionBundle\Action\ContractActionProvider
+        tags: [{name: calista.action_provider}]

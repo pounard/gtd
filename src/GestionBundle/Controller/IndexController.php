@@ -8,9 +8,7 @@ class IndexController extends AbstractGestionController
     {
         $this->getUserAccountOrDie();
 
-        return $this->render('GestionBundle:index:index.html.twig', [
-            'contracts' => $this->getContratMapper()->paginateListDisplayWhere(['c.date_stop' => null], 100, 1),
-        ]);
+        return $this->render('GestionBundle:index:index.html.twig');
     }
 
     public function letterTemplateAction()

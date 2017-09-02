@@ -4,27 +4,29 @@ declare(strict_types=1);
 
 namespace GestionBundle\Entity;
 
-final class ContratListDisplay
+/**
+ * Generated code, please do not modify.
+ *
+ * bin/console goat:generate-entity --source=src/GestionBundle/Resources/meta/entity/contract.yml foo foo
+ */
+final class Contract
 {
-    use AddressAwareTrait;
-
-    private $id_contrat;
+    private $id;
     private $id_logement;
     private $id_locataire;
     private $date_start;
     private $date_stop;
-    private $locataire_nom;
-    private $locataire_prenom;
-    private $logement_description;
+    private $loyer;
+    private $provision_charges;
 
     /**
      * Get id
      *
      * @return int
      */
-    public function getContractId() : int
+    public function getId() : int
     {
-        return (int)$this->id_contrat;
+        return (int)$this->id;
     }
 
     /**
@@ -45,26 +47,6 @@ final class ContratListDisplay
     public function getLocataireId() : int
     {
         return (int)$this->id_locataire;
-    }
-
-    /**
-     * Get locataire_nom
-     *
-     * @return string
-     */
-    public function getLocataireNom() : string
-    {
-        return (string)$this->locataire_nom;
-    }
-
-    /**
-     * Get locataire_prenom
-     *
-     * @return string
-     */
-    public function getLocatairePrenom() : string
-    {
-        return (string)$this->locataire_prenom;
     }
 
     /**
@@ -89,5 +71,25 @@ final class ContratListDisplay
         if ($this->date_stop) {
             return new \DateTimeImmutable('@'.$this->date_stop);
         }
+    }
+
+    /**
+     * Get loyer
+     *
+     * @return string
+     */
+    public function getLoyer() : string
+    {
+        return (string)$this->loyer;
+    }
+
+    /**
+     * Get provision_charges
+     *
+     * @return string
+     */
+    public function getProvisionCharges() : string
+    {
+        return (string)$this->provision_charges;
     }
 }

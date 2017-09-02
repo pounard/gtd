@@ -14,6 +14,12 @@
     {% endif %}
 {% endblock %}
 
+{% block title %}
+  Quitances de loyer pour la période
+  du {{ from|localizeddate('long', 'none') }}
+  au {{ to|localizeddate('long', 'none') }} inclus.
+{% endblock %}
+
 {% block politesse_recipient %}{{ locataire.civilite|capitalize }}{% endblock %}
 
 {% block signature_nom %}{{ proprietaire.prenom|capitalize }} {{ proprietaire.nom|upper }}{% endblock %}
@@ -66,6 +72,9 @@
   table.quittance td.stub {
     width: 7cm;
   }
+  table.quittance td.stub table {
+    /* margin-left: .5cm; */
+  }
   address {
     display: inline;
   }
@@ -86,7 +95,7 @@
 
 <p>
   Je soussigné
-  {{ proprietaire.civilite }} {{ proprietaire.prenom|capitalize }} {{ proprietaire.nom|upper }},
+  {{ proprietaire.civilite|capitalize }} {{ proprietaire.prenom|capitalize }} {{ proprietaire.nom|upper }},
   propriétaire du logement situé au
   <adresse class="data">
     {% if logement.addrComplement %}
@@ -96,18 +105,17 @@
     {% if logement.addrLine2 %}
       {{ logement.addrLine2 }},
     {% endif %}
-    {{ logement.addrPostcode }} {{ logement.addrCity|upper }}
-  </adresse>,
+    {{ logement.addrPostcode }} {{ logement.addrCity|upper }}</adresse>,
   déclare avoir reçu de
-  <span class="data">{{ locataire.civilite }} {{ locataire.prenom|capitalize }} {{ locataire.nom|upper }}</span>,
+  <span class="data">{{ locataire.civilite|capitalize }} {{ locataire.prenom|capitalize }} {{ locataire.nom|upper }}</span>,
   locataire de ce logement, la somme de
-  <span class="data">{{ total|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</span>
+  <span class="data">{{ (total / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</span>
   correspondant au loyers et aux charges dus pour la période allant
   du <span class="data">{{ from|localizeddate('long', 'none') }}</span>
   au <span class="data">{{ to|localizeddate('long', 'none') }}</span> inclus.
 </p>
 <p>
-  Cette somme correspond aux montants détaillé par les quittances suivantes&nbsp;:
+  Cette somme correspond aux montants détaillés par les quittances suivantes&nbsp;:
 </p>
 
 <hr/>
@@ -133,20 +141,20 @@
       <tbody>
         <tr class="numbers">
           <td class="heading">LOYER ({{ quittance.periode }})&nbsp;:</td>
-          <td class="data">{{ (quittance.loyer / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+          <td class="data">{{ (quittance.loyer / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</td>
         </tr>
         <tr class="numbers">
           <td class="heading">PROV. DE CHARGES&nbsp;:</td>
-          <td class="data">{{ (quittance.provisionCharges / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+          <td class="data">{{ (quittance.provisionCharges / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</td>
         </tr>
         <tr class="numbers">
           <td class="heading">TOTAL&nbsp;:</td>
-          <td class="data">{{ ((quittance.loyer + quittance.provisionCharges) / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+          <td class="data">{{ ((quittance.loyer + quittance.provisionCharges) / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</td>
         </tr>
         <tr class="from">
           <td colspan="2">
-            Reçu le&nbsp;: <span class="data">{{ quittance.datePaiement|localizeddate('long', 'none') }}</span>
-            de&nbsp;: <span class="data">{{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</span>
+            Reçu le <span class="data">{{ quittance.datePaiement|localizeddate('long', 'none') }}</span>
+            de <span class="data">{{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</span>
           </td>
         </tr>
         <tr>
@@ -192,15 +200,15 @@
       <tbody>
         <tr class="numbers">
           <td class="heading">LOYER ({{ quittance.periode }})&nbsp;:</td>
-          <td class="data">{{ (quittance.loyer / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+          <td class="data">{{ (quittance.loyer / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</td>
         </tr>
         <tr class="numbers">
           <td class="heading">PROV. DE CHARGES&nbsp;:</td>
-          <td class="data">{{ (quittance.provisionCharges / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+          <td class="data">{{ (quittance.provisionCharges / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</td>
         </tr>
         <tr class="numbers">
           <td class="heading">TOTAL&nbsp;:</td>
-          <td class="data">{{ ((quittance.loyer + quittance.provisionCharges) / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+          <td class="data">{{ ((quittance.loyer + quittance.provisionCharges) / 100)|number_format(2, ',', '&nbsp;')|raw }}&nbsp;€</td>
         </tr>
         <tr class="from">
           <td colspan="2">

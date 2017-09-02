@@ -160,9 +160,7 @@ footer {
                         Some other machins
                     {% endblock %}
                     <div class="envelope-date">
-                        {% block date %}
-                            À {% block date_city %}Nantes{% endblock %}, le {% block date_date %}{{ "now"|localizeddate('long', 'none') }}{% endblock %}
-                        {% endblock %}
+                        {% block date %}À {% block date_city %}Nantes{% endblock %}, le {% block date_date %}{{ "now"|localizeddate('long', 'none') }}{% endblock %}{% endblock %}
                     </div>
                 </td>
                 <td class="envelope-to">
@@ -248,14 +246,10 @@ footer {
         </p>
     {% endblock %}
     {% block date_reddit %}
-        <p class="signature-date">
-            {{ block('date') }},
-        </p>
+        <p class="signature-date">{{ block('date') }},</p>
     {% endblock %}
     {% block signature %}
-        <p class="signature">
-            {% block signature_nom %}Mr Nice{% endblock %}
-        </p>
+        <p class="signature">{% block signature_nom %}Mr Nice{% endblock %}</p>
     {% endblock %}
 {% endblock %}
 

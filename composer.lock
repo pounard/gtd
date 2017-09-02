@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "b65824597bc24b7f66d3156292e97e00",
+    "content-hash": "68f9e261b419ae7bfa25acbabb38c609",
     "packages": [
         {
             "name": "composer/ca-bundle",
@@ -1344,6 +1344,80 @@
                 "issues": "https://github.com/makinacorpus/php-acl/issues"
             },
             "time": "2017-07-08 10:03:32"
+        },
+        {
+            "name": "makinacorpus/php-calista",
+            "version": "1.0.0-alpha4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/makinacorpus/php-calista.git",
+                "reference": "3052fcc7dcfc7148685a001fc7474927f49e7092"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/makinacorpus/php-calista/zipball/3052fcc7dcfc7148685a001fc7474927f49e7092",
+                "reference": "3052fcc7dcfc7148685a001fc7474927f49e7092",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5",
+                "symfony/dependency-injection": "^3.2",
+                "symfony/event-dispatcher": "^2.8|^3.1",
+                "symfony/http-foundation": "^3.1",
+                "symfony/options-resolver": "^3.2",
+                "symfony/property-access": "^3.2",
+                "symfony/property-info": "^3.2",
+                "symfony/routing": "^2.8|^3.1",
+                "symfony/security": "^3.1"
+            },
+            "require-dev": {
+                "box/spout": "^2.7",
+                "phpunit/phpunit": "^5.7",
+                "symfony/config": "^2.8|^3.2",
+                "symfony/form": "^3.2",
+                "twig/twig": "^1.34|^2"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "MakinaCorpus\\Calista\\": "src/"
+                },
+                "classmap": [
+                    "CalistaBundle.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2"
+            ],
+            "authors": [
+                {
+                    "name": "Pierre Rineau",
+                    "email": "pierre.rineau@makina-corpus.com"
+                },
+                {
+                    "name": "Makina Corpus",
+                    "homepage": "http://makina-corpus.com"
+                },
+                {
+                    "name": "Sébastien Corbin",
+                    "email": "sebastien.corbin@makina-corpus.com"
+                },
+                {
+                    "name": "Yannick Chabbert",
+                    "email": "yannick.chabbert@makina-corpus.com"
+                },
+                {
+                    "name": "Lonny Loquesol",
+                    "email": "lonny.loquesol@makina-corpus.com"
+                },
+                {
+                    "name": "Régis Leroy",
+                    "email": "regis.leroy@makina-corpus.com"
+                }
+            ],
+            "description": "Backend agnostic API for building user interface or data exports",
+            "time": "2017-09-02T12:30:36+00:00"
         },
         {
             "name": "makinacorpus/redis-bundle",
@@ -3943,7 +4017,8 @@
         "makinacorpus/goat-bundle": 20,
         "makinacorpus/goat-bundle-account": 20,
         "makinacorpus/redis-bundle": 20,
-        "dompdf/dompdf": 20
+        "dompdf/dompdf": 20,
+        "makinacorpus/php-calista": 15
     },
     "prefer-stable": true,
     "prefer-lowest": false,

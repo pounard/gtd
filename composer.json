@@ -58,7 +58,8 @@
         "erusev/parsedown": "^1.6",
         "twig/extensions": "^1.4",
         "sabre/dav": "^3.2",
-        "dompdf/dompdf": "dev-master"
+        "dompdf/dompdf": "dev-master",
+        "makinacorpus/php-calista": "^1.0@alpha"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

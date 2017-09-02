@@ -31,6 +31,8 @@ framework:
     fragments:       ~
     http_method_override: true
     assets: ~
+    property_info:
+        enabled: true
 
 sensio_framework_extra:
     request:
