@@ -1,0 +1,26 @@
+# bin/console goat:generate-entity --source=src/GestionBundle/Resources/meta/entity/contrat.yml foo foo
+class: GestionBundle\Entity\Contrat
+static map: false
+immutable: true
+mutable: []
+properties:
+    id:
+        type: int
+        not null: true
+    id_logement:
+        type: int
+        not null: true
+    id_locataire:
+        type: int
+        not null: true
+    date_start:
+        type: timestamp
+        not null: true
+    date_stop:
+        type: timestamp
+    loyer:
+        type: string
+        not null: true
+    provision_charges:
+        type: string
+        not null: true

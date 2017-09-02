@@ -1,0 +1,240 @@
+{% extends 'GestionBundle:letter:template.html.twig' %}
+
+{% block city %}Nantes{% endblock %}
+
+{% block logo %}{% endblock %}
+
+{% block reference %}{% endblock %}
+
+{% block from_phone %}
+    {% if proprietaire.telephone %}
+        <phone>
+            Téléphone&nbsp;: {{ proprietaire.telephone }}
+        </phone>
+    {% endif %}
+{% endblock %}
+
+{% block politesse_recipient %}{{ locataire.civilite|capitalize }}{% endblock %}
+
+{% block signature_nom %}{{ proprietaire.prenom|capitalize }} {{ proprietaire.nom|upper }}{% endblock %}
+
+{% block subject %}Quittances de loyer{% endblock %}
+
+{% block from %}
+    <address>
+        {{ proprietaire.prenom|capitalize }} {{ proprietaire.nom|upper }}<br/>
+        {% if proprietaire.addrComplement %}
+            {{ proprietaire.addrComplement }}<br/>
+        {% endif %}
+        {{ proprietaire.addrLine1 }}<br/>
+        {% if proprietaire.addrLine2 %}
+            {{ proprietaire.addrLine2 }}<br/>
+        {% endif %}
+        {{ proprietaire.addrPostcode }} {{ proprietaire.addrCity|upper }}<br/>
+    </address>
+{% endblock %}
+
+{% block recipient %}
+    <address>
+        {{ locataire.prenom|capitalize }} {{ locataire.nom|upper }}<br/>
+        {% if logement.addrComplement %}
+            {{ logement.addrComplement }}<br/>
+        {% endif %}
+        {{ logement.addrLine1 }}<br/>
+        {% if logement.addrLine2 %}
+            {{ logement.addrLine2 }}<br/>
+        {% endif %}
+        {{ logement.addrPostcode }} {{ logement.addrCity|upper }}<br/>
+    </address>
+{% endblock %}
+
+{% block body %}
+<style type="text/css">
+  table.quittance {
+    width: 100%;
+    margin-bottom: .3cm;
+    padding-bottom: .3cm;
+    border-bottom: 1px solid #808080;
+  }
+  table.quittance table {
+    width: 100%;
+  }
+  table.quittance table th {
+    text-align: center;
+    padding-bottom: 0.2cm;
+  }
+  table.quittance td.stub {
+    width: 7cm;
+  }
+  address {
+    display: inline;
+  }
+  tr.from td, tr.address td, tr.period td, tr.nota td {
+    padding-top: 0.2cm;
+  }
+  .nota, .nota * {
+    font-size: 10px;
+  }
+  .nota ol {
+    margin: 0;
+    padding-left: 20px;
+  }
+  .numbers td:nth-child(2) {
+    text-align: right;
+  }
+</style>
+
+<p>
+  Je soussigné
+  {{ proprietaire.civilite }} {{ proprietaire.prenom|capitalize }} {{ proprietaire.nom|upper }},
+  propriétaire du logement situé au
+  <adresse class="data">
+    {% if logement.addrComplement %}
+      {{ logement.addrComplement }},
+    {% endif %}
+    {{ logement.addrLine1 }},
+    {% if logement.addrLine2 %}
+      {{ logement.addrLine2 }},
+    {% endif %}
+    {{ logement.addrPostcode }} {{ logement.addrCity|upper }}
+  </adresse>,
+  déclare avoir reçu de
+  <span class="data">{{ locataire.civilite }} {{ locataire.prenom|capitalize }} {{ locataire.nom|upper }}</span>,
+  locataire de ce logement, la somme de
+  <span class="data">{{ total|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</span>
+  correspondant au loyers et aux charges dus pour la période allant
+  du <span class="data">{{ from|localizeddate('long', 'none') }}</span>
+  au <span class="data">{{ to|localizeddate('long', 'none') }}</span> inclus.
+</p>
+<p>
+  Cette somme correspond aux montants détaillé par les quittances suivantes&nbsp;:
+</p>
+
+<hr/>
+
+{% for quittance in quittances %}
+  {#
+   # Use tables inside a table for DOMPDF rendering not be messed up because
+   # of clear:both and display:inline-block
+   #}
+  <table class="quittance">
+    <tbody>
+       <tr>
+         <td>
+
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">
+            Quittance de loyer n°{{ quittance.serial }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="numbers">
+          <td class="heading">LOYER ({{ quittance.periode }})&nbsp;:</td>
+          <td class="data">{{ (quittance.loyer / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+        </tr>
+        <tr class="numbers">
+          <td class="heading">PROV. DE CHARGES&nbsp;:</td>
+          <td class="data">{{ (quittance.provisionCharges / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+        </tr>
+        <tr class="numbers">
+          <td class="heading">TOTAL&nbsp;:</td>
+          <td class="data">{{ ((quittance.loyer + quittance.provisionCharges) / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+        </tr>
+        <tr class="from">
+          <td colspan="2">
+            Reçu le&nbsp;: <span class="data">{{ quittance.datePaiement|localizeddate('long', 'none') }}</span>
+            de&nbsp;: <span class="data">{{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</span>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2">
+            Quittance émise le&nbsp;: <span class="data">{{ "now"|localizeddate('long', 'none') }}</span>
+          </td>
+        </tr>
+        <tr class="address">
+          <td colspan="2">
+            Pour le montant d'un mois de loyer des locaux qu'il occupe à l'adresse&nbsp;:
+            <address class="data">
+              {% if logement.addrComplement %}
+                {{ logement.addrComplement }},
+              {% endif %}
+              {{ logement.addrLine1 }},
+              {% if logement.addrLine2 %}
+                {{ logement.addrLine2 }},
+              {% endif %}
+              {{ logement.addrPostcode }} {{ logement.addrCity|upper }}
+            </address>
+          </td>
+        </tr>
+        <tr class="period">
+          <td colspan="2">
+            Pour le mois commençant le <span class="data">{{ quittance.dateStart|localizeddate('long', 'none') }}</span>,
+            et finissant le <span class="data">{{ quittance.dateStop|localizeddate('long', 'none') }}</span>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+         </td>
+         <td class="stub">
+
+    <table>
+      <thead>
+        <tr>
+          <th colspan="2">
+            Souche n°{{ quittance.serial }}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr class="numbers">
+          <td class="heading">LOYER ({{ quittance.periode }})&nbsp;:</td>
+          <td class="data">{{ (quittance.loyer / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+        </tr>
+        <tr class="numbers">
+          <td class="heading">PROV. DE CHARGES&nbsp;:</td>
+          <td class="data">{{ (quittance.provisionCharges / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+        </tr>
+        <tr class="numbers">
+          <td class="heading">TOTAL&nbsp;:</td>
+          <td class="data">{{ ((quittance.loyer + quittance.provisionCharges) / 100)|number_format(2, '&nbsp;', ',')|raw }}&nbsp;€</td>
+        </tr>
+        <tr class="from">
+          <td colspan="2">
+            De&nbsp;: <span class="data">{{ locataire.nom|upper }} {{ locataire.prenom|capitalize }}</span>
+          </td>
+        </tr>
+        <tr class="address">
+          <td colspan="2">
+            Adresse&nbsp;:<br/>
+            <address class="data">
+              {% if logement.addrComplement %}
+                {{ logement.addrComplement }},
+              {% endif %}
+              {{ logement.addrLine1 }},
+              {% if logement.addrLine2 %}
+                {{ logement.addrLine2 }},
+              {% endif %}
+              {{ logement.addrPostcode }} {{ logement.addrCity|upper }}
+            </address>
+          </td>
+        </tr>
+        <tr class="period">
+          <td colspan="2">
+            Loyer mensuel,
+            du <span class="data">{{ quittance.dateStart|localizeddate('short', 'none') }}</span>,
+            au <span class="data">{{ quittance.dateStop|localizeddate('short', 'none') }}</span>.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+         </td>
+       </tr>
+     </tbody>
+    </table>
+  {% endfor %}
+{% endblock %}

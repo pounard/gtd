@@ -1,0 +1,42 @@
+# bin/console goat:generate-entity --source=src/GestionBundle/Resources/meta/entity/personne.yml foo foo
+class: GestionBundle\Entity\Personne
+static map: false
+immutable: true
+mutable: []
+properties:
+    id:
+        type: int
+        not null: true
+    nom:
+        type: string
+        not null: true
+    prenom:
+        type: string
+        not null: true
+    civilite:
+        type: string
+    date_naissance:
+        type: timestamp
+        not null: true
+    ville_naissance:
+        type: string
+        not null: true
+    telephone:
+        type: string
+        not null: true
+    mail:
+        type: string
+        not null: true
+    addr_complement:
+        type: string
+    addr_line1:
+        type: string
+        not null: true
+    addr_line2:
+        type: string
+    addr_city:
+        type: string
+        not null: true
+    addr_postcode:
+        type: string
+        not null: true

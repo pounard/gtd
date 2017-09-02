@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block back_to %}
+    {% import 'app/task/actions.html.twig' as actions %}
+    {{ actions.back_to('app_tasks', {}, "Go back"|trans, 'menu-left') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container" id="task-list" >
+        <div class="row">
+            <div class="panel panel-default">
+                <div class="panel-heading">{{ "Contracts"|trans }}</div>
+                <div class="panel-body">
+                    {% for contract in contracts %}
+                        <a href="{{ path('gestion_quittance_list', {contract: contract.contractId}) }}">
+                            {% if contract.addrComplement %}
+                                {{ contract.addrComplement }},
+                            {% endif %}
+                            {{ contract.addrLine1 }},
+                            {% if contract.addrLine2 %}
+                                {{ contract.addrLine2 }},
+                            {% endif %}
+                            {{ contract.addrPostcode }} {{ contract.addrCity }}
+                        </a>
+                    {% else %}
+                        {{ "There is no contract yet." }}
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

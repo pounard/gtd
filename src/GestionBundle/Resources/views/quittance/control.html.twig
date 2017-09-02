@@ -1,0 +1,63 @@
+{% extends 'base.html.twig' %}
+
+{% block back_to %}
+    {% import 'app/task/actions.html.twig' as actions %}
+    {{ actions.back_to('gestion_index', {}, "Back to gestion"|trans, 'menu-left') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <form method="post" charset="utf-8">
+                <table class="table table-responsive" style="width:100%;">
+                    <thead>
+                        <tr>
+                            <th>
+                                {{ "Serial"|trans }}
+                            </th>
+                            <th>
+                                {{ "Begin"|trans }}
+                            </th>
+                            <th>
+                                {{ "End"|trans }}
+                            </th>
+                            <th>
+                                {{ "Paid at"|trans }}
+                            </th>
+                            <th>
+                                {{ "Payment type"|trans }}
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for quittance in quittances %}
+                            <tr>
+                                <td>
+                                    {{ quittance.serial }}
+                                </td>
+                                <td>
+                                    {{ quittance.dateStart|localizeddate('short', 'none') }}
+                                </td>
+                                <td>
+                                    {{ quittance.dateStop|localizeddate('short', 'none') }}
+                                </td>
+                                <td>
+                                    <input type="date" name="paiment_date[{{ quittance.id }}]">
+                                </td>
+                                <td>
+                                    <select name="paiment_type[{{ quittance.id }}]">
+                                        <option value="virement">virement</option>
+                                        <option value="cheque">cheque</option>
+                                        <option value="espece">espece</option>
+                                        <option value="autre">autre</option>
+                                    </select>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <input type="submit" class="btn btn-primary" value="{{ "Save payments"|trans }}"/>
+            </form>
+        </div>
+    </div>
+{% endblock %}

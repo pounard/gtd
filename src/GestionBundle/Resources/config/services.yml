@@ -1,0 +1,30 @@
+services:
+
+    gestion.datetime_value_resolver:
+        public: false
+        class: GestionBundle\Controller\ArgumentResolver\DateTimeValueResolver
+        tags: [{name: controller.argument_value_resolver, priority: 150}]
+
+    gestion.gestion_updater:
+        class: GestionBundle\Installer\GestionUpdater
+        tags: [{name: goat.updater}]
+
+    gestion.contrat_mapper:
+        class: GestionBundle\Mapper\ContratMapper
+        arguments: ['@goat.session']
+        tags: [{name: goat.mapper, alias: "Gestion:Contrat", class: "GestionBundle\\Entity\\Contrat"}]
+
+    gestion.logement_mapper:
+        class: GestionBundle\Mapper\LogementMapper
+        arguments: ['@goat.session']
+        tags: [{name: goat.mapper, alias: "Gestion:Logement", class: "GestionBundle\\Entity\\Logement"}]
+
+    gestion.personne_mapper:
+        class: GestionBundle\Mapper\PersonneMapper
+        arguments: ['@goat.session']
+        tags: [{name: goat.mapper, alias: "Gestion:Personne", class: "GestionBundle\\Entity\\Personne"}]
+
+    gestion.quittance_mapper:
+        class: GestionBundle\Mapper\QuittanceMapper
+        arguments: ['@goat.session']
+        tags: [{name: goat.mapper, alias: "Gestion:Quittance", class: "GestionBundle\\Entity\\Quittance"}]

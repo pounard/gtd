@@ -1,0 +1,30 @@
+# bin/console goat:generate-entity --source=src/GestionBundle/Resources/meta/entity/logement.yml foo foo
+class: GestionBundle\Entity\Logement
+static map: false
+immutable: true
+mutable: []
+properties:
+    id:
+        type: int
+        not null: true
+    id_mandataire:
+        type: int
+        not null: true
+    id_proprietaire:
+        type: int
+    description:
+        type: string
+        not null: true
+    addr_complement:
+        type: string
+    addr_line1:
+        type: string
+        not null: true
+    addr_line2:
+        type: string
+    addr_city:
+        type: string
+        not null: true
+    addr_postcode:
+        type: string
+        not null: true

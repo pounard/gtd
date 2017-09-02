@@ -1,0 +1,78 @@
+{% extends 'base.html.twig' %}
+
+{% block menu %}
+    <div class="buttons">
+        <a href="{{ path('gestion_quittance_control', {contract: contract.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            {{ "Control"|trans }}
+        </a>
+        <a href="{{ path('gestion_quittance_generate_form', {contract: contract.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
+            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+            {{ "Export"|trans }}
+        </a>
+    </div>
+{% endblock %}
+
+{% block back_to %}
+    {% import 'app/task/actions.html.twig' as actions %}
+    {{ actions.back_to('gestion_index', {}, "Back to gestion"|trans, 'menu-left') }}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <table class="table table-responsive" style="width:100%;">
+                <thead>
+                    <tr>
+                        <th>
+                            {{ "Serial"|trans }}
+                        </th>
+                        <th>
+                            {{ "Period"|trans }}
+                        </th>
+                        <th>
+                            {{ "Begin"|trans }}
+                        </th>
+                        <th>
+                            {{ "End"|trans }}
+                        </th>
+                        <th>
+                            {{ "Paid at"|trans }}
+                        </th>
+                        <th>
+                            {{ "Payment type"|trans }}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for quittance in quittances %}
+                        <tr>
+                            <td>
+                                {{ quittance.serial }}
+                            </td>
+                            <td>
+                                {{ quittance.periode }}
+                            </td>
+                            <td>
+                                {{ quittance.dateStart|localizeddate('short', 'none') }}
+                            </td>
+                            <td>
+                                {{ quittance.dateStop|localizeddate('short', 'none') }}
+                            </td>
+                            <td>
+                                {% if quittance.datePaiement %}
+                                    {{ quittance.datePaiement|localizeddate('short', 'none') }}
+                                {% endif %}
+                            </td>
+                            <td>
+                                {% if quittance.typePaiement %}
+                                    {{ quittance.typePaiement }}
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
