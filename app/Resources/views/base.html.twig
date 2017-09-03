@@ -5,35 +5,23 @@
 <meta charset="utf-8" />
 <base href="/" />
 <title>{% block title %}Getting Things Done{% endblock %}</title>
-<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-<meta name="apple-mobile-web-app-capable" content="yes" />
-<meta name="viewport" content="user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimal-ui" />
-<meta name="apple-mobile-web-app-status-bar-style" content="yes" />
-<link rel="stylesheet" href="{{ base_path }}dist/css/style.min.css"/>
-<link rel="manifest" href="{{ base_path }}manifest.json"/>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
+{# <link rel="stylesheet" href="{{ base_path }}dist/css/style.min.css"/> #}
 <script type="text/javascript">var basePath = "{{ base_path }}";</script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 {% flush %}
 {% block body %}
 <body>
-<nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button id="menu-toggle" type="button" class="navbar-toggle collapsed" aria-expanded="false">
-                <span class="sr-only">{{ "Toggle navigation"|trans }}</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div id="back-button" data-target="back-button">
-                {% block back_to %}
-                    {% import 'app/task/actions.html.twig' as actions %}
-                    {{ actions.back_to() }}
-                {% endblock %}
-            </div>
-            <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>
-        </div>
+<nav class="navbar navbar-light bg-light">
+    <div id="back-button" data-target="back-button">
+        {% block back_to %}
+            {% import 'app/task/actions.html.twig' as actions %}
+            {{ actions.back_to() }}
+        {% endblock %}
     </div>
+    <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>
 </nav>
 <div id="app-body">
     <div id="app-panel" class="clearfix">
@@ -69,7 +57,10 @@
         </ul>
     </div>
 </div>
-<script src="{{ base_path }}dist/js/script.min.js" type="text/javascript" async defer></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.11.0/umd/popper.min.js" integrity="sha384-b/U6ypiBEHpOf/4+1nzFpr53nxSS+GLCkfwBdFNTxtclqqenISfwAzpKaMNFNmj4" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/js/bootstrap.min.js" integrity="sha384-h0AbiXch4ZDo7tp9hKZ4TsHbi047NrKGLO3SEJAg45jXxnGIfYzk4Si90RDIqNm1" crossorigin="anonymous"></script>
+{# <script src="{{ base_path }}dist/js/script.min.js" type="text/javascript" async defer></script> #}
 {# <script src="{{ asset('bundles/calista/calista.min.js') }}"></script> #}
 <script src="//cdn.jsdelivr.net/webshim/1.16.0/polyfiller.js"></script>
 <script>

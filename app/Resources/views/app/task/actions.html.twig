@@ -15,7 +15,7 @@
         {% set default_query = {} %}
     {% endif %}
     <a class="navbar-brand" href="{{ app_back_to_url(default_route, default_query) }}" title="{{ text }}">
-        <span class="glyphicon glyphicon-{{ app_back_to_icon(default_icon) }}" aria-hidden="true"></span>
+        <span class="fa fa-{{ app_back_to_icon(default_icon) }}" aria-hidden="true"></span>
         <span class="sr-only">{{ text }}</span>
     </a>
 {%- endmacro-%}
@@ -24,7 +24,7 @@
     {% if task.isStarred %}
         <form method="post" action="{{ path('app_task_unstar', {task: task.id, _from: app.request.requestUri}) }}">
             <button class="btn btn-link btn-link-warning">
-                <span class="glyphicon glyphicon-star" aria-hidden="true"></span>
+                <span class="fa fa-star" aria-hidden="true"></span>
                 {% if displayTitle %}
                     {{ "Unstar" }}
                 {% else %}
@@ -35,7 +35,7 @@
     {% else %}
         <form method="post" action="{{ path('app_task_star', {task: task.id, _from: app.request.requestUri}) }}">
             <button class="btn btn-link btn-link-warning">
-                <span class="glyphicon glyphicon-star-empty" aria-hidden="true"></span>
+                <span class="fa fa-star-empty" aria-hidden="true"></span>
                 {% if displayTitle %}
                     {{ "Star" }}
                 {% else %}
@@ -50,7 +50,7 @@
     {% if task.isHidden %}
         <form method="post" action="{{ path('app_task_unhide', {task: task.id, _from: app.request.requestUri}) }}">
             <button class="btn btn-link btn-link-success">
-                <span class="glyphicon glyphicon-eye-open" aria-hidden="true"></span>
+                <span class="fa fa-eye-open" aria-hidden="true"></span>
                 {% if displayTitle %}
                     {{ "Unhide" }}
                 {% else %}
@@ -60,7 +60,7 @@
         </form>
     {% else %}
         <a class="btn btn-link btn-link-danger" href="{{ path('app_task_hide', {task: task.id, _from: app.request.requestUri}) }}">
-            <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
+            <span class="fa fa-off" aria-hidden="true"></span>
             {% if displayTitle %}
                 {{ "Hide" }}
             {% else %}
@@ -72,7 +72,7 @@
 
 {%- macro add_button(displayTitle) -%}
     <a href="{{ path('app_task_add', {_from: app.request.requestUri}) }}" class="btn btn-primary">
-        <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        <span class="fa fa-plus" aria-hidden="true"></span>
         {% if displayTitle %}
             {{ "New task"|trans }}
         {% else %}

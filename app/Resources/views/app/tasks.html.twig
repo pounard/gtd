@@ -95,12 +95,12 @@
                     <td>
                         {% if task.isDone %}
                             <a class="text-success" href="{{ taskUrl }}">
-                                <span class="glyphicon glyphicon-ok" aria-hidden="true"></span>
+                                <span class="fa fa-ok" aria-hidden="true"></span>
                             </a>
                             &nbsp;
                         {% elseif factor > 7 %}
                             <a class="text-danger" href="{{ taskUrl }}">
-                                <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                                <span class="fa fa-exclamation-sign" aria-hidden="true"></span>
                             </a>
                             &nbsp;
                         {% endif %}
