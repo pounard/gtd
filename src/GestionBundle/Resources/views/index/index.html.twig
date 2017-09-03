@@ -8,12 +8,8 @@
 {% block content %}
     <div class="container" id="task-list" >
         <div class="row">
-            <div class="panel panel-default">
-                <div class="panel-heading">{{ "Contracts"|trans }}</div>
-                <div class="panel-body">
-                    {{ calista_page('gestion_dashboard_contract') }}
-                </div>
-            </div>
+            <h2>{{ "Contracts"|trans }}</h2>
+            {{ calista_page('gestion_dashboard_contract') }}
         </div>
     </div>
 {% endblock %}

@@ -49,7 +49,7 @@ calista:
                     serial:
                         label: Number
                         type: int
-                    period:
+                    periode:
                         label: Periodicity
                         type: string
                         string_maxlength: ~
