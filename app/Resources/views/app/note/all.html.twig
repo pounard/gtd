@@ -1,7 +1,7 @@
 {% for note in notes %}
     <div class="media">
         <div class="media-left">
-            <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+            <span class="fa fa-chevron-right" aria-hidden="true"></span>
         </div>
         <div class="media-body">
             <a href="{{ path('app_note_view', {task: task.id, note: note.id}) }}">

@@ -33,6 +33,32 @@
             </div>
             <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>
         </div>
+        {#
+        <form class="navbar-form navbar-right">
+            <div class="input-group">
+                <input placeholder="{{ "Search"|trans }}" class="form-control form-text" name="search" value="" maxlength="128" type="text"/>
+                <span class="input-group-btn">
+                    <button type="submit" title="{{ "Search"|trans }}" class="btn btn-primary">
+                        <span class="fa fa-search"></span>
+                    </button>
+                </span>
+            </div>
+        </form>
+         #}
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                <a href="{{ path('app_tasks') }}">
+                    <span class="fa fa-clock-o" aria-hidden="true"></span>
+                    {{ "Tasks"|trans }}
+                </a>
+            </li>
+            <li>
+                <a href="{{ path('gestion_index') }}">
+                    <span class="fa fa-wrench" aria-hidden="true"></span>
+                    {{ "Gestion"|trans }}
+                </a>
+            </li>
+        </ul>
     </div>
 </nav>
 <div id="app-body">

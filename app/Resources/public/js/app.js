@@ -1,3 +1,12 @@
+import 'bootstrap';
+import 'jquery';
+import 'jquery-form';
+//import 'webshim';
+
+// Webshims configuration
+//webshims.setOptions('forms-ext', {types: 'date'});
+//webshims.polyfill('forms forms-ext');
+
 (function ($) {
     "use strict";
 

@@ -3,11 +3,11 @@
 {% block menu %}
     <div class="buttons">
         <a href="{{ path('gestion_quittance_control', {contract: contract.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
-            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+            <span class="fa fa-cog" aria-hidden="true"></span>
             {{ "Control"|trans }}
         </a>
         <a href="{{ path('gestion_quittance_generate_form', {contract: contract.id, _from: app.request.requestUri}) }}" class="btn btn-primary">
-            <span class="glyphicon glyphicon-file" aria-hidden="true"></span>
+            <span class="fa fa-file" aria-hidden="true"></span>
             {{ "Export"|trans }}
         </a>
     </div>
