@@ -4,7 +4,7 @@
 
 {% block back_to %}
     {% import 'app/task/actions.html.twig' as actions %}
-    {{ actions.back_to('app_task_view', {task: task.id}, "Back to task"|trans, 'menu-left') }}
+    {{ actions.back_to('app_task_view', {task: task.id}, "Back to task"|trans, 'chevron-left') }}
 {% endblock %}
 
 {% block menu %}

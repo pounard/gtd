@@ -16,50 +16,43 @@
 {% flush %}
 {% block body %}
 <body>
-<nav class="navbar navbar-inverse navbar-static-top">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <button id="menu-toggle" type="button" class="navbar-toggle collapsed" aria-expanded="false">
-                <span class="sr-only">{{ "Toggle navigation"|trans }}</span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-            </button>
-            <div id="back-button" data-target="back-button">
-                {% block back_to %}
-                    {% import 'app/task/actions.html.twig' as actions %}
-                    {{ actions.back_to() }}
-                {% endblock %}
-            </div>
-            <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>
-        </div>
-        {#
-        <form class="navbar-form navbar-right">
-            <div class="input-group">
-                <input placeholder="{{ "Search"|trans }}" class="form-control form-text" name="search" value="" maxlength="128" type="text"/>
-                <span class="input-group-btn">
-                    <button type="submit" title="{{ "Search"|trans }}" class="btn btn-primary">
-                        <span class="fa fa-search"></span>
-                    </button>
-                </span>
-            </div>
-        </form>
-         #}
-        <ul class="nav navbar-nav navbar-right">
-            <li>
-                <a href="{{ path('app_tasks') }}">
-                    <span class="fa fa-clock-o" aria-hidden="true"></span>
-                    {{ "Tasks"|trans }}
-                </a>
-            </li>
-            <li>
-                <a href="{{ path('gestion_index') }}">
-                    <span class="fa fa-wrench" aria-hidden="true"></span>
-                    {{ "Gestion"|trans }}
-                </a>
-            </li>
-        </ul>
+<nav class="navbar navbar-expand-lg navbar-light bg-light justify-content-between">
+    <div class="navbar-brand" id="back-button" data-target="back-button">
+        {% block back_to %}
+            {% import 'app/task/actions.html.twig' as actions %}
+            {{ actions.back_to() }}
+        {% endblock %}
     </div>
+    <a class="navbar-brand" href="{{ path('app_tasks') }}">{% block page_title %}Getting things done{% endblock %}</a>
+    {#
+    <form class="navbar-form navbar-right">
+        <div class="input-group">
+            <input placeholder="{{ "Search"|trans }}" class="form-control form-text" name="search" value="" maxlength="128" type="text"/>
+            <span class="input-group-btn">
+                <button type="submit" title="{{ "Search"|trans }}" class="btn btn-primary">
+                    <span class="fa fa-search"></span>
+                </button>
+            </span>
+        </div>
+    </form>
+     #}
+    <button class="navbar-toggler" type="button" id="menu-toggle" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <ul class="navbar-nav">
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('app_tasks') }}">
+                <span class="fa fa-clock-o" aria-hidden="true"></span>
+                {{ "Tasks"|trans }}
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="{{ path('gestion_index') }}">
+                <span class="fa fa-wrench" aria-hidden="true"></span>
+                {{ "Gestion"|trans }}
+            </a>
+        </li>
+    </ul>
 </nav>
 <div id="app-body">
     <div id="app-panel" class="clearfix">

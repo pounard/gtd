@@ -2,7 +2,7 @@
 
 {% block back_to %}
     {% import 'app/task/actions.html.twig' as actions %}
-    {{ actions.back_to('gestion_quittance_list', {contract: contract.id}, "Back to contract"|trans, 'menu-left') }}
+    {{ actions.back_to('gestion_quittance_list', {contract: contract.id}, "Back to contract"|trans, 'chevron-left') }}
 {% endblock %}
 
 {% block content %}

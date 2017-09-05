@@ -3,7 +3,7 @@
 {%- macro back_to(default_route, default_query, default_text, default_icon) -%}
     {% set text = app_back_to_text("Back to home"|trans) %}
     {% if not default_icon %}
-        {% set default_icon = 'menu-left' %}
+        {% set default_icon = 'chevron-left' %}
     {% endif %}
     {% if not default_text %}
         {% set default_text = "Back to home"|trans %}
