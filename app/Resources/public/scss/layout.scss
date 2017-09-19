@@ -1,0 +1,49 @@
+
+html, body {
+    min-height: 100vh;
+    position: relative;
+}
+
+body {
+    display: flex;
+    flex-flow: column;
+
+    > nav {
+        flex: initial;
+    }
+    > #app-body {
+        flex: auto;
+        position: relative;
+    }
+}
+
+#back-button {
+    display: inline-block;
+    float: left;
+}
+
+#app-panel {
+    margin-right: $menu-panel-width;
+}
+
+#menu-panel {
+    padding: $grid-gutter-width;
+    width: $menu-panel-width;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+
+    .list-group-item {
+        @extend .bg-dark;
+        @extend .text-white;
+    }
+
+    label, a:not(.btn) {
+        @extend .text-white;
+    }
+}
+
+.table th, .table td {
+    vertical-align: middle; // Reset bootstrap stupid alignment
+}

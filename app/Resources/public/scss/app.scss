@@ -1,4 +1,21 @@
 $fa-font-path: "~font-awesome/fonts";
 
+$font-size-base: 1rem;
+$body-color: #333;
+$link-color: $body-color;
+
+// Custom variables
+$menu-panel-width: 300px !default;
+
 @import "~bootstrap/scss/bootstrap";
 @import "~font-awesome/scss/font-awesome";
+@import "layout";
+@import "task";
+
+html {
+    font-size: 14px;
+}
+
+.table-separator {
+    /* margin-top: $spacer / 2; */
+}

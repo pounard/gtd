@@ -13,64 +13,64 @@
     </div>
     <hr/>
     <form method="get">
-        <ul class="list-group">
-            <li class="list-group-item">
-                <label>{{ "Display:"|trans }}</label>
-                <br/>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="viewHidden" name="hidden" value="1"
-                            {% if app.request.get('hidden') %}checked="checked"{% endif %}
-                        />
-                        {{ "Hidden tasks"|trans }}
-                    </label>
-                </div>
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox" id="viewDone" name="done" value="1"
-                            {% if app.request.get('done') %}checked="checked"{% endif %}
-                        />
-                        {{ "Done tasks"|trans }}
-                    </label>
-                </div>
-            </li>
-            <li class="list-group-item">
-                <label>{{ "Sort by:"|trans }}</label>
-                <br/>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sort" value="deadline" id="sortDeadline"
-                            {% if 'deadline' == app.request.get('sort') %}checked="checked"{% endif %}
-                        />
-                        {{ "Deadline"|trans }}
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sort" value="updated" id="sortUpdated"
-                            {% if 'updated' == app.request.get('sort') %}checked="checked"{% endif %}
-                        />
-                        {{ "Update date"|trans }}
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sort" value="created" id="sortCreated"
-                            {% if 'created' == app.request.get('sort') %}checked="checked"{% endif %}
-                        />
-                        {{ "Creation date"|trans }}
-                    </label>
-                </div>
-                <div class="radio">
-                    <label>
-                        <input type="radio" name="sort" value="priority" id="sortPriority"
-                            {% if 'priority' == app.request.get('sort') %}checked="checked"{% endif %}
-                        />
-                        {{ "Priority"|trans }}
-                    </label>
-                </div>
-            </li>
-        </ul>
+        <label>{{ "Display:"|trans }}</label>
+        <br/>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="viewHidden" name="hidden" value="1"
+                    {% if app.request.get('hidden') %}checked="checked"{% endif %}
+                />
+                {{ "Hidden tasks"|trans }}
+            </label>
+        </div>
+        <div class="checkbox">
+            <label>
+                <input type="checkbox" id="viewDone" name="done" value="1"
+                    {% if app.request.get('done') %}checked="checked"{% endif %}
+                />
+                {{ "Done tasks"|trans }}
+            </label>
+        </div>
+
+        <hr/>
+
+        <label>{{ "Sort by:"|trans }}</label>
+        <br/>
+        <div class="radio">
+            <label>
+                <input type="radio" name="sort" value="deadline" id="sortDeadline"
+                    {% if 'deadline' == app.request.get('sort') %}checked="checked"{% endif %}
+                />
+                {{ "Deadline"|trans }}
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="sort" value="updated" id="sortUpdated"
+                    {% if 'updated' == app.request.get('sort') %}checked="checked"{% endif %}
+                />
+                {{ "Update date"|trans }}
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="sort" value="created" id="sortCreated"
+                    {% if 'created' == app.request.get('sort') %}checked="checked"{% endif %}
+                />
+                {{ "Creation date"|trans }}
+            </label>
+        </div>
+        <div class="radio">
+            <label>
+                <input type="radio" name="sort" value="priority" id="sortPriority"
+                    {% if 'priority' == app.request.get('sort') %}checked="checked"{% endif %}
+                />
+                {{ "Priority"|trans }}
+            </label>
+        </div>
+
+        <hr/>
+
         <div class="buttons">
             <button class="btn btn-primary">
                 {{ "Filter"|trans }}
@@ -103,26 +103,31 @@
                                 <span class="fa fa-exclamation-circle" aria-hidden="true"></span>
                             </a>
                             &nbsp;
+                        {% else %}
+                            <a class="text-muted" href="{{ taskUrl }}">
+                                <span class="fa fa-check" aria-hidden="true"></span>
+                            </a>
+                            &nbsp;
                         {% endif %}
                         <strong><a href="{{ taskUrl }}">{{ task.title }}</a></strong>
-                        <span class="hidden-sm hidden-md hidden-lg">{# - tags #}</span>
-                        <div class="table-separator hidden-md hidden-lg">
+                        <span class="d-sm-none">{# - tags #}</span>
+                        <div class="table-separator d-md-none">
                             <span class="text-muted text-small">{{ task.deadlinesAt|localizeddate('medium', 'short') }}</span>
-                            <span class="hidden-sm">- {{ actions.note_count(task, true) }}</span>
+                            <span class="d-sm-none">- {{ actions.note_count(task, true) }}</span>
                         </div>
                     </td>
                     </td>
-                    <td class="hidden-xs">
+                    <td class="d-none">
                         {{ actions.note_count(task, true) }}
                     </td>
-                    <td class="hidden-xs hidden-sm">
+                    <td class="d-none d-sm-table-cell">
                         {# @todo make helper for priority #}
                         {{ task.priority }}
                     </td>
-                    <td class="hidden-xs hidden-sm">
+                    <td class="d-none d-sm-table-cell">
                         {{ task.deadlinesAt|localizeddate('medium', 'short') }}
                     </td>
-                    <td class="hidden-xs">
+                    <td class="d-none">
                         {# - tags #}
                     </td>
                     <td class="td-single-button">

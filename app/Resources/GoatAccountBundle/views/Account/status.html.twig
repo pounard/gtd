@@ -26,9 +26,9 @@
 
 {% block menu %}
     {% if links %}
-        <ul class="list-group">
+        <ul class="list-unstyled">
             {% for link, text in links %}
-                <li class="list-group-item"><a href="{{ link }}">{{ text }}</a></li>
+                <li><a href="{{ link }}">{{ text }}</a></li>
             {% endfor %}
         </ul>
     {% else %}
