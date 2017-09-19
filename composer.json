@@ -4,9 +4,6 @@
     "type": "project",
         "repositories" : [{
             "type" : "vcs",
-            "url" : "git@github.com:makinacorpus/php-acl.git"
-        }, {
-            "type" : "vcs",
             "url" : "git@github.com:pounard/goat.git"
         }, {
             "type" : "vcs",
@@ -38,11 +35,12 @@
     "minimum-stability" : "dev",
     "prefer-stable" : true,
     "require": {
+	"cweagans/composer-patches": "^1.6",
         "friendsofsymfony/rest-bundle": "^2.1",
         "incenteev/composer-parameter-handler": "^2.0",
         "jenssegers/optimus": "^0.2.1",
         "jms/serializer-bundle": "^1.1",
-        "makinacorpus/php-acl": "dev-master",
+        "makinacorpus/php-acl": "^1.0",
         "makinacorpus/goat": "dev-master",
         "makinacorpus/goat-bundle": "dev-master",
         "makinacorpus/goat-bundle-account": "dev-master",
@@ -90,6 +88,11 @@
         "symfony-assets-install": "relative",
         "incenteev-parameters": {
             "file": "app/config/parameters.yml"
-        }
+        },
+	"patches": {
+            "dompdf/dompdf": {
+                "Fixes rendering by preventing PHP warnings": "patches/dompdf-prevent-php-warnings-render.patch"
+	    }
+	}
     }
 }
