@@ -1,0 +1,10 @@
+goat_query:
+    runner:
+        default:
+            driver: ext-pgsql
+            metadata_cache: apcu
+            url: '%env(resolve:DATABASE_URL)%'
+        logging:
+            driver: ext-pgsql
+            metadata_cache: apcu
+            url: '%env(resolve:DATABASE_URL)%'

@@ -1,0 +1,6 @@
+parameters:
+    env(APP_DEV_LOGIN_ENABLE): 1
+# nelmio_cors:
+#     defaults:
+#         allow_origin:
+#             - http://localhost:3000

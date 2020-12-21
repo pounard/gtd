@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "allowJs": true,
+        "alwaysStrict": true,
+        "baseUrl": "./assets",
+        "checkJs": false,
+        "declaration": false,
+        "inlineSources": true,
+        "lib": ["es2015", "es2015.promise", "es5", "es6", "dom"],
+        "module": "commonjs",
+        "noFallthroughCasesInSwitch": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+        "paths": {
+            "foodget/*": ["./dist/foodget/src/*"]
+        },
+        "removeComments": true,
+        "sourceMap": true,
+        "strict": true,
+        "strictNullChecks": true,
+        "target": "es2015"
+    },
+     "include": [
+        "assets/**/*"
+    ],
+    "exclude": [
+        "bin",
+        "config",
+        "node_modules",
+        "public",
+        "src",
+        "templates",
+        "tests",
+        "vendor",
+        "var"
+    ]
+}

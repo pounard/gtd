@@ -1,0 +1,128 @@
+parameters:
+    # Project identification.
+    project_name: "gtd"
+    project_version: "master"
+    env(PROJECT_ENV): "dev"
+    env(PROJECT_ID): "gtd"
+
+    # Base URL override for console, cron and bus workers.
+    env(ABSOLUTE_URL_DOMAIN): 'example.com'
+    env(ABSOLUTE_URL_SCHEME): 'http'
+    env(ABSOLUTE_URL_PORT): ''
+    router.request_context.host: '%env(ABSOLUTE_URL_DOMAIN)%'
+    router.request_context.scheme: '%env(ABSOLUTE_URL_SCHEME)%'
+    router.request_context.base_url: ''  # without the trailing '/' !!
+    asset.request_context.base_path: '%router.request_context.base_url%'
+    asset.request_context.secure: true
+    computed_absolute_url: "%router.request_context.scheme%://%router.request_context.host%%env(ABSOLUTE_URL_PORT)%%router.request_context.base_url%"
+
+    # Security bypass various features.
+    env(SECURITY_ALLOW_TEST_LOGIN): "%kernel.debug%"
+
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+        public: false
+        bind:
+            # $absoluteUrl: "%computed_absolute_url%"
+            # $debug: "%kernel.debug%"
+            # $kernelEnv: "%kernel.environment%"
+            # $loginTestEnabled: "%env(bool:SECURITY_ALLOW_TEST_LOGIN)%"
+            # $projectDir: "%kernel.project_dir%"
+
+    #
+    # Persistence
+    #
+
+    Gtd\Persistence\:
+        resource: '../src/Persistence/'
+        exclude: '../src/Persistence/*/Migration'
+
+    Gtd\Application\Location\Query\PersonneReadModel:
+        alias: Gtd\Persistence\Location\GoatPersonneRepository
+    Gtd\Domain\Location\Repository\PersonneRepository:
+        alias: Gtd\Persistence\Location\GoatPersonneRepository
+
+    #
+    # Misc.
+    #
+
+    goat.hydrator_registy:
+        class: Gtd\Infrastructure\Goat\Runner\NullHydratorRegistry
+
+    Gtd\Symfony\Shared\Security\ApiTokenEntryPoint:
+        autowire: true
+    Gtd\Symfony\Shared\Security\ApiTokenUserProvider:
+        autowire: true;
+    Gtd\Symfony\Shared\Security\ApiTokenAuthenticator:
+        autowire: true
+
+    #
+    # Renderers and serializers
+    #
+
+#     Gtd\Infrastructure\Calista\View\JsonViewRenderer:
+#         tags: [{name: calista.view, id: json}]
+
+#     Gtd\Infrastructure\Serializer\SymfonySerializerAdapter:
+#         arguments: ['@serializer']
+
+#     Gtd\Shared\Serializer\Serializer:
+#         alias: Gtd\Infrastructure\Serializer\SymfonySerializerAdapter
+
+#     Gtd\Infrastructure\Renderer\:
+#         resource: '../src/Infrastructure/Renderer'
+
+    #
+    # Symfony & others third-party
+    #
+
+    calista_type_renderers:
+        namespace: Gtd\Symfony\
+        resource: '../src/Symfony/*/Calista/TypeRenderer'
+        tags: ['calista.property_renderer']
+
+    symfony_normalizers:
+        namespace: Gtd\Symfony\
+        resource: '../src/Symfony/*/Serializer/Normalizer'
+        tags: ['serializer.normalizer']
+
+    symfony_controllers:
+        namespace: Gtd\Symfony\
+        resource: '../src/Symfony/*/Controller'
+        tags: ['controller.service_arguments']
+
+    symfony_event_subscribers:
+        namespace: Gtd\Symfony\
+        resource: '../src/Symfony/*/EventSubscriber'
+        tags: ['kernel.event_subscriber']
+
+    symfony_twig:
+        namespace: Gtd\Symfony\
+        resource: '../src/Symfony/*/Twig'
+        tags: ['twig.extension']
+
+    symfony_command:
+        namespace: Gtd\Symfony\
+        resource: '../src/Symfony/*/Command'
+        exclude: '../src/Symfony/Shared/Command'
+        tags: ['console.command']
+
+    # For error controller. 
+#     Symfony\Component\ErrorHandler\ErrorRenderer\ErrorRendererInterface:
+#         alias: twig.error_renderer.html
+
+    #
+    # Domain
+    #
+
+    # Tag is required for finding command handler methods.
+    domain_handlers:
+        namespace: Gtd\Domain\
+        resource: '../src/Domain/*/Handler'
+
+    # Tag is required for finding event listener methods.
+    domain_listeners:
+        namespace: Gtd\Domain\
+        resource: '../src/Domain/*/Listener'

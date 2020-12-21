@@ -1,0 +1,10 @@
+twig:
+    default_path: '%kernel.project_dir%/templates'
+    form_themes:
+        - bootstrap_4_horizontal_layout.html.twig
+        - "@Shared/common/form-theme.html.twig"
+        - "@System/common/form-theme/commune.html.twig"
+    globals:
+        public_directory: '%kernel.project_dir%/public'
+    paths:
+        templates/Shared: Shared

@@ -1,0 +1,38 @@
+security:
+    enable_authenticator_manager: true
+
+    # encoders:
+    #     IrpAuto\Security\Bundle\Security\GestionUser:
+    #         algorithm: auto
+    providers:
+        gtd_api:
+            id: Gtd\Symfony\Shared\Security\ApiTokenUserProvider
+    #     chain:
+    #         chain:
+    #             providers: [gtd_api]
+
+    firewalls:
+        dev:
+            pattern: ^/(_(profiler|wdt)|css|images|js)/
+            security: false
+
+        main:
+            # anonymous: ~
+            provider: gtd_api
+            entry_point: Gtd\Symfony\Shared\Security\ApiTokenEntryPoint
+            custom_authenticators:
+                - Gtd\Symfony\Shared\Security\ApiTokenAuthenticator
+            logout:
+                path: app_logout
+
+    role_hierarchy:
+        ROLE_LECTEUR: ROLE_PREVIEW
+        ROLE_WEBMASTER: ROLE_PREVIEW
+        ROLE_GESTIONNAIRE: ROLE_LECTEUR
+        ROLE_MANAGER: ROLE_GESTIONNAIRE
+        ROLE_ADMIN: [ROLE_MANAGER, ROLE_WEBMASTER, ROLE_ADMIN_HABILITATION]
+
+
+    # Les ACL sont interprétés dans l'ordre où elles sont écrites (détail TRÈS important).
+    access_control:
+        - { path: "^/", roles: ROLE_USER }

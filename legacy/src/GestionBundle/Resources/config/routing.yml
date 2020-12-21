@@ -1,0 +1,52 @@
+
+gestion_index:
+    path: gestion
+    defaults:
+        _controller: GestionBundle:Index:index
+
+gestion_letter_template:
+    path: gestion/letter/template
+    defaults:
+        _controller: GestionBundle:Index:letterTemplate
+
+gestion_etat_des_lieux:
+    path: gestion/letter/etat-des-lieux
+    defaults:
+        _controller: GestionBundle:Index:etatDesLieux
+
+gestion_depart_locataire:
+    path: gestion/letter/depart-locataire
+    defaults:
+        _controller: GestionBundle:Index:departLocataire
+
+gestion_quittance_list:
+    path: gestion/quittance/{contract}
+    defaults:
+        _controller: GestionBundle:Quittance:list
+
+gestion_quittance_control:
+    path: gestion/quittance/{contract}/control
+    defaults:
+        _controller: GestionBundle:Quittance:control
+
+gestion_quittance_generate_form:
+    path: gestion/quittance/{contract}/generate
+    defaults:
+        _controller: GestionBundle:Quittance:generateForm
+
+gestion_quittance_generate:
+    path: gestion/quittance/{contract}/generate/do
+    defaults:
+        _controller: GestionBundle:Quittance:generate
+    requirements:
+        from: "[*]{11,}"
+        to: "[*]{11,}"
+
+gestion_quittance_generate_pdf:
+    path: gestion/quittance/{contract}/generate/do/pdf
+    defaults:
+        _controller: GestionBundle:Quittance:generate
+        format: pdf
+    requirements:
+        from: "[*]{11,}"
+        to: "[*]{11,}"

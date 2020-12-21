@@ -1,0 +1,3 @@
+calista:
+    config:
+        theme: '@Gestion/calista.html.twig'

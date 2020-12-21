@@ -1,0 +1,14 @@
+# This file is auto-generated during the composer install
+parameters:
+    database_host: 'ext_pgsql://192.168.57.102/gtd'
+    database_user: gtd
+    database_password: gtd
+    mailer_transport: smtp
+    mailer_host: 127.0.0.1
+    mailer_user: null
+    mailer_password: null
+    secret: c8f51517b349733bc249bb0965f24cd2d07d1e8a
+    optimus.prime: 1987960439
+    optimus.inverse: 349526855
+    optimus.random: 121355855
+    cors_allow_origin: http://localhost

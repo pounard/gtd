@@ -1,0 +1,10 @@
+# This is parsed BEFORE config/services.yaml and config/services_<env>.yaml
+services:
+
+    test_hydrator:
+        alias: GeneratedHydrator\Bridge\Symfony\Hydrator
+        public: true
+
+    test_serializer:
+        alias: Symfony\Component\Serializer\SerializerInterface
+        public: true

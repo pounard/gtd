@@ -1,0 +1,28 @@
+app:
+    resource: "routing/app.yml"
+    prefix:   /
+
+task:
+    resource: "routing/task.yml"
+    prefix:   /
+
+note:
+    resource: "routing/note.yml"
+    prefix:   /
+
+alarm:
+    resource: "routing/alarm.yml"
+    prefix:   /
+
+gestion:
+    resource: "@GestionBundle/Resources/config/routing.yml"
+    prefix:   /
+
+calista:
+    resource: '@CalistaBundle/config/routing.yml'
+
+api:
+    resource: .
+    type:     api_platform
+    prefix:   /api
+

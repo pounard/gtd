@@ -1,0 +1,58 @@
+goat:
+
+    dispatcher:
+        enabled: true
+        with_profiling: false
+        with_transaction: false
+        with_event_store: false
+        with_lock: false
+
+    event_store:
+        enabled: true
+
+    lock:
+        enabled: false
+
+    monolog:
+        log_pid: true
+        always_log_stacktrace: false
+
+    # normalization:
+    #
+    #     map:
+    #         my_app.normalized_name: Php\Native\Type
+    #         my_app.other_normalized_name: Php\Other\Native\Type
+    #
+    #     aliases:
+    #         Php\Legacy\Name: Php\Native\Type
+    #         Php\EvenMoreLegacy\Name: Php\Native\Type
+    #         my_app.legacy_normalized_name: Php\Native\Type
+    #         my_app.other_legacy_normalized_name: my_app.normalized_name
+
+    preferences:
+        enabled: true
+        schema:
+
+            monitoring_apim_always_send_mail:
+                label: Rapport APIM même sans erreurs
+                description: Force la tâche de monitoring APIM à envoyer un rapport par mail même s'il n'y a pas eu d'erreurs lors de l'exécution.
+                type: bool
+                default: false
+
+            sicap_downgrade_validate_signature:
+                label: Activer la vérification de signature des liens de connexion
+                description: Il est dangereux de désactiver ce paramètre, mais vous pouvez lorsque le SICAP ne répond plus, seul les adhérents s'étant déjà connectés au moins une fois pourront se connecter.
+                type: bool
+                default: true
+
+            sicap_downgrade_validate_timestamp:
+                label: Activer la vérification de l'horodatage des liens de connexion
+                description: Désactiver cette fonctionnalité permet d'utiliser des liens de connexion périmés afin de les tester.
+                type: bool
+                default: true
+
+            sicap_downgrade_connect:
+                label: Activer le lien avec SICAP
+                description: En désactivant le lien avec SICAP, seul les adhérents s'étant déjà connectés à l'application au moins une fois seront en mesure de se connecter. De plus, des fonctionnalités tierces telles que les encours SICAP pourraient ne plus fonctionner.
+                type: bool
+                default: true

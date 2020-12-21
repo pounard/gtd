@@ -1,0 +1,3 @@
+# _shared_gestion:
+#     resource: './shared/gestion.yaml'
+#     prefix: /

@@ -1,0 +1,23 @@
+#!/usr/bin/env php
+<?php
+
+if (!file_exists(dirname(__DIR__).'/vendor/symfony/phpunit-bridge/bin/simple-phpunit')) {
+    echo "Unable to find the `simple-phpunit` script in `vendor/symfony/phpunit-bridge/bin/`.\n";
+    exit(1);
+}
+
+if (false === getenv('SYMFONY_PHPUNIT_DIR')) {
+    putenv('SYMFONY_PHPUNIT_DIR='.__DIR__.'/.phpunit');
+}
+
+// Rajouté à la main: on désactive le debug pour éviter que les data
+// collectors soient présents pendant les tests, ce qui éviter de casser
+// la limite mémoire de PHP, mais aussi d'aller plus vite, tout simplement.
+putenv('APP_DEBUG=0');
+
+// Rajouté à la main: ces deprecation notices m'énervent, et font parfois des
+// faux positifs, de plus l'impact sur la mémoire et les performances étaient
+// visibles sur les traces de profiling.
+putenv('SYMFONY_DEPRECATIONS_HELPER=disabled');
+
+require dirname(__DIR__).'/vendor/symfony/phpunit-bridge/bin/simple-phpunit';

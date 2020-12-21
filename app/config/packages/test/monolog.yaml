@@ -1,0 +1,16 @@
+monolog:
+    # PAS de log pendant les tests unitaires.
+    # C'est à la fois long, et inutile de toute façon puisque la CI ne va pas
+    # conserver l'environnement d'exécution.
+    handlers: []
+    # Si vous en avez besoin pour debug d'un test activez le comme ça:
+    #handlers:
+    #    main:
+    #        type: rotating_file
+    #        path: "%kernel.logs_dir%/%kernel.environment%.log"
+    #        date_format: Y-m-d
+    #        max_files: 30
+    #        level: debug
+    #        channels: ["!event"]
+    #        formatter: monolog.formatter.line
+    

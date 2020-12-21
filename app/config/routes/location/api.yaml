@@ -1,0 +1,4 @@
+# @todo this can be generated using a route loader.
+location_api_personne_list:
+    path: /personne/list
+    controller: Gtd\Symfony\Location\Controller\PersonneApiController::list

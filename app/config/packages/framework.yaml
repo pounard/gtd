@@ -1,0 +1,31 @@
+# see https://symfony.com/doc/current/reference/configuration/framework.html
+framework:
+    secret: '%env(APP_SECRET)%'
+    default_locale: fr
+    csrf_protection: true
+    # http_method_override: true
+
+    session:
+        # handler_id: app_session_handler
+        handler_id: ~
+        cookie_lifetime: 86400 # 24 hours
+        cookie_secure: auto
+        cookie_samesite: lax
+
+    #esi: true
+    #fragments: true
+    php_errors:
+        log: true
+
+    cache:
+        prefix_seed: gtd2
+        # pools:
+        #     app.editorial.cache:
+        #         adapter: cache.adapter.pdo
+
+
+    serializer:
+        enable_annotations: false
+
+    # Custom exception controller that handles client/gestion differenciation
+    # error_controller: Gtd\Symfony\System\Controller\Transverse\ErrorController::show

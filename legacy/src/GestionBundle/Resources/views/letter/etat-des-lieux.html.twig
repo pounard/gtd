@@ -1,0 +1,244 @@
+{% extends 'GestionBundle:letter:template.html.twig' %}
+
+{% block header %}{% endblock %}
+
+{% block text_footer %}{% endblock %}
+
+{% block title %}État des lieux{% endblock %}
+
+{% block subject %}État des lieux{% endblock %}
+
+{% block body %}
+<style type="text/css">
+  table {
+    width: 100%;
+    margin-bottom: .3cm;
+    padding-bottom: .3cm;
+    border-bottom: 1px solid #808080;
+  }
+  table.table-invisible {
+    border: none;
+  }
+  table.table-user-input, table.table-user-input td {
+    border-collapse: collapse;
+    border: 1px solid black;
+  }
+  table.table-user-input td.user-input {
+    vertical-align: top;
+  }
+  table.table-user-input th {
+    background: #ccc;
+  }
+  .center {
+    text-align: center;
+  }
+  .user-input {
+    /*border: 1px solid #ccc; */
+  }
+  .user-input-1 {
+    height: 2em;
+  }
+  .user-input-3 {
+    height: 6em;
+  }
+  .numeric {
+    text-align: right;
+  }
+  address {
+    display: inline;
+  }
+</style>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th>
+                Adresse des lieux loués
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <address>
+                    43 rue de la Fontaine de Barbin,<br/>
+                    44000 NANTES
+                </address>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th>
+                Date d'entrée
+            </th>
+            <th>
+                Date de sortie
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="center">
+                26/02/2016
+            </td>
+            <td class="user-input user-input-1">
+                <!-- Input -->
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th>
+                Dressé contradictoirement entre les soussignés
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="user-input user-input-3">
+                <strong>Nom et addresse du bailleur&nbsp;:</strong>
+            </td>
+        </tr>
+        <tr>
+            <td class="user-input user-input-3">
+                <strong>Nom et addresse du locataire&nbsp;:</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th>
+                Installation
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>
+                <strong>Eau chaude, individuel, Chaudière</strong>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <strong>Chauffage, individuel, Chaudière</strong>
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th colspan="4">
+                Relevé des compteurs
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Compteur
+            </th>
+            <th>
+                Numéro
+            </th>
+            <th>
+                Entrée
+            </th>
+            <th>
+                Sortie
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Eau</td>
+            <td class="numeric">D11CA038122</td>
+            <td class="numeric">108,090</td>
+            <td class="user-input user-input-1"></td>
+        </tr>
+        <tr>
+            <td>Gaz</td>
+            <td class="numeric">2008A1028285</td>
+            <td class="numeric">2601,898</td>
+            <td class="user-input user-input-1"></td>
+        </tr>
+        <tr>
+            <td>Électricité</td>
+            <td class="numeric">T285856</td>
+            <td class="numeric">37842</td>
+            <td class="user-input user-input-1"></td>
+        </tr>
+    </tbody>
+</table>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th colspan="2">
+                Dégradations relevés
+            </th>
+        </tr>
+        <tr>
+            <th>
+                Dénominatation
+            </th>
+            <th>
+                État&nbsp;/&nbsp;Notes
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in range(0, 10) %}
+            <tr>
+                <td class="user-input user-input-3"></td>
+                <td class="user-input user-input-3" style="width: 75%;"></td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+<p>Le présent état des lieux a été établi contradictoirement et accepté par les parties</p>
+
+<p>
+    Fait en <span class="muted">............</span>
+    exemplaires, à <span class="muted">.....................................</span>,
+    le <span class="muted">.......................................</span>
+</p>
+
+<table class="table-user-input">
+    <thead>
+        <tr>
+            <th>
+                Signature du locataire (1)
+            </th>
+            <th>
+                Signature du bailleur (1)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="user-input user-input-3">
+                <!-- Input -->
+            </td>
+            <td class="user-input user-input-3">
+                <!-- Input -->
+            </td>
+        </tr>
+    </tbody>
+</table>
+
+<p>
+    (1) Signature précédée de la mention "lu et approuvé" après paraphe ou signature de toutes les pages de l'état des lieux.
+</p>
+
+{% endblock %}

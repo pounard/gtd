@@ -1,0 +1,3 @@
+# _system_client:
+#     resource: ./system/client.yaml
+#     prefix: /

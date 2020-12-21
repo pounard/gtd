@@ -1,0 +1,9 @@
+parameters:
+    env(APP_DEV_LOGIN_ENABLE): 1
+    # base_url override for console commands
+    router.request_context.host: 'localhost'
+    router.request_context.scheme: 'http'
+# nelmio_cors:
+#     defaults:
+#         allow_origin:
+#             - http://localhost:3000

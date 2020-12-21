@@ -1,0 +1,18 @@
+app_logout:
+    path: /logout
+
+index:
+    controller: Gtd\Symfony\Shared\Controller\DefaultController::index
+    path: /
+
+_location_api:
+    resource: ./routes/location/api.yaml
+    prefix: /api/location/
+
+# _dav:
+#     resource: ./routes/client.yaml
+#    prefix: /dav/
+
+# _gestion:
+#     resource: ./routes/gestion.yaml
+#    prefix: /gestion

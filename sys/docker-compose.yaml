@@ -1,0 +1,34 @@
+version: '3.7'
+services:
+    postgres:
+        image: postgres:13.1
+        env_file: [docker.env]
+        restart: always
+
+    phpfpm:
+        build:
+            context: .
+            dockerfile: ./php80/Dockerfile
+        depends_on: [postgres]
+        restart: "no"
+        env_file: [docker.env]
+        working_dir: /var/www/html
+        volumes:
+            - "${APP_DIR}:/var/www/html"
+
+    nginx:
+        domainname: gtd.internal
+        build:
+            context: .
+            dockerfile: ./nginx/Dockerfile
+        depends_on: [phpfpm]
+        env_file: [docker.env]
+        image: nginx:1.17
+        ports: ["8642:80"]
+        volumes:
+            - "${APP_DIR}/public:/usr/share/nginx/html"
+            - "${APP_DIR}/var/logs/nginx:/var/log/nginx"
+
+# networks:
+#     web:
+#         external: true

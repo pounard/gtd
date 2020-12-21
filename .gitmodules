@@ -1,0 +1,3 @@
+[submodule "app/assets/dist/foodget"]
+	path = app/assets/dist/foodget
+	url = git@github.com:pounard/foodget.git
