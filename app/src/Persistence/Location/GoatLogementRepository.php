@@ -59,7 +59,13 @@ final class GoatLogementRepository extends AbstractGoatRepository implements Log
      */
     protected function applyListConditions(ListQuery $query, SelectQuery $select): void
     {
-        // Nothing here yet.
+        foreach ($query->query as $column => $values) {
+            switch ($column) {
+
+                default:
+                    throw new \DomainException(\sprintf("Filtrer sur la colonne '%s' n'est pas possible.", $column));
+            }
+        }
     }
 
     /**

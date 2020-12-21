@@ -54,6 +54,11 @@ services:
     Gtd\Domain\Location\Repository\ContratRepository:
         alias: Gtd\Persistence\Location\GoatContratRepository
 
+    Gtd\Application\Location\Query\PaiementReadModel:
+        alias: Gtd\Persistence\Location\GoatPaiementRepository
+    Gtd\Domain\Location\Repository\PaiementRepository:
+        alias: Gtd\Persistence\Location\GoatPaiementRepository
+
     Gtd\Application\Location\Query\QuittanceReadModel:
         alias: Gtd\Persistence\Location\GoatQuittanceRepository
     Gtd\Domain\Location\Repository\QuittanceRepository:

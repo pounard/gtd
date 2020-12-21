@@ -18,6 +18,10 @@ interface ContratReadModel extends ReadModel
 {
 }
 
+interface PaiementReadModel extends ReadModel
+{
+}
+
 interface QuittanceReadModel extends ReadModel
 {
 }

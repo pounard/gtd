@@ -56,7 +56,8 @@
         "classmap": [
             "src/Application/Location/Command.php",
             "src/Application/Location/Query.php",
-            "src/Domain/Location/Event.php"
+            "src/Domain/Location/Event.php",
+            "src/Domain/Location/Repository.php"
         ],
         "psr-4": {
             "Gtd\\Application\\": "src/Application",

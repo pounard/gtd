@@ -11,29 +11,29 @@ final class Quittance
 {
     public Identifier $id;
     public Identifier $contratId;
-    public int $serial;
-    public \DateTimeInterface $dateStart;
-    public \DateTimeInterface $dateStop;
-    public ?\DateTimeInterface $datePaiement = null;
-    public ?string $typePaiement;
-    public string $periode;
-    public int $loyer;
-    public int $provisionCharges;
+    public ?Identifier $paiementId = null;
+    public int $year;
+    public int $month;
+    public ?\DateTimeInterface $dateStart;
+    public ?\DateTimeInterface $dateStop;
+    public float $loyer; // @todo Monetary
+    public float $provisionCharges; // @todo Monetary
 
     public function __construct(
-        int $serial,
+        int $year,
+        int $month,
         \DateTimeInterface $dateStart,
         \DateTimeInterface $dateStop,
-        string $periode,
-        int $loyer,
-        int $provisionCharges
+        float $loyer,
+        float $provisionCharges
     ) {
         $this->contratId = UuidIdentifier::empty();
         $this->dateStart = $dateStart;
         $this->dateStop = $dateStop;
         $this->id = UuidIdentifier::empty();
         $this->loyer = $loyer;
-        $this->periode = $periode;
+        $this->loyer = $loyer;
+        $this->month = $month;
         $this->provisionCharges = $provisionCharges;
     }
 }

@@ -5,6 +5,10 @@ index:
     controller: Gtd\Symfony\Shared\Controller\DefaultController::index
     path: /
 
+api_command_dispatch:
+    controller: Gtd\Symfony\Shared\Controller\ApiEndpointController::dispatch
+    path: /api/dispatch
+
 _location_api:
     resource: ./routes/location/api.yaml
     prefix: /api/location/

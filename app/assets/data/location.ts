@@ -1,31 +1,22 @@
-import { DataColumnSpec, DataQuery, TableDataProvider } from "foodget/data";
+import { DataColumnSpec, DataProvider, DataQuery, TableDataProvider } from "foodget/data";
 import { Container } from "foodget/core";
 import { Label } from "foodget/display";
 
 import { CurrencyAmount, fetchList, Uuid } from "utils";
 
-/**
- * Person civilite.
- */
 export enum Civilite {
     Monsieur = "monsieur",
     Madame = "madame",
     Mademoiselle = "mademoiselle",
 }
 
-/**
- * Paiement type.
- */
 export enum TypePaiment {
     Virement = "virement",
     Cheque = "cheque",
     Espece = "espece",
-    Autre = "autre"
+    Autre = "autre",
 }
 
-/**
- * Common base structure for a few models.
- */
 export interface WithAddress {
     readonly addrComplement?: string;
     readonly addrLine1?: string;
@@ -34,9 +25,6 @@ export interface WithAddress {
     readonly addrPostcode?: string;
 }
 
-/**
- * Personne.
- */
 export interface Personne extends WithAddress {
     readonly id: Uuid;
     readonly emailAddress: string;
@@ -48,9 +36,6 @@ export interface Personne extends WithAddress {
     readonly telephone?: string;
 }
 
-/**
- * Personne.
- */
 export interface Logement extends WithAddress {
     readonly id: Uuid;
     readonly descriptif: string;
@@ -58,9 +43,6 @@ export interface Logement extends WithAddress {
     readonly proprietaireId?: Uuid;
 }
 
-/**
- * Personne.
- */
 export interface Contrat {
     readonly id: Uuid;
     readonly logementId: Uuid;
@@ -71,22 +53,27 @@ export interface Contrat {
     readonly provisionCharges: CurrencyAmount;
 }
 
-/**
- * Personne.
- */
+export interface Paiement {
+    readonly id: Uuid;
+    readonly personneId: Uuid;
+    readonly montant: CurrencyAmount;
+    readonly typePaiement: TypePaiment;
+    readonly date: string; // date
+}
+
 export interface Quittance {
     readonly id: Uuid;
     readonly contratId: Uuid;
-    readonly serial: number;
+    readonly paiementId?: Uuid;
+    readonly year: number;
+    readonly month: number;
     readonly dateStart: string; // date
     readonly dateStop: string; // date
-    readonly datePaiement?: string; // date
-    readonly typePaiement?: TypePaiment;
     readonly loyer: CurrencyAmount;
     readonly provisionCharges: CurrencyAmount;
 }
 
-export class PersonneDataProvider implements TableDataProvider<Personne> {
+export class PersonneDataProvider implements DataProvider<Personne> {
     /**
      * @inheritdoc
      */
@@ -117,6 +104,7 @@ export class PersonneDataProvider implements TableDataProvider<Personne> {
             { field: "telephone", label: "Téléphone", sortable: true },
             { field: "emailAddress", label: "Adresse e-mail", sortable: true },
             // @todo Adresse
+            { field: "actions", label: "", sortable: false }
         ];
     }
 }
@@ -184,6 +172,38 @@ export class ContratDataProvider implements TableDataProvider<Contrat> {
             { field: "date_stop", label: "Date de départ", sortable: true },
             { field: "loyer", label: "Loyer", sortable: true },
             { field: "charges", label: "Charges", sortable: true },
+        ];
+    }
+}
+
+export class PaiementDataProvider implements TableDataProvider<Paiement> {
+    /**
+     * @inheritdoc
+     */
+    createRow(row: Container, item: Paiement) {
+        row.addChild(new Label(item.date));
+        row.addChild(new Label(item.montant?.toString() ?? ''));
+        row.addChild(new Label(item.typePaiement));
+        row.addChild(new Label(item.personneId));
+    }
+
+    /**
+     * @inheritdoc
+     */
+    query(query: DataQuery<Paiement>) {
+        // You could use fetch here.
+        return fetchList<Paiement>("location/paiement/list", query);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getColumnSpec(): DataColumnSpec<Paiement>[] {
+        return [
+            { field: "date", label: "Date", sortable: true },
+            { field: "montant", label: "Montant" },
+            { field: "type", label: "Type de paiement", sortable: true },
+            { field: "personne", label: "Reçu de" },
         ];
     }
 }

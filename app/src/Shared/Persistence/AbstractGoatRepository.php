@@ -61,7 +61,7 @@ abstract class AbstractGoatRepository implements Repository, ReadModel
     public function find($id): ?object
     {
         return $this
-            ->select(true, $this->relation())
+            ->select(true)
             ->where($this->columnId(), $id)
             ->range(1)
             ->setOption('hydrator', $this->hydrator())
@@ -76,7 +76,7 @@ abstract class AbstractGoatRepository implements Repository, ReadModel
     public function exists($id): bool
     {
         return (bool)$this
-            ->select($this->relation())
+            ->select(false)
             ->columnExpression('true')
             ->where($this->columnId(), $id)
             ->range(1)

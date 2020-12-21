@@ -11,6 +11,10 @@ location_api_contrat_list:
     path: /contrat/list
     controller: Gtd\Symfony\Location\Controller\ContratApiController::list
 
+location_api_paiement_list:
+    path: /paiement/list
+    controller: Gtd\Symfony\Location\Controller\PaiementApiController::list
+
 location_api_quittance_list:
     path: /quittance/list
     controller: Gtd\Symfony\Location\Controller\QuittanceApiController::list

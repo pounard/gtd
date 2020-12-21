@@ -42,8 +42,8 @@ CREATE TABLE "contrat" (
     "id_locataire" uuid NOT NULL,
     "date_start" date NOT NULL,
     "date_stop" date DEFAULT NULL,
-    "loyer" bigint NOT NULL,
-    "provision_charges" bigint NOT NULL DEFAULT 0,
+    "loyer" decimal(10, 2) NOT NULL,
+    "provision_charges" decimal(10, 2) NOT NULL DEFAULT 0,
     FOREIGN KEY ("id_logement") REFERENCES "logement" ("id")
         ON DELETE NO ACTION
         DEFERRABLE INITIALLY DEFERRED,
@@ -52,20 +52,32 @@ CREATE TABLE "contrat" (
         DEFERRABLE INITIALLY DEFERRED
 );
 
-CREATE TABLE "quitance" (
+CREATE TABLE "paiement" (
+    "id" uuid PRIMARY KEY,
+    "id_personne" uuid NOT NULL,
+    "date" date NOT NULL,
+    "montant" decimal(10, 2),
+    "type_paiement" type_paiement DEFAULT NULL,
+    FOREIGN KEY ("id_personne") REFERENCES "personne" ("id")
+        ON DELETE NO ACTION
+        DEFERRABLE INITIALLY DEFERRED
+);
+
+CREATE TABLE "quittance" (
     "id" uuid PRIMARY KEY,
     "id_contrat" uuid NOT NULL,
-    "serial" bigint NOT NULL,
+    "id_paiement" uuid DEFAULT NULL,
+    "year" smallint NOT NULL,
+    "month" smallint NOT NULL,
     "date_start" date NOT NULL,
     "date_stop" date NOT NULL,
-    "date_paiement" date DEFAULT NULL,
-    "type_paiement" type_paiement DEFAULT NULL,
-    "periode" periode NOT NULL DEFAULT 'mensuel',
-    "loyer" bigint NOT NULL,
-    "provision_charges" bigint NOT NULL DEFAULT 0,
-    CHECK ("serial" > 0),
-    UNIQUE ("id_contrat", "serial"),
+    "loyer" decimal(10, 2) NOT NULL,
+    "provision_charges" decimal(10, 2) NOT NULL DEFAULT 0,
+    UNIQUE ("id_contrat", "year", "month"),
     FOREIGN KEY ("id_contrat") REFERENCES "contrat" ("id")
+        ON DELETE NO ACTION
+        DEFERRABLE INITIALLY DEFERRED,
+    FOREIGN KEY ("id_paiement") REFERENCES "paiement" ("id")
         ON DELETE NO ACTION
         DEFERRABLE INITIALLY DEFERRED
 );
