@@ -44,4 +44,6 @@ interface QuittanceRepository extends Repository
     ): Quittance;
 
     public function findForPeriode(Identifier $contratId, int $year, int $month): ?Quittance;
+
+    public function acquitte(Identifier $id, bool $gracieux): Quittance;
 }

@@ -24,6 +24,22 @@ final class QuittanceStubGenerateCommand implements Command
 }
 
 /**
+ * Mark a quittance has being "acquittée", boolean means "à titre gracieux"
+ * which means that quittance amount will not account in totals.
+ */
+final class QuittanceAcquitteCommand implements Command
+{
+    public Identifier $quittanceId;
+    public bool $gracieux;
+
+    public function __construct(Identifier $quittanceId, bool $gracieux)
+    {
+        $this->gracieux = $gracieux;
+        $this->quittanceId = $quittanceId;
+    }
+}
+
+/**
  * Register received paiement.
  */
 final class PaiementAddCommand implements Command

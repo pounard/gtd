@@ -11,6 +11,7 @@ final class Quittance
 {
     public Identifier $id;
     public Identifier $contratId;
+    /** Si acquittée, à quel paiement fait-elle référence ? */
     public ?Identifier $paiementId = null;
     public int $year;
     public int $month;
@@ -18,6 +19,10 @@ final class Quittance
     public ?\DateTimeInterface $dateStop;
     public float $loyer; // @todo Monetary
     public float $provisionCharges; // @todo Monetary
+    /** Est-elle acquitée ou non ? */
+    public bool $acquitte = false;
+    /** Si acquittée, acquittée à titre gracieux (travaux, autre arrangements) ? */
+    public bool $gracieux = false;
 
     public function __construct(
         int $year,

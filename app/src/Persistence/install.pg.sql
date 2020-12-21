@@ -73,6 +73,8 @@ CREATE TABLE "quittance" (
     "date_stop" date NOT NULL,
     "loyer" decimal(10, 2) NOT NULL,
     "provision_charges" decimal(10, 2) NOT NULL DEFAULT 0,
+    "acquitte" boolean DEFAULT false,
+    "gracieux" boolean DEFAULT false,
     UNIQUE ("id_contrat", "year", "month"),
     FOREIGN KEY ("id_contrat") REFERENCES "contrat" ("id")
         ON DELETE NO ACTION

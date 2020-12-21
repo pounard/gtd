@@ -73,6 +73,27 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
     /**
      * {@inheritdoc}
      */
+    public function acquitte(Identifier $id, bool $gracieux): Quittance
+    {
+        return $this
+            ->runner
+            ->getQueryBuilder()
+            ->update($this->relation())
+            ->sets([
+                'acquitte' => true,
+                'gracieux' => $gracieux,
+            ])
+            ->where('id', $id)
+            ->returning()
+            ->execute()
+            ->setHydrator($this->hydrator())
+            ->fetch()
+        ;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
     protected function columnId()
     {
         return 'id';
@@ -103,6 +124,8 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
             $ret->contratId = new UuidIdentifier($row['id_contrat']);
             $ret->id = new UuidIdentifier($row['id']);
             $ret->paiementId = $row['id_paiement'] ? new UuidIdentifier($row['id_paiement']) : null;
+            $ret->acquitte = $row['acquitte'];
+            $ret->gracieux = $row['gracieux'];
 
             return $ret;
         };
@@ -115,6 +138,9 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
     {
         foreach ($query->query as $column => $values) {
             switch ($column) {
+                case 'contrat':
+                    $select->where('id_contrat', $values);
+                    break;
 
                 default:
                     throw new \DomainException(\sprintf("Filtrer sur la colonne '%s' n'est pas possible.", $column));

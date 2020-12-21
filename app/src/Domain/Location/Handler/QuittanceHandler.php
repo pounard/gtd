@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Gtd\Domain\Location\Handler;
 
+use Gtd\Application\Location\Command\QuittanceAcquitteCommand;
 use Gtd\Application\Location\Command\QuittanceStubGenerateCommand;
+use Gtd\Domain\Location\Event\QuittanceAcquittedEvent;
 use Gtd\Domain\Location\Model\Contrat;
 use Gtd\Domain\Location\Model\Quittance;
 use Gtd\Domain\Location\Repository\ContratRepository;
@@ -22,6 +24,20 @@ final class QuittanceHandler extends AbstractCommandHandler
     ) {
         $this->contratRepository = $contratRepository;
         $this->quittanceRepository = $quittanceRepository;
+    }
+
+    public function doAquittement(QuittanceAcquitteCommand $command): void
+    {
+        $quittance = $this->quittanceRepository->find($command->quittanceId);
+
+        if (!$quittance) {
+            throw new \DomainException(\sprintf("La quittance avec l'identifiant '%s' n'existe pas", $command->quittanceId));
+        }
+        \assert($quittance instanceof Quittance);
+
+        $this->quittanceRepository->acquitte($command->quittanceId, $command->gracieux);
+
+        $this->notifyEvent(new QuittanceAcquittedEvent($command->quittanceId, $command->gracieux));
     }
 
     public function doGenerateStub(QuittanceStubGenerateCommand $command): void

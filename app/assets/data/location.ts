@@ -1,8 +1,8 @@
 import { DataColumnSpec, DataProvider, DataQuery, TableDataProvider } from "foodget/data";
-import { Container } from "foodget/core";
+import { Container, CellSizing, CellAlignment } from "foodget/core";
 import { Label } from "foodget/display";
 
-import { CurrencyAmount, fetchList, Uuid } from "utils";
+import { CurrencyAmount, fetchList, formatCurrency, Uuid } from "utils";
 
 export enum Civilite {
     Monsieur = "monsieur",
@@ -71,6 +71,8 @@ export interface Quittance {
     readonly dateStop: string; // date
     readonly loyer: CurrencyAmount;
     readonly provisionCharges: CurrencyAmount;
+    readonly acquitte: boolean;
+    readonly gracieux: boolean;
 }
 
 export class PersonneDataProvider implements DataProvider<Personne> {
@@ -140,19 +142,7 @@ export class LogementDataProvider implements TableDataProvider<Logement> {
     }
 }
 
-export class ContratDataProvider implements TableDataProvider<Contrat> {
-    /**
-     * @inheritdoc
-     */
-    createRow(row: Container, item: Contrat) {
-        row.addChild(new Label(item.logementId));
-        row.addChild(new Label(item.locataireId));
-        row.addChild(new Label(item.dateStart));
-        row.addChild(new Label(item.dateStop));
-        row.addChild(new Label(item.loyer?.toString() ?? ''));
-        row.addChild(new Label(item.provisionCharges?.toString() ?? ''));
-    }
-
+export class ContratDataProvider implements DataProvider<Contrat> {
     /**
      * @inheritdoc
      */
@@ -172,6 +162,7 @@ export class ContratDataProvider implements TableDataProvider<Contrat> {
             { field: "date_stop", label: "Date de départ", sortable: true },
             { field: "loyer", label: "Loyer", sortable: true },
             { field: "charges", label: "Charges", sortable: true },
+            { field: "actions", label: "", sortable: false },
         ];
     }
 }
@@ -182,7 +173,7 @@ export class PaiementDataProvider implements TableDataProvider<Paiement> {
      */
     createRow(row: Container, item: Paiement) {
         row.addChild(new Label(item.date));
-        row.addChild(new Label(item.montant?.toString() ?? ''));
+        row.addChild(new Label(formatCurrency(item.montant)), CellSizing.Shrink, CellAlignment.Right);
         row.addChild(new Label(item.typePaiement));
         row.addChild(new Label(item.personneId));
     }
@@ -207,3 +198,29 @@ export class PaiementDataProvider implements TableDataProvider<Paiement> {
         ];
     }
 }
+
+export class QuittanceDataProvider implements DataProvider<Quittance> {
+    /**
+     * @inheritdoc
+     */
+    query(query: DataQuery<Quittance>) {
+        // You could use fetch here.
+        return fetchList<Quittance>("location/quittance/list", query);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    getColumnSpec(): DataColumnSpec<Quittance>[] {
+        return [
+            { field: "contrat", label: "Date", sortable: true },
+            { field: "date_start", label: "Date de début", sortable: true },
+            { field: "date_stop", label: "Date de fin", sortable: true },
+            { field: "loyer", label: "Loyer", sortable: true },
+            { field: "charges", label: "Charges", sortable: true },
+            { field: "acquitte", label: "Acquittée" },
+            { field: "actions", label: "", sortable: false },
+        ];
+    }
+}
+

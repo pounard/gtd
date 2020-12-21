@@ -78,6 +78,13 @@ services:
     Gtd\Symfony\Shared\Security\ApiTokenAuthenticator:
         autowire: true
 
+    Gtd\Infrastructure\Goat\Normalization\CommandNameMappingStrategy:
+        autowire: true
+    Gtd\Infrastructure\Goat\Normalization\EventNameMappingStrategy:
+        autowire: true
+    Gtd\Infrastructure\Goat\Normalization\ModelNameMappingStrategy:
+        autowire: true
+
     #
     # Renderers and serializers
     #

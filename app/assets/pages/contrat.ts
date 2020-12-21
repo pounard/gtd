@@ -1,15 +1,16 @@
 import { App } from "foodget/app";
 import { ActionBar } from "foodget/container";
 import { CellSizing, Container, Signal } from "foodget/core";
-import { TableDataProvider } from "foodget/data";
+import { DataQuery, TableDataProvider } from "foodget/data";
 import { Label } from "foodget/display";
 import { Button } from "foodget/form";
 import { TableView } from "foodget/table";
 
-import { Personne, PersonneDataProvider } from "data/location";
-import { createPaiementTable } from "pages/location";
+import { Contrat, ContratDataProvider } from "data/location";
+import { createQuittanceTable } from "pages/quittance";
+import { formatCurrency, formatDate } from "utils";
 
-class PersonneTableDataProvider extends PersonneDataProvider implements TableDataProvider<Personne> {
+class ContratTableDataProvider extends ContratDataProvider implements TableDataProvider<Contrat> {
     private app: App;
 
     constructor(app: App) {
@@ -20,32 +21,25 @@ class PersonneTableDataProvider extends PersonneDataProvider implements TableDat
     /**
      * @inheritdoc
      */
-    createRow(row: Container, item: Personne) {
-        row.addChild(new Label(item.civilite));
-        row.addChild(new Label(item.nom));
-        row.addChild(new Label(item.prenom));
-        row.addChild(new Label(item.telephone));
-        row.addChild(new Label(item.emailAddress));
+    createRow(row: Container, item: Contrat) {
+        row.addChild(new Label(item.logementId));
+        row.addChild(new Label(item.locataireId));
+        row.addChild(new Label(formatDate(item.dateStart)));
+        row.addChild(new Label(formatDate(item.dateStop)));
+        row.addChild(new Label(formatCurrency(item.loyer)));
+        row.addChild(new Label(formatCurrency(item.provisionCharges)));
 
-        const viewPaiementButton = new Button("Paiements");
-        viewPaiementButton.connect(Signal.Clicked, () => {
-            createPaiementTable(
-                this.app,
-                "Paiements de " + item.nom + " " + item.prenom,
-                {
-                    query: {
-                        "personne": item.id.toString()
-                    }
-                }
-            );
+        const viewQuittantesButton = new Button("Quittances");
+        viewQuittantesButton.connect(Signal.Clicked, () => {
+            createQuittanceTable(this.app, item);
         });
-        row.addChild(viewPaiementButton, CellSizing.Shrink);
+        row.addChild(viewQuittantesButton, CellSizing.Shrink);
     }
 }
 
-export function createPersonneTable(app: App): void {
-    const window = app.stack("Personnes");
-    const table = new TableView<Personne>(new PersonneTableDataProvider(app));
+export function createContratTable(app: App, title?: string, query?: DataQuery<Contrat>): void {
+    const window = app.stack("Contrats");
+    const table = new TableView<Contrat>(new ContratTableDataProvider(app), query);
 
     const actionBar = new ActionBar();
     const actionBarLabel = new Label(`En cours de chargement...`);

@@ -5,12 +5,8 @@ import { ActionBar } from "foodget/container";
 import { Button } from "foodget/form";
 import { Signal } from "foodget/core";
 
-import {
-    createContratTable,
-    createLogementTable,
-    createPaiementTable,
-} from "pages/location";
-
+import { createContratTable } from "pages/contrat";
+import { createLogementTable, createPaiementTable, } from "pages/location";
 import { createPersonneTable } from "pages/personne";
 
 const element = document.querySelector("#app") as HTMLElement|null;

@@ -17,17 +17,11 @@ goat:
         log_pid: true
         always_log_stacktrace: false
 
-    # normalization:
-    #
-    #     map:
-    #         my_app.normalized_name: Php\Native\Type
-    #         my_app.other_normalized_name: Php\Other\Native\Type
-    #
-    #     aliases:
-    #         Php\Legacy\Name: Php\Native\Type
-    #         Php\EvenMoreLegacy\Name: Php\Native\Type
-    #         my_app.legacy_normalized_name: Php\Native\Type
-    #         my_app.other_legacy_normalized_name: my_app.normalized_name
+    normalization:
+        strategy:
+            command: Gtd\Infrastructure\Goat\Normalization\CommandNameMappingStrategy
+            event: Gtd\Infrastructure\Goat\Normalization\EventNameMappingStrategy
+            model: Gtd\Infrastructure\Goat\Normalization\ModelNameMappingStrategy
 
     preferences:
         enabled: true
