@@ -12,6 +12,9 @@ use Psr\Log\LoggerAwareInterface;
 use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 
+/**
+ * Consumes all messages synchronously.
+ */
 final class MemoryCommandBus implements SynchronousCommandBus, LoggerAwareInterface
 {
     use LoggerAwareTrait;
@@ -36,9 +39,26 @@ final class MemoryCommandBus implements SynchronousCommandBus, LoggerAwareInterf
                 ($this->handlerLocator->find($command))($command)
             );
         } catch (\Throwable $e) {
-            $this->logger->error("MemoryCommandBus: Error while processing: {command}: {exception}", ['command' => $command, 'exception' => $e]);
+            $this->logger->error("MemoryCommandBus: Error while processing: {command}: {trace}", ['command' => $command, 'trace' => $this->normalizeExceptionTrace($e)]);
 
             throw $e;
         }
+    }
+
+    /**
+     * Normalize exception trace.
+     */
+    private function normalizeExceptionTrace(\Throwable $exception): string
+    {
+        $output = '';
+        do {
+            if ($output) {
+                $output .= "\n";
+            }
+            $output .= \sprintf("%s: %s\n", \get_class($exception), $exception->getMessage());
+            $output .= $exception->getTraceAsString();
+        } while ($exception = $exception->getPrevious());
+
+        return $output;
     }
 }

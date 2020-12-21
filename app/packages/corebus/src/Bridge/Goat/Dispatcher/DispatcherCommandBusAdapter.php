@@ -10,8 +10,8 @@ use MakinaCorpus\CoreBus\CommandBus\CommandBus;
 use MakinaCorpus\CoreBus\CommandBus\SynchronousCommandBus;
 
 /**
- * Implementation of the \Goat\Dispatcher\Dispatcher interface that proxifies
- * all commands to our shared bus for processing.
+ * From the makinacorpus/goat dispatcher that fetches messages from message
+ * broker, pass messages from the queue to our synchronous command bus.
  */
 final class DispatcherCommandBusAdapter implements Dispatcher
 {

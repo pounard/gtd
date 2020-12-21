@@ -8,6 +8,7 @@ use MakinaCorpus\CoreBus\EventBus\DomainEvent;
 use MakinaCorpus\CoreBus\EventBus\EventListenerLocator;
 use MakinaCorpus\CoreBus\Implementation\Type\CallableReference;
 use MakinaCorpus\CoreBus\Implementation\Type\CallableReferenceList;
+use MakinaCorpus\CoreBus\Implementation\Type\DefaultCallableReferenceList;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
 use Symfony\Component\DependencyInjection\ContainerAwareTrait;
 
@@ -18,17 +19,19 @@ final class ContainerEventListenerLocator implements EventListenerLocator, Conta
     private CallableReferenceList $referenceList;
 
     /**
-     * @param array<string,string> $references
+     * @param array<string,string>|CallableReferenceList $references
      */
-    public function __construct(array $references)
+    public function __construct($references)
     {
-        $this->referenceList = new CallableReferenceList(DomainEvent::class, true);
-
-        foreach ($references as $id => $className) {
-            $this->referenceList->appendFromClass($className, $id);
+        if ($references instanceof CallableReferenceList) {
+            $this->referenceList = $references;
+        } else if (\is_array($references)) {
+            $this->referenceList = new DefaultCallableReferenceList(DomainEvent::class, false);
+            foreach ($references as $id => $className) {
+                $this->referenceList->appendFromClass($className, $id);
+            }
         }
     }
-
 
     /**
      * {@inheritdoc}

@@ -17,7 +17,14 @@ use Psr\Log\LoggerAwareTrait;
 use Psr\Log\NullLogger;
 
 /**
- * @todo Handle retry mechanism here.
+ * Encapsulate command processing and event emition into a transaction.
+ * If the transaction come to fail, emitted event buffer is discarded,
+ * database transaction is rollbacked, nothing happened. The exception
+ * will be throw anyway, if any other component is monitoring the bus
+ * they will be able to catch it.
+ *
+ * This component doesn't log anything, everything related to log handling,
+ * retry mechanism and monitoring should be done on decorator.
  */
 final class TransactionalCommandBus implements SynchronousCommandBus, EventBus, LoggerAwareInterface
 {

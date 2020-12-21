@@ -10,6 +10,10 @@ use MakinaCorpus\CoreBus\CommandBus\CommandBus;
 use MakinaCorpus\CoreBus\CommandBus\CommandResponsePromise;
 use MakinaCorpus\CoreBus\Implementation\CommandBus\Response\NeverCommandResponsePromise;
 
+/**
+ * From our command bus interface, catch messages and send them into
+ * makinacorpus/goat message broker instead.
+ */
 final class MessageBrokerCommandBus implements CommandBus
 {
     private MessageBroker $messageBroker;
