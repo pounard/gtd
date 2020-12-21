@@ -7,33 +7,26 @@ namespace Gtd\Domain\Location\Model;
 use Gtd\Shared\Domain\Model\Identifier;
 use Gtd\Shared\Domain\Model\UuidIdentifier;
 
-final class Quittance
+final class Contrat
 {
     public Identifier $id;
-    public Identifier $contratId;
-    public int $serial;
+    public Identifier $logementId;
+    public Identifier $locataireId;
     public \DateTimeInterface $dateStart;
-    public \DateTimeInterface $dateStop;
-    public ?\DateTimeInterface $datePaiement = null;
-    public ?string $typePaiement;
-    public string $periode;
+    public ?\DateTimeInterface $dateStop;
     public int $loyer;
     public int $provisionCharges;
 
     public function __construct(
-        int $serial,
         \DateTimeInterface $dateStart,
-        \DateTimeInterface $dateStop,
-        string $periode,
         int $loyer,
         int $provisionCharges
     ) {
-        $this->contratId = UuidIdentifier::empty();
         $this->dateStart = $dateStart;
-        $this->dateStop = $dateStop;
         $this->id = UuidIdentifier::empty();
+        $this->locataireId = UuidIdentifier::empty();
+        $this->logementId = UuidIdentifier::empty();
         $this->loyer = $loyer;
-        $this->periode = $periode;
         $this->provisionCharges = $provisionCharges;
     }
 }

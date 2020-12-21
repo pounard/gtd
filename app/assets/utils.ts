@@ -9,13 +9,9 @@ const BASE_URI = "http://localhost:8642/api/";
 export type Uuid = string;
 
 /**
- * Person civilite.
+ * We have no monetary type for now, but we will.
  */
-export enum Civilite {
-    Monsieur = "monsieur",
-    Madame = "madame",
-    Mademoiselle = "mademoiselle",
-}
+export type CurrencyAmount = number
 
 /**
  * Just trust the server to speak the same language as us and send the data
@@ -38,15 +34,4 @@ export function fetchList<T>(route: string, query?: DataQuery<T>): Promise<DataR
         })
         .then(response => response.json())
     ;
-}
-
-/**
- * Common base structure for a few models.
- */
-export interface WithAddress {
-    readonly addrComplement?: string;
-    readonly addrLine1?: string;
-    readonly addrLine2?: string;
-    readonly addrCity?: string;
-    readonly addrPostcode?: string;
 }

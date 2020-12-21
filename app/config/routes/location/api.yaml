@@ -2,3 +2,15 @@
 location_api_personne_list:
     path: /personne/list
     controller: Gtd\Symfony\Location\Controller\PersonneApiController::list
+
+location_api_logement_list:
+    path: /logement/list
+    controller: Gtd\Symfony\Location\Controller\LogementApiController::list
+
+location_api_contrat_list:
+    path: /contrat/list
+    controller: Gtd\Symfony\Location\Controller\ContratApiController::list
+
+location_api_quittance_list:
+    path: /quittance/list
+    controller: Gtd\Symfony\Location\Controller\QuittanceApiController::list

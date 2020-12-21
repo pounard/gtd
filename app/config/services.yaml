@@ -44,6 +44,21 @@ services:
     Gtd\Domain\Location\Repository\PersonneRepository:
         alias: Gtd\Persistence\Location\GoatPersonneRepository
 
+    Gtd\Application\Location\Query\LogementReadModel:
+        alias: Gtd\Persistence\Location\GoatLogementRepository
+    Gtd\Domain\Location\Repository\LogementRepository:
+        alias: Gtd\Persistence\Location\GoatLogementRepository
+
+    Gtd\Application\Location\Query\ContratReadModel:
+        alias: Gtd\Persistence\Location\GoatContratRepository
+    Gtd\Domain\Location\Repository\ContratRepository:
+        alias: Gtd\Persistence\Location\GoatContratRepository
+
+    Gtd\Application\Location\Query\QuittanceReadModel:
+        alias: Gtd\Persistence\Location\GoatQuittanceRepository
+    Gtd\Domain\Location\Repository\QuittanceRepository:
+        alias: Gtd\Persistence\Location\GoatQuittanceRepository
+
     #
     # Misc.
     #

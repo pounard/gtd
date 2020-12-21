@@ -4,54 +4,22 @@ declare(strict_types=1);
 
 namespace Gtd\Domain\Location\Model;
 
+use Gtd\Shared\Domain\Model\Identifier;
+use Gtd\Shared\Domain\Model\UuidIdentifier;
+
 final class Logement
 {
     use AddressAwareTrait;
 
-    private $id;
-    private $id_mandataire;
-    private $id_proprietaire;
-    private $descriptif;
+    public Identifier $id;
+    public string $descriptif;
+    public Identifier $mandataireId;
+    public ?Identifier $proprietaireId = null;
 
-    /**
-     * Get id
-     *
-     * @return int
-     */
-    public function getId() : int
+    public function __construct(string $descriptif)
     {
-        return (int)$this->id;
-    }
-
-    /**
-     * Get id_mandataire
-     *
-     * @return int
-     */
-    public function getMandataireId() : int
-    {
-        return (int)$this->id_mandataire;
-    }
-
-    /**
-     * Get id_proprietaire
-     *
-     * @return null|int
-     */
-    public function getProprietaireId()
-    {
-        if (isset($this->id_proprietaire)) {
-            return (int)$this->id_proprietaire;
-        }
-    }
-
-    /**
-     * Get description
-     *
-     * @return string
-     */
-    public function getDescription() : string
-    {
-        return (string)$this->descriptif;
+        $this->descriptif = $descriptif;
+        $this->id = UuidIdentifier::empty();
+        $this->proprietaireId = UuidIdentifier::empty();
     }
 }

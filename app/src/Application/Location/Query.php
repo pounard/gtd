@@ -9,3 +9,15 @@ use Gtd\Shared\Application\Query\ReadModel;
 interface PersonneReadModel extends ReadModel
 {
 }
+
+interface LogementReadModel extends ReadModel
+{
+}
+
+interface ContratReadModel extends ReadModel
+{
+}
+
+interface QuittanceReadModel extends ReadModel
+{
+}

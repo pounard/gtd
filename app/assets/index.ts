@@ -5,7 +5,7 @@ import { ActionBar } from "foodget/container";
 import { Button } from "foodget/form";
 import { Signal } from "foodget/core";
 
-import { createPersonneTable } from "pages/personnes";
+import { createContratTable, createLogementTable, createPersonneTable } from "pages/location";
 
 const element = document.querySelector("#app") as HTMLElement|null;
 if (element) {
@@ -20,6 +20,16 @@ if (element) {
     const openPersonnes = new Button("Personnes");
     openPersonnes.connect(Signal.Clicked, () => createPersonneTable(app));
     actionBar.addChild(openPersonnes);
+    mainWindow.addChild(actionBar);
+
+    const openLogements = new Button("Logements");
+    openLogements.connect(Signal.Clicked, () => createLogementTable(app));
+    actionBar.addChild(openLogements);
+    mainWindow.addChild(actionBar);
+
+    const openContrats = new Button("Contrats");
+    openContrats.connect(Signal.Clicked, () => createContratTable(app));
+    actionBar.addChild(openContrats);
     mainWindow.addChild(actionBar);
 
     app.start(element);

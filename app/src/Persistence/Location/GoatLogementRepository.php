@@ -5,15 +5,15 @@ declare (strict_types=1);
 namespace Gtd\Persistence\Location;
 
 use Goat\Query\SelectQuery;
-use Gtd\Application\Location\Query\PersonneReadModel;
-use Gtd\Domain\Location\Model\Personne;
-use Gtd\Domain\Location\Repository\PersonneRepository;
+use Gtd\Application\Location\Query\LogementReadModel;
+use Gtd\Domain\Location\Model\Logement;
+use Gtd\Domain\Location\Repository\LogementRepository;
 use Gtd\Shared\Application\Query\ListQuery;
 use Gtd\Shared\Domain\Model\UuidIdentifier;
 use Gtd\Shared\Persistence\AbstractGoatRepository;
 use Gtd\Shared\Persistence\ListSort;
 
-final class GoatPersonneRepository extends AbstractGoatRepository implements PersonneRepository, PersonneReadModel
+final class GoatLogementRepository extends AbstractGoatRepository implements LogementRepository, LogementReadModel
 {
     /**
      * {@inheritdoc}
@@ -28,7 +28,7 @@ final class GoatPersonneRepository extends AbstractGoatRepository implements Per
      */
     protected function relation()
     {
-        return 'personne';
+        return 'logement';
     }
 
     /**
@@ -36,17 +36,13 @@ final class GoatPersonneRepository extends AbstractGoatRepository implements Per
      */
     protected function hydrator(): callable
     {
-        return static function (array $row): Personne {
-            $ret = new Personne(
-                $row['nom'],
-                $row['prenom']
+        return static function (array $row): Logement {
+            $ret = new Logement(
+                $row['descriptif']
             );
-            $ret->civilite = $row['civilite'];
-            // $ret->dateNaissance = $row['date_naissance'];
-            $ret->emailAddress = $row['mail'];
+            $ret->mandataireId = new UuidIdentifier($row['id_mandataire']);
+            $ret->proprietaireId = $row['id_proprietaire'] ? new UuidIdentifier($row['id_proprietaire']) : null;
             $ret->id = new UuidIdentifier($row['id']);
-            $ret->telephone = $row['telephone'];
-            $ret->villeNaissance = $row['ville_naissance'];
 
             $ret->addrCity = $row['addr_city'];
             $ret->addrComplement = $row['addr_complement'];
@@ -72,21 +68,10 @@ final class GoatPersonneRepository extends AbstractGoatRepository implements Per
     protected function applyListSort(ListQuery $query, SelectQuery $select, int $sqlSortOrder): ListSort
     {
         switch ($query->sortOrder ?? 'none') {
-
-            case 'nom':
-                $select->orderBy('nom', $sqlSortOrder);
-
-                return new ListSort('nom', $query->sortOrder);
-
-            case 'prenom':
-                $select->orderBy('prenom', $sqlSortOrder);
-
-                return new ListSort('prenom', $query->sortOrder);
-
             default:
-                $select->orderBy('nom', $sqlSortOrder);
+                $select->orderBy('descriptif', $sqlSortOrder);
 
-                return new ListSort('nom', $query->sortOrder);
+                return new ListSort('descriptif', $query->sortOrder);
         }
     }
 }
