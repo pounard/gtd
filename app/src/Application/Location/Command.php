@@ -31,11 +31,46 @@ final class QuittanceAcquitteCommand implements Command
 {
     public Identifier $quittanceId;
     public bool $gracieux;
+    public ?\DateTimeInterface $dateAcquittement;
 
-    public function __construct(Identifier $quittanceId, bool $gracieux)
+    public function __construct(Identifier $quittanceId, bool $gracieux, ?\DateTimeInterface $dateAcquittement)
     {
         $this->gracieux = $gracieux;
         $this->quittanceId = $quittanceId;
+        $this->dateAcquittement = $dateAcquittement;
+    }
+}
+
+/**
+ * Generate "quittances acquittées" (frenglish my friend, best language in the
+ * world) "courrier". 
+ */
+final class QuittanceGenerateCourrierCommand implements Command
+{
+    /** @var Identifier[] */
+    public array $quittanceIdList = [];
+
+    public function __construct(array $quittanceIdList)
+    {
+        foreach ($quittanceIdList as $quittanceId) {
+            if (!$quittanceId instanceof Identifier) {
+                throw new \InvalidArgumentException();
+            }
+            $this->quittanceIdList[] = $quittanceId;
+        }
+    }
+}
+
+/**
+ * Generate Generate "quittances acquittées courrier" response.
+ */
+final class QuittanceGenerateCourrierResponse implements Response
+{
+    public Identifier $courrierId;
+
+    public function __construct(Identifier $courrierId)
+    {
+        $this->courrierId = $courrierId;
     }
 }
 

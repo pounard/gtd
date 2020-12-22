@@ -43,7 +43,15 @@ interface QuittanceRepository extends Repository
         float $provisionCharges // @todo Monetary
     ): Quittance;
 
-    public function findForPeriode(Identifier $contratId, int $year, int $month): ?Quittance;
+    public function findForPeriode(
+        Identifier $contratId,
+        int $year,
+        int $month
+    ): ?Quittance;
 
-    public function acquitte(Identifier $id, bool $gracieux): Quittance;
+    public function acquitte(
+        Identifier $id,
+        bool $gracieux,
+        ?\DateTimeInterface $dateAcquittement
+    ): Quittance;
 }

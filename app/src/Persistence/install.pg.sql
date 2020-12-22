@@ -2,6 +2,13 @@ CREATE TYPE "type_paiement" AS ENUM ('virement', 'cheque', 'espece', 'autre');
 CREATE TYPE "civilite" AS ENUM ('monsieur', 'madame', 'mademoiselle');
 CREATE TYPE "periode" AS ENUM ('mensuel');
 
+CREATE TABLE courrier (
+    "id" uuid PRIMARY KEY,
+    "date" timestamp with time zone NOT NULL DEFAULT current_timestamp,
+    "titre" varchar(500) DEFAULT 'Lettre sans nom',
+    "text" text NOT NULL
+);
+
 CREATE TABLE personne (
     "id" uuid PRIMARY KEY,
     "nom" varchar(255) NOT NULL,
@@ -75,6 +82,7 @@ CREATE TABLE "quittance" (
     "provision_charges" decimal(10, 2) NOT NULL DEFAULT 0,
     "acquitte" boolean DEFAULT false,
     "gracieux" boolean DEFAULT false,
+    "date_acquittement" date DEFAULT NULL,
     UNIQUE ("id_contrat", "year", "month"),
     FOREIGN KEY ("id_contrat") REFERENCES "contrat" ("id")
         ON DELETE NO ACTION

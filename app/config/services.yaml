@@ -64,6 +64,11 @@ services:
     Gtd\Domain\Location\Repository\QuittanceRepository:
         alias: Gtd\Persistence\Location\GoatQuittanceRepository
 
+    Gtd\Application\Courrier\Query\CourrierReadModel:
+        alias: Gtd\Persistence\Courrier\GoatCourrierRepository
+    Gtd\Domain\Courrier\Repository\CourrierRepository:
+        alias: Gtd\Persistence\Courrier\GoatCourrierRepository
+
     #
     # Misc.
     #
@@ -127,7 +132,7 @@ services:
 
     symfony_twig:
         namespace: Gtd\Symfony\
-        resource: '../src/Symfony/*/Twig'
+        resource: '../src/Symfony/*/Twig/Extension'
         tags: ['twig.extension']
 
     symfony_command:
@@ -143,6 +148,10 @@ services:
     #
     # Domain
     #
+
+    domain_services:
+        namespace: Gtd\Domain\
+        resource: '../src/Domain/*/Service'
 
     # Tag is required for finding command handler methods.
     domain_handlers:

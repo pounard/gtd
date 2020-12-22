@@ -7,4 +7,5 @@ twig:
     globals:
         public_directory: '%kernel.project_dir%/public'
     paths:
+        templates/Location: Location
         templates/Shared: Shared

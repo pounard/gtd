@@ -1,0 +1,67 @@
+{% extends 'GestionBundle:letter:template.html.twig' %}
+
+{% block title %}Déclaration au départ du locataire{% endblock %}
+{% block subject %}Déclaration au départ du locataire{% endblock %}
+
+{% block from %}
+  <address>
+    Pierre RINEAU<br/>
+    26 rue Aristide Briand<br/>
+    44400 REZÉ<br/>
+  </address>
+{% endblock %}
+
+{% block from_phone %}
+  <phone>
+    Téléphone&nbsp;: +33 0 6 12 34 56
+  </phone>
+{% endblock %}
+
+{% block recipient %}
+  <address>
+    Direction Générale des Finances Publiques de Loire-Atlantique<br/>
+    Cité Administrative Cambronne<br/>
+    40 rue du 65ème R.I.<br/>
+    44000 Nantes<br/>
+  </address>
+{% endblock %}
+
+{% block logo %}
+{% endblock %}
+
+{% block reference %}
+{% endblock %}
+
+{% block signature_nom %}Pierre RINEAU{% endblock %}
+
+{% block body %}
+  <p>
+    Madame, Monsieur,
+  </p>
+  <p>
+    Je vous signale le départ du locataire ci-après dénommé et vous
+    communique les renseignements en ma possession.
+    <br/><br/>
+    Adresse des lieux loués&nbsp;:<br/>
+    <address class="data">
+      43 rue de la fontaine de Barbin<br/>
+      44000 NANTES
+    </address>
+    <br/><br/>
+    Nom et prénoms du locataire partant&nbsp;: <span class="data">Mr Alexis MANDIN-PAJOT</span>.
+    <br/><br/>
+    Date du départ&nbsp;: <span class="data">le 28 février 2018</span>.
+    <br/><br/>
+    Nouvelle adresse du locataire&nbsp;:<br/>
+    <address class="data">
+        3 boulevard Georges Pompidou<br/>
+        44200 NANTES
+    </address>
+    <br/><br/>
+    <span class="data">Aucun nouveau locataire n'occupe ce logement</span> car des travaux de réparation sont en cours.
+    <br/><br/>
+    Nom et prénoms du propriétaire&nbsp;: <span class="data">Mr Pierre RINEAU</span>
+    <br/><br/>
+    <span class="data">Les lieux sont actuellement vides de tout mobilier.</span>
+  </p>
+{% endblock %}

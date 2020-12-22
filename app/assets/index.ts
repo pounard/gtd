@@ -6,6 +6,7 @@ import { Button } from "foodget/form";
 import { Signal } from "foodget/core";
 
 import { createContratTable } from "pages/contrat";
+import { createHome } from "pages/home";
 import { createLogementTable, createPaiementTable, } from "pages/location";
 import { createPersonneTable } from "pages/personne";
 
@@ -13,9 +14,6 @@ const element = document.querySelector("#app") as HTMLElement|null;
 if (element) {
     const app = new App();
     const mainWindow = app.stack("Getting Things Done");
-
-    // const sidebar = mainWindow.createSidebar();
-    // sidebar.addChild(new Label("This is a SideBar!"));
 
     const actionBar = new ActionBar();
     mainWindow.addChild(actionBar);
@@ -35,6 +33,8 @@ if (element) {
     const openPaiements = new Button("Paiements");
     openPaiements.connect(Signal.Clicked, () => createPaiementTable(app));
     actionBar.addChild(openPaiements);
+
+    createHome(app);
 
     app.start(element);
 }

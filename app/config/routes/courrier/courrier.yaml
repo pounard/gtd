@@ -1,0 +1,7 @@
+courrier_template:
+    controller: Gtd\Symfony\Courrier\Controller\CourrierController::template
+    path: /template
+
+courrier:
+    controller: Gtd\Symfony\Courrier\Controller\CourrierController::courrier
+    path: /get/{id}

@@ -54,8 +54,12 @@
     },
     "autoload": {
         "classmap": [
+            "src/Application/Courrier/Command.php",
+            "src/Application/Courrier/Query.php",
             "src/Application/Location/Command.php",
             "src/Application/Location/Query.php",
+            "src/Domain/Courrier/Event.php",
+            "src/Domain/Courrier/Repository.php",
             "src/Domain/Location/Event.php",
             "src/Domain/Location/Repository.php"
         ],

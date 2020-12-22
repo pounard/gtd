@@ -5,6 +5,10 @@ index:
     controller: Gtd\Symfony\Shared\Controller\DefaultController::index
     path: /
 
+courrier_courrier:
+    resource: ./routes/courrier/courrier.yaml
+    prefix: /courrier/
+
 api_command_dispatch:
     controller: Gtd\Symfony\Shared\Controller\ApiEndpointController::dispatch
     path: /api/dispatch

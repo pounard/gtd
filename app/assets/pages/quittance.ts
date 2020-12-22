@@ -3,14 +3,66 @@ import { ActionBar, HorizontalPane, StatusBar } from "foodget/container";
 import { CellAlignment, CellSizing, Container, Signal } from "foodget/core";
 import { DataQuery, TableDataProvider } from "foodget/data";
 import { Label } from "foodget/display";
-import { Button } from "foodget/form";
+import { Button, CheckBox } from "foodget/form";
 import { ListBox } from "foodget/list";
 import { TableView } from "foodget/table";
 
 import { Contrat, PaiementDataProvider, Quittance, QuittanceDataProvider } from "data/location";
-import { formatCurrency, formatDate, sendCommand, CommandType } from "utils";
+import { CommandType, formatCurrency, formatDate, sendCommand, Uuid } from "utils";
 
-function controlQuittanceLeftBox(contrat: Contrat, parent: Container) {
+function generateQuittanceFormWindow(app: App, contrat: Contrat): void {
+    const window = app.stack("Génération des quittances");
+
+    const actionBar = new ActionBar();
+    window.addChild(actionBar);
+    const closeButton = new Button("Close");
+    closeButton.connect(Signal.Clicked, () => app.disposeCurrent())
+    actionBar.addChild(closeButton)
+
+    const checked = new Set<Uuid>();
+
+    const listBox = new ListBox();
+    window.addChild(listBox);
+    listBox.setInitializer(container => {
+        (new QuittanceDataProvider()).query({ query: { contrat: contrat.id.toString(), acquitte: "true" }}).then(response => {
+            response.items.forEach(item => {
+                container.addRow(row => {
+                    let loyerEtCharges = item.loyer + item.provisionCharges;
+                    row.addChild(new Label(formatDate(item.dateStart) + " au " + formatDate(item.dateStop)), CellSizing.Expand);
+                    row.addChild(new Label(formatCurrency(item.loyer)));
+                    row.addChild(new Label(formatCurrency(item.provisionCharges)));
+                    row.addChild(new Label(formatCurrency(loyerEtCharges)));
+                    const checkbox = new CheckBox();
+                    row.addChild(checkbox, CellSizing.Shrink, CellAlignment.Right);
+                    checkbox.connect(Signal.Clicked, input => {
+                        if (input.isChecked()) {
+                            checked.add(item.id);
+                            console.log("Add " + item.id.toString());
+                        } else {
+                            checked.delete(item.id);
+                            console.log("Delete " + item.id.toString());
+                        }
+                    })
+                });
+            });
+        });
+    });
+
+    const generateButton = new Button("Générer la sélection");
+    generateButton.connect(Signal.Clicked, () => {
+        const message = { quittanceIdList: [] };
+        for (let quittanceId of checked) {
+            console.log(quittanceId);
+            message.quittanceIdList.push(quittanceId as never);
+        }
+        sendCommand(CommandType.QuittanceAcquitteCourrier, message);
+    })
+    actionBar.addChild(generateButton)
+
+    app.display(window);
+}
+
+function controlQuittanceLeftBox(contrat: Contrat, parent: Container): void {
     const listBox = new ListBox();
     parent.addChild(listBox);
 
@@ -150,6 +202,10 @@ export function createQuittanceTable(app: App, contrat?: Contrat): void {
         const controleButton = new Button("Contrôle");
         controleButton.connect(Signal.Clicked, () => controlQuittanceWindow(app, contrat))
         actionBar.addChild(controleButton);
+
+        const generateButton = new Button("Générer");
+        generateButton.connect(Signal.Clicked, () => generateQuittanceFormWindow(app, contrat))
+        actionBar.addChild(generateButton);
     }
 
     const closeButton = new Button("Close");

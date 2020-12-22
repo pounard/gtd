@@ -1,7 +1,8 @@
 import { DataResponse, DataQuery } from "foodget/data";
 
 // @todo
-const BASE_URI = "http://localhost:8642/api/";
+const BASE_URI = "http://localhost:8642/";
+const BASE_URI_API = BASE_URI + "api/";
 
 /**
  * We are not going to do anything more with this for now.
@@ -12,6 +13,33 @@ export type Uuid = string;
  * We have no monetary type for now, but we will.
  */
 export type CurrencyAmount = number
+
+/**
+ * Filter query hashmap type definition.
+ */
+export interface UrlQueryString {
+    [details: string]: string;
+}
+
+/**
+ * Build URL.
+ */
+export function url(path: string, query?: UrlQueryString, baseUri?: string): string {
+    if (!baseUri) {
+        baseUri = BASE_URI;
+    }
+    if (!baseUri.endsWith('/')) {
+        baseUri += '/';
+    }
+    if (query) {
+        const components = [];
+        for (let key in query) {
+            components.push(encodeURIComponent(key) + "=" + encodeURIComponent(query[key]));
+        }
+        return baseUri + path + "?" + components.join("&");
+    }
+    return baseUri + path;
+}
 
 /**
  * Format currency value.
@@ -42,7 +70,7 @@ export function formatDate(value?: string | Date): string {
  */
 export function fetchList<T>(route: string, query?: DataQuery<T>): Promise<DataResponse<T>> {
     return fetch(
-        BASE_URI + route,
+        url(route, {}, BASE_URI_API),
         {
             method: 'POST',
             mode: 'cors',
@@ -61,6 +89,7 @@ export function fetchList<T>(route: string, query?: DataQuery<T>): Promise<DataR
 
 export enum CommandType {
     QuittanceAcquitte = "G.App.Location.QuittanceAcquitteCommand",
+    QuittanceAcquitteCourrier = "G.App.Location.QuittanceGenerateCourrierCommand",
 }
 
 /**
@@ -69,7 +98,7 @@ export enum CommandType {
  */
 export function sendCommand<T>(type: CommandType, content: any): Promise<any> {
     return fetch(
-        BASE_URI + "dispatch?type=" + encodeURIComponent(type),
+        url("dispatch", {type: type}, BASE_URI_API),
         {
             method: 'POST',
             mode: 'cors',

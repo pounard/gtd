@@ -1,0 +1,257 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="utf-8"/>
+<title>{% block title %}Letter title{% endblock %}</title>
+<meta name="viewport" content="initial-scale=1, maximum-scale=2"/>
+<style type="text/css">
+body {
+  background: white;
+  color: #202020;
+  box-sizing: border-box;
+  margin: 0;
+}
+/* Fixes for DOMPDF and browser printing */
+@media print {
+  @page {
+    border: none;
+  }
+  body {
+    box-sizing: border-box;
+    width: 100%;
+  }
+  footer { /* fixme */
+    display: none;
+  }
+}
+/* Fixes for on screen display */
+@media screen {
+  html {
+    background: #808080;
+    color: white;
+  }
+  body {
+    width: 21cm;
+    padding: 1cm;
+    min-height: 29.7cm;
+  }
+  footer {
+    display: none;
+  }
+}
+* {
+  font-size: 10pt;
+  line-height: 1.2em;
+}
+p {
+  line-height: 1.5em;
+  text-indent: 1cm;
+   text-align: justify;
+}
+.data {
+  font-weight: bold;
+}
+hr {
+  border-color: #dfdfdf;
+}
+table.envelope {
+  /* Be a third (approx 10cm - remove 2cm for the adress window and 1 for the margin) */
+  width: 100%;
+  margin-bottom: 1cm;
+  box-sizing: border-box;
+}
+table.envelope td {
+  overflow-y: hidden;
+  box-sizing: border-box;
+}
+table.envelope tr, table.envelope td {
+  padding: 0;
+}
+table.envelope tr.second td {
+  height: 3cm;
+  vertical-align: bottom;
+}
+table.envelope tr.first td {
+  height: 3cm;
+}
+hr {
+  margin: 0.5cm 0;
+  border-color: #808080;
+  border-bottom: 0;
+}
+.subject {
+  margin-bottom: 1cm;
+  display: block;
+}
+.envelope-logo {
+  text-align: right;
+  vertical-align: top;
+}
+.envelope-logo img {
+  width: 3cm;
+  height: 3cm;
+}
+.envelope-from {
+  width: 13cm;
+}
+.envelope-date {
+  margin-top: 1cm;
+}
+.footer-separator {
+  margin-top: 1cm;
+}
+.signature {
+  text-align: right;
+  padding-right: 2cm;
+  font-weight: bold;
+}
+.signature-date {
+  font-style: oblique;
+}
+footer {
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+}
+</style>
+</head>
+<body>
+  {#
+   # Fixed elements must appear on the very first page else DOMPDF will see
+   # and display them only when parsed, and it does parse sequentially
+   #}
+  {% block page_footer %}
+    <footer>
+      {{ block('subject') }} - Page {PAGE_NUM} sur {PAGE_COUNT}
+    </div>
+  </footer>
+  {% endblock %}
+
+  {% block header %}
+    <table class="envelope">
+      <tbody>
+        <tr class="first">
+          <td class="envelope-from">
+            {% block from %}
+              <address>
+                From Mr Nice<br/>
+                Living in a cave<br/>
+                Somewhere near a lake<br/>
+                44000 NANTES<br/>
+              </address>
+            {% endblock %}
+            {% block from_phone %}
+              <phone>
+                Téléphone&nbsp;: +33 0 6 12 34 56
+              </phone>
+            {% endblock %}
+          </td>
+          <td class="envelope-logo">
+            {% block logo %}
+              <img src="data:image/svg+xml,%3C%3Fxml%20version%3D%221.0%22%20encoding%3D%22utf-8%22%3F%3E%0D%0A%3C%21--%20Generator%3A%20Adobe%20Illustrator%2015.0.2%2C%20SVG%20Export%20Plug-In%20.%20SVG%20Version%3A%206.00%20Build%200%29%20%20--%3E%0D%0A%3C%21DOCTYPE%20svg%20PUBLIC%20%22-%2F%2FW3C%2F%2FDTD%20SVG%201.1%2F%2FEN%22%20%22http%3A%2F%2Fwww.w3.org%2FGraphics%2FSVG%2F1.1%2FDTD%2Fsvg11.dtd%22%3E%0D%0A%3Csvg%20version%3D%221.1%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xmlns%3Axlink%3D%22http%3A%2F%2Fwww.w3.org%2F1999%2Fxlink%22%20x%3D%220px%22%20y%3D%220px%22%20width%3D%22202px%22%0D%0A%09%20height%3D%22223.666px%22%20viewBox%3D%220%200%20202%20223.666%22%20enable-background%3D%22new%200%200%20202%20223.666%22%20xml%3Aspace%3D%22preserve%22%3E%0D%0A%3Cg%20id%3D%22fond%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22compacte%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22rectangle%22%3E%0D%0A%3C%2Fg%3E%0D%0A%3Cg%20id%3D%22carr%C3%A9%22%3E%0D%0A%09%3Crect%20y%3D%220%22%20fill%3D%22%23FFFFFF%22%20width%3D%22202%22%20height%3D%22223.667%22%2F%3E%0D%0A%09%3Cg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M155.951%2C84.448c0%2C30.976-25.109%2C56.087-56.084%2C56.087c-30.973%2C0-56.081-25.111-56.081-56.087%0D%0A%09%09%09%09c0-30.971%2C25.107-56.079%2C56.081-56.079C130.842%2C28.369%2C155.951%2C53.477%2C155.951%2C84.448z%22%2F%3E%0D%0A%09%09%09%3Cpath%20fill%3D%22%23FFFFFF%22%20d%3D%22M124.389%2C49.119c-5.697%2C0.195-10.67%2C3.34-14.373%2C7.68c-4.1%2C4.765-6.824%2C10.411-8.791%2C16.18%0D%0A%09%09%09%09c-3.514-2.882-6.223-6.611-11.864-8.233c-4.359-1.253-8.936-0.737-13.146%2C2.399c-1.992%2C1.489-3.367%2C3.738-4.02%2C5.859%0D%0A%09%09%09%09c-1.692%2C5.498%2C1.778%2C10.396%2C3.354%2C12.151l3.447%2C3.691c0.709%2C0.725%2C2.422%2C2.613%2C1.584%2C5.319c-0.9%2C2.947-4.451%2C4.85-8.092%2C3.731%0D%0A%09%09%09%09c-1.627-0.499-3.963-1.71-3.439-3.413c0.215-0.699%2C0.715-1.225%2C0.984-1.821c0.244-0.521%2C0.363-0.907%2C0.438-1.14%0D%0A%09%09%09%09c0.665-2.169-0.245-4.994-2.57-5.713c-2.171-0.666-4.391-0.138-5.252%2C2.655c-0.977%2C3.174%2C0.543%2C8.935%2C8.681%2C11.441%0D%0A%09%09%09%09c9.535%2C2.935%2C17.597-2.259%2C18.742-9.026c0.721-4.239-1.195-7.392-4.701-11.441l-2.859-3.163c-1.73-1.729-2.324-4.677-0.533-6.942%0D%0A%09%09%09%09c1.512-1.912%2C3.664-2.726%2C7.191-1.768c5.15%2C1.396%2C7.443%2C4.969%2C11.271%2C7.851c-1.578%2C5.187-2.613%2C10.392-3.547%2C15.059l-0.574%2C3.481%0D%0A%09%09%09%09c-2.736%2C14.352-4.826%2C22.235-10.256%2C26.76c-1.094%2C0.779-2.658%2C1.943-5.014%2C2.027c-1.238%2C0.037-1.637-0.814-1.654-1.186%0D%0A%09%09%09%09c-0.027-0.865%2C0.703-1.264%2C1.188-1.652c0.727-0.396%2C1.824-1.053%2C1.748-3.156c-0.078-2.484-2.137-4.639-5.111-4.541%0D%0A%09%09%09%09c-2.229%2C0.075-5.625%2C2.171-5.497%2C6.011c0.131%2C3.967%2C3.827%2C6.938%2C9.401%2C6.75c2.979-0.102%2C9.633-1.312%2C16.188-9.105%0D%0A%09%09%09%09c7.631-8.935%2C9.766-19.175%2C11.372-26.671l1.793-9.897c0.992%2C0.119%2C2.059%2C0.2%2C3.217%2C0.228c9.504%2C0.201%2C14.256-4.72%2C14.328-8.302%0D%0A%09%09%09%09c0.049-2.167-1.42-4.302-3.479-4.251c-1.471%2C0.041-3.32%2C1.022-3.762%2C3.057c-0.436%2C1.995%2C3.023%2C3.798%2C0.32%2C5.553%0D%0A%09%09%09%09c-1.92%2C1.242-5.361%2C2.116-10.209%2C1.407l0.881-4.872c1.799-9.238%2C4.018-20.6%2C12.436-20.878c0.615-0.029%2C2.857%2C0.026%2C2.91%2C1.512%0D%0A%09%09%09%09c0.014%2C0.493-0.109%2C0.623-0.689%2C1.757c-0.592%2C0.884-0.814%2C1.64-0.785%2C2.504c0.08%2C2.356%2C1.873%2C3.908%2C4.471%2C3.818%0D%0A%09%09%09%09c3.473-0.116%2C4.469-3.496%2C4.412-5.233C134.383%2C51.511%2C130.08%2C48.931%2C124.389%2C49.119z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%09%3Cg%3E%0D%0A%09%09%09%3Cg%3E%0D%0A%09%09%09%09%3Cpath%20d%3D%22M120.689%2C163.885c5.664%2C0%2C9.465%2C4.094%2C9.465%2C9.756c0%2C5.338-3.873%2C9.758-9.465%2C9.758c-5.627%2C0-9.502-4.42-9.502-9.758%0D%0A%09%09%09%09%09C111.188%2C167.979%2C114.988%2C163.885%2C120.689%2C163.885z%20M120.689%2C180.623c4.018%2C0%2C5.809-3.654%2C5.809-6.982%0D%0A%09%09%09%09%09c0-3.543-2.154-6.979-5.809-6.979c-3.689%2C0-5.846%2C3.436-5.846%2C6.979C114.844%2C176.969%2C116.633%2C180.623%2C120.689%2C180.623z%22%2F%3E%0D%0A%09%09%09%3C%2Fg%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M110.717%2C165.619v-1.297h-4.934v-1.771c0-2.521%2C0.365-4.424%2C3.324-4.424c0.057%2C0%2C0.113%2C0.004%2C0.17%2C0.006%0D%0A%09%09%09%09c0.006%2C0%2C0.006-0.008%2C0.014-0.008c0.818%2C0.061%2C1.502-0.609%2C1.549-1.43l0.061-1.125c-0.695-0.111-1.428-0.221-2.303-0.221%0D%0A%09%09%09%09c-5.078%2C0-6.248%2C2.961-6.248%2C7.494v1.479h-4.387v1.447c0.111%2C0.75%2C0.754%2C1.328%2C1.537%2C1.328c0.004%2C0%2C0.008%2C0.004%2C0.012%2C0.004%0D%0A%09%09%09%09h2.838v15.859h1.893c0.004%2C0%2C0.002-0.002%2C0.006-0.002c0.785%2C0%2C1.43-0.588%2C1.535-1.346v-14.512h3.436%0D%0A%09%09%09%09C110.031%2C167.074%2C110.68%2C166.428%2C110.717%2C165.619z%22%2F%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M64.961%2C164.322c-0.007%2C0-0.01%2C0.004-0.018%2C0.004c-0.725%2C0-1.426%2C0.498-1.731%2C1.17l-4.728%2C14.25h-0.073l-4.623-14.242%0D%0A%09%09%09%09c-0.302-0.676-1.007-1.178-1.735-1.178c-0.007%2C0-0.01-0.004-0.018-0.004h-2.395l6.322%2C17.396%0D%0A%09%09%09%09c0.221%2C0.621%2C0.659%2C1.572%2C0.659%2C1.973c0%2C0.365-1.024%2C4.605-4.095%2C4.605c-0.076%2C0-0.152-0.008-0.228-0.014%0D%0A%09%09%09%09c-0.783-0.043-1.375%2C0.504-1.507%2C1.346l-0.093%2C1.189c0.621%2C0.109%2C1.244%2C0.256%2C2.341%2C0.256c4.53%2C0%2C5.883-4.131%2C7.162-7.711%0D%0A%09%09%09%09l6.871-19.041H64.961z%22%2F%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M43.123%2C168.109c-2.838-1.451-5.941-2.438-5.996-5.357c0.009-3.104%2C2.859-3.918%2C5.056-3.914%0D%0A%09%09%09%09c0.009-0.002%2C0.019-0.002%2C0.023-0.002c0.954%2C0%2C1.717%2C0.094%2C2.461%2C0.258c0.011%2C0%2C0.009-0.012%2C0.021-0.012%0D%0A%09%09%09%09c0.787%2C0.057%2C1.447-0.559%2C1.541-1.334l0.062-1.127c-1.439-0.357-2.945-0.539-4.254-0.539c-4.777%2C0.029-8.322%2C2.434-8.334%2C7.018%0D%0A%09%09%09%09c0.006%2C4.01%2C2.709%2C5.562%2C5.614%2C6.971c2.851%2C1.369%2C5.972%2C2.502%2C5.999%2C5.809c-0.018%2C3.453-3.348%2C4.727-5.644%2C4.73%0D%0A%09%09%09%09c-1.343-0.004-2.801-0.34-4.028-0.727c-0.77-0.127-1.401%2C0.553-1.5%2C1.451l-0.104%2C1.004c1.688%2C0.547%2C3.419%2C1.021%2C5.159%2C1.021%0D%0A%09%09%09%09c0%2C0%2C0.002%2C0%2C0.005%2C0c0.005%2C0%2C0.009%2C0%2C0.017%2C0c5.35-0.039%2C9.507-2.172%2C9.523-7.711C48.736%2C171.373%2C46.016%2C169.58%2C43.123%2C168.109z%0D%0A%09%09%09%09%22%2F%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M95.08%2C182.961c0.002%2C0%2C0.002-0.002%2C0.004-0.002c0.742%2C0%2C1.359-0.518%2C1.518-1.215v-10.732%0D%0A%09%09%09%09c0-4.057-1.717-7.127-6.471-7.127c-1.68%2C0-4.492%2C0.951-5.771%2C3.619c-0.988-2.523-3.143-3.619-5.299-3.619%0D%0A%09%09%09%09c-2.742%2C0-4.605%2C0.986-5.919%2C3.143h-0.074v-1.158c-0.012-0.854-0.701-1.543-1.557-1.543c-0.006%2C0-0.01-0.004-0.016-0.004h-1.644%0D%0A%09%09%09%09v18.639h1.86c0.002%2C0%2C0.002-0.002%2C0.004-0.002c0.861%2C0%2C1.559-0.697%2C1.559-1.557c0-0.023%2C0.008-0.033%2C0.013-0.049v-7.783%0D%0A%09%09%09%09c0-3.473%2C1.387-6.908%2C4.895-6.908c2.777%2C0%2C3.328%2C2.887%2C3.328%2C5.189v11.109h1.885c0.002%2C0%2C0.002-0.002%2C0.006-0.002%0D%0A%09%09%09%09c0.812%2C0%2C1.471-0.623%2C1.543-1.416v-7.973c0-3.473%2C1.389-6.908%2C4.896-6.908c2.777%2C0%2C3.326%2C2.887%2C3.326%2C5.189v11.109H95.08z%22%2F%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M148.164%2C182.961c0.004%2C0%2C0.004-0.002%2C0.006-0.002c0.836%2C0%2C1.512-0.66%2C1.551-1.486v-9.584%0D%0A%09%09%09%09c0-5.006-2.158-8.004-6.982-8.004c-2.594%2C0-5.076%2C1.279-6.102%2C3.4h-0.072v-1.393c0-0.002-0.004-0.002-0.004-0.006%0D%0A%09%09%09%09c0-0.861-0.697-1.561-1.557-1.561c-0.008%2C0-0.012-0.004-0.018-0.004h-1.75v18.639h1.889c0%2C0%2C0-0.002%2C0.004-0.002%0D%0A%09%09%09%09c0.816%2C0%2C1.48-0.633%2C1.545-1.434v-7.189c0-4.529%2C1.756-7.674%2C5.664-7.674c2.998%2C0.184%2C3.945%2C2.303%2C3.945%2C6.65v9.648H148.164z%22%2F%3E%0D%0A%09%09%09%3Cpath%20d%3D%22M166.656%2C164.322c-0.006%2C0-0.008%2C0.004-0.018%2C0.004c-0.723%2C0-1.426%2C0.498-1.73%2C1.17l-4.725%2C14.25h-0.076l-4.623-14.242%0D%0A%09%09%09%09c-0.303-0.676-1.008-1.178-1.736-1.178c-0.006%2C0-0.01-0.004-0.016-0.004h-2.395l6.322%2C17.396c0.219%2C0.621%2C0.66%2C1.572%2C0.66%2C1.973%0D%0A%09%09%09%09c0%2C0.365-1.025%2C4.605-4.096%2C4.605c-0.076%2C0-0.152-0.008-0.229-0.014c-0.781-0.043-1.373%2C0.504-1.506%2C1.346l-0.092%2C1.189%0D%0A%09%09%09%09c0.621%2C0.109%2C1.244%2C0.256%2C2.338%2C0.256c4.533%2C0%2C5.885-4.131%2C7.164-7.711l6.871-19.041H166.656z%22%2F%3E%0D%0A%09%09%3C%2Fg%3E%0D%0A%09%3C%2Fg%3E%0D%0A%3C%2Fg%3E%0D%0A%3C%2Fsvg%3E%0D%0A"/>
+            {% endblock %}
+          </td>
+        </tr>
+        <tr class="second">
+          <td class="envelope-reference">
+            {% block reference %}
+              File reference: 123456<br/>
+              You should pay!<br/>
+              Some other machins
+            {% endblock %}
+            <div class="envelope-date">
+              {% block date %}À {% block date_city %}Nantes{% endblock %},
+              le {% block date_date %}{{ "now"|localizeddate('long') }}{% endblock %}{% endblock %}
+            </div>
+          </td>
+          <td class="envelope-to">
+            {% block recipient %}
+              <address>
+                To Mr Nice<br/>
+                Living in a cave<br/>
+                Somewhere near a lake<br/>
+                44000 NANTES<br/>
+              </address>
+            {% endblock %}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  {% endblock %}
+
+  {% block page_subject %}
+    <strong class="subject">
+      {% block subject %}This is the letter subject{% endblock %}
+    </strong>
+  {% endblock %}
+
+  {% block body %}
+    <p>
+      Dear template tester or themer, this is a very short paragraph just for you.
+    </p>
+    <p>
+      The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of
+      evil men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley
+      of darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike
+      down upon thee with great vengeance and furious anger those who would attempt to poison and destroy My
+      brothers. And you will know My name is the Lord when I lay My vengeance upon thee.
+    </p>
+    <p>
+      I like big cats and i can not lie refuse to leave cardboard box. Vommit food and eat it again meowwww,
+      but stare at guinea pigs mesmerizing birds find a way to fit in tiny box, purr. Bleghbleghvomit my furball
+      really tie the room together loves cheeseburgers, yet head nudges throw down all the stuff in the kitchen
+      have a lot of grump in yourself because you can't forget to be grumpy and not be like king grumpy cat love
+      to play with owner's hair tie. Chase laser paw at beetle and eat it before it gets away yet immediately
+      regret falling into bathtub but hiss at vacuum cleaner asdflkjaertvlkjasntvkjn (sits on keyboard). Sleep on
+      keyboard then cats take over the world yet meowwww sleep nap but step on your keyboard while you're gaming
+      and then turn in a circle poop on grasses. Stare at ceiling light hopped up on catnip, yet sit in box kitty
+      power. Has closed eyes but still sees you. Pounce on unsuspecting person. Nap all day has closed eyes but
+      still sees you yet claws in your leg give attitude lie in the sink all day. Lick butt and make a weird face
+      pee in the shoe leave fur on owners clothes or scratch the furniture nap all day, but paw at your fat belly.
+      All of a sudden cat goes crazy jump on human and sleep on her all night long be long in the bed, purr in
+      the morning and then give a bite to every human around for not waking up request food, purr loud scratch
+      the walls, the floor, the windows, the humans.
+    </p>
+
+    <hr/>
+
+    <p>
+      The path of the righteous man is beset on all sides by the iniquities of the selfish and the tyranny of evil
+      men. Blessed is he who, in the name of charity and good will, shepherds the weak through the valley of
+      darkness, for he is truly his brother's keeper and the finder of lost children. And I will strike down upon
+      thee with great vengeance and furious anger those who would attempt to poison and destroy My brothers. And
+      you will know My name is the Lord when I lay My vengeance upon thee.
+    </p>
+    <p>
+      Well, the way they make shows is, they make one show. That show's called a pilot. Then they show that show to
+      the people who make shows, and on the strength of that one show they decide if they're going to make more
+      shows. Some pilots get picked and become television programs. Some don't, become nothing. She starred in one
+      of the ones that became nothing.
+    </p>
+    <p>
+      My money's in that office, right? If she start giving me some bullshit about it ain't there, and we got to
+      go someplace else and get it, I'm gonna shoot you in the head then and there. Then I'm gonna shoot that bitch
+      in the kneecaps, find out where my goddamn money is. She gonna tell me too. Hey, look at me when I'm talking
+      to you, motherfucker. You listen: we go in there, and that nigga Winston or anybody else is in there, you the
+      first motherfucker to get shot. You understand?
+    </p>
+  {% endblock %}
+
+  {% block text_footer %}
+    <div class="footer-separator"></div>
+
+    {% block politesse %}
+      <p>
+        Je vous prie d'agréer, {% block politesse_recipient %}Madame, Monsieur{% endblock %},
+        l'expression de mes respectueuses salutations.
+      </p>
+    {% endblock %}
+    {% block date_reddit %}
+      <p class="signature-date">{{ block('date') }},</p>
+    {% endblock %}
+    {% block signature %}
+      <p class="signature">{% block signature_nom %}Mr Nice{% endblock %}</p>
+    {% endblock %}
+  {% endblock %}
+</body>
+</html>

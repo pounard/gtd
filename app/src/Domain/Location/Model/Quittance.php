@@ -23,6 +23,8 @@ final class Quittance
     public bool $acquitte = false;
     /** Si acquittée, acquittée à titre gracieux (travaux, autre arrangements) ? */
     public bool $gracieux = false;
+    /** Date d'acquittement (dénormalisation de la table paiement si lié). */
+    public ?\DateTimeInterface $dateAcquittement;
 
     public function __construct(
         int $year,
@@ -37,8 +39,8 @@ final class Quittance
         $this->dateStop = $dateStop;
         $this->id = UuidIdentifier::empty();
         $this->loyer = $loyer;
-        $this->loyer = $loyer;
         $this->month = $month;
         $this->provisionCharges = $provisionCharges;
+        $this->year = $year;
     }
 }

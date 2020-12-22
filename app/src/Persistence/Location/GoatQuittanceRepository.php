@@ -56,8 +56,11 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
     /**
      * {@inheritdoc}
      */
-    public function findForPeriode(Identifier $contratId, int $year, int $month): ?Quittance
-    {
+    public function findForPeriode(
+        Identifier $contratId,
+        int $year,
+        int $month
+    ): ?Quittance {
         return $this
             ->select()
             ->where('id_contrat', $contratId)
@@ -73,8 +76,11 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
     /**
      * {@inheritdoc}
      */
-    public function acquitte(Identifier $id, bool $gracieux): Quittance
-    {
+    public function acquitte(
+        Identifier $id,
+        bool $gracieux,
+        ?\DateTimeInterface $dateAcquittement
+    ): Quittance {
         return $this
             ->runner
             ->getQueryBuilder()
@@ -82,6 +88,7 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
             ->sets([
                 'acquitte' => true,
                 'gracieux' => $gracieux,
+                'date_acquittement' => $dateAcquittement,
             ])
             ->where('id', $id)
             ->returning()
@@ -122,6 +129,7 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
                 $row['provision_charges']
             );
             $ret->contratId = new UuidIdentifier($row['id_contrat']);
+            $ret->dateAcquittement = $row['date_acquittement'];
             $ret->id = new UuidIdentifier($row['id']);
             $ret->paiementId = $row['id_paiement'] ? new UuidIdentifier($row['id_paiement']) : null;
             $ret->acquitte = $row['acquitte'];
@@ -138,6 +146,10 @@ final class GoatQuittanceRepository extends AbstractGoatRepository implements Qu
     {
         foreach ($query->query as $column => $values) {
             switch ($column) {
+                case 'acquitte':
+                    $select->where('acquitte', (bool) $values);
+                    break;
+
                 case 'contrat':
                     $select->where('id_contrat', $values);
                     break;
