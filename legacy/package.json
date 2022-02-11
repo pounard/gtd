@@ -22,7 +22,7 @@
     "jquery-form": "^4.2.1",
     "jshint": "^2.9.5",
     "jshint-loader": "^0.8.4",
-    "node-sass": "^4.5.3",
+    "node-sass": "^7.0.0",
     "popper.js": "^1.12.5",
     "sass-loader": "^6.0.6",
     "style-loader": "^0.18.2",
